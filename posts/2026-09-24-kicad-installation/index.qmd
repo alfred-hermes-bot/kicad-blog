@@ -1,0 +1,117 @@
+---
+title: "KiCad 10 installieren – Schritt für Schritt"
+author: ["Human", "Mistral Vibe (KI Assistent)"]
+date: 2026-09-24
+categories: [Anleitung, Installation, KiCad]
+description: "Von null zum Schaltplan in 15 Minuten: Die komplette Installation von KiCad 10 auf Windows, macOS und Linux."
+---
+
+KiCad 10 ist die aktuelle stabile Version (Stand September 2026).
+Hier führen wir dich durch die Installation auf allen drei
+Betriebssystemen – inklusive der ersten Startvorbereitung.
+
+## Schritt 1: Download
+
+Gehe auf die offizielle Download-Seite
+[https://www.kicad.org/download/](https://www.kicad.org/download/)
+und wähle dein Betriebssystem. **Nimm die stabile Version (10.0.x),
+nicht die Nightly-Builds** – die sind nur für Tester gedacht.
+
+::: callout-warning
+## Immer vom offiziellen Server laden
+Downloade KiCad ausschließlich von kicad.org. Inoffizielle
+Spiegelserver können veraltete oder veränderte Pakete enthalten.
+:::
+
+![Download-Seite auf kicad.org – wähle dein Betriebssystem](images/01-downloadseite.png)
+
+## Schritt 2: Windows (10/11)
+
+1. Lade den **Windows-Installer** (64-bit) als `.exe` herunter.
+2. **Doppelklick** auf die Datei – Windows fragt ggf. nach einer
+   Freigabe ("Dieser App erlauben, Änderungen vorzunehmen") → **Ja**.
+3. Der Installer öffnet sich. Wähle die Sprache (z. B. Deutsch) und
+   akzeptiere die **GPLv3-Lizenz** – die du übrigens tatsächlich
+   lesen kannst, weil sie keine versteckten Klauseln hat.
+4. **Komponentenauswahl:** Standardmäßig wird alles installiert,
+   inklusive der offiziellen Bibliotheken und Support-Pakete für
+   3D-Modelle. Für Einsteiger: Standard lassen.
+5. Zielordner bestätigen (Standard: `C:\Program Files\KiCad\10.0`),
+   **Install** klicken, kurzer Warte-Vorgang, **Finish**.
+
+![Windows-Installer: Komponenten auswählen](images/02-windows-komponenten.png)
+
+## Schritt 3: macOS
+
+1. Lade die **`.dmg`-Datei** von kicad.org (Apple Silicon oder Intel,
+   je nach Mac).
+2. Doppelklick auf die `.dmg` – das Fenster mit dem KiCad-Icon erscheint.
+3. **Ziehe das KiCad-Icon in den Programme-Ordner.**
+4. Erster Start: macOS blockiert ggf. Apps "von einem nicht
+   überprüften Entwickler" (KiCad wird ordnungsgemäß signiert –
+   falls trotzdem eine Meldung kommt: Systemeinstellungen →
+   Sicherheit → **Trotzdem öffnen**).
+
+![macOS: KiCad-Icon per Drag & Drop installieren](images/03-macos-dmg.png)
+
+## Schritt 4: Linux
+
+### Ubuntu / Debian (und Derivate)
+
+Das offizielle KiCad-Team pflegt ein stabiles PPA:
+
+```bash
+sudo add-apt-repository ppa:kicad/kicad-10.0-releases
+sudo apt update
+sudo apt install kicad
+```
+
+### Fedora
+
+```bash
+sudo dnf install kicad
+```
+
+### Arch Linux
+
+```bash
+sudo pacman -S kicad
+```
+
+## Schritt 5: Erster Start – Projekt anlegen
+
+1. Starte **KiCad** (Windows: Startmenü; macOS: Programme; Linux: `kicad &`).
+2. Der Projektmanager begrüßt dich – ohne Login, ohne
+   Aktivierung, direkt einsatzbereit.
+3. **File → New Project**, Name vergeben (z. B. `blinkende-led`),
+   Speicherort wählen.
+4. Du hast jetzt Schaltplan (`.kicad_sch`) und Board (`.kicad_pcb`) in
+   einem Projekt – beide öffnest du direkt aus dem Projektmanager.
+
+![KiCad-Projektmanager mit frisch angelegtem Projekt](images/04-projektmanager.png)
+
+## Schritt 6: Sprachpaket (optional)
+
+Falls KiCad nicht auf Deutsch startet: **Preferences → Set Language →
+German**, anschließend KiCad neu starten. Die Übersetzungen kommen
+direkt mit dem Installer.
+
+## Troubleshooting
+
+::: callout-note
+## Häufige Fehler
+- **Windows:** Installer bricht ab → als Administrator ausführen.
+- **macOS:** "App ist beschädigt" → `xattr -cr /Applications/kicad.app`
+  im Terminal ausführen (passiert selten beim offiziellen Download).
+- **Linux:** PPA-Fehler → Distribution prüfen; auf Debian ggf. das
+  offizielle KiCad-Repository verwenden.
+:::
+
+## Nächste Schritte
+
+Jetzt, wo KiCad läuft, kannst du direkt loslegen: Öffne die
+mitgelieferten Demoprojekte unter `File → Open Demo Project`
+– oder wirf einen Blick auf die offizielle Dokumentation:
+[https://docs.kicad.org](https://docs.kicad.org)
+
+Viel Erfolg beim ersten eigenen Board!

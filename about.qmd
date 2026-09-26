@@ -1,0 +1,9 @@
+---
+title: "Über diesen Blog"
+---
+
+Herzlich willkommen! Dieser Blog beschäftigt sich mit **KiCad**, der
+freien Open-Source-Suite für Elektronikdesign (Schaltplan, PCB, Gerber-Export).
+
+Hier findest du Anleitungen, Vergleiche und Praxis-Tipps – ohne
+Lizenzkosten-Komplexe und ohne dongle-basierte Existenzangst.

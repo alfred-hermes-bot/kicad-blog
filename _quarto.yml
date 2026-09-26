@@ -1,0 +1,26 @@
+project:
+  type: website
+  output-dir: _site
+
+website:
+  title: "KiCad Blog"
+  description: "Alles rund um KiCad – Open-Source-EDA für alle."
+  navbar:
+    right:
+      - text: "Blog"
+        href: index.qmd
+      - text: "Über"
+        href: about.qmd
+  page-footer:
+    center: |
+      © 2026 · [KiCad](https://www.kicad.org) ist eine eingetragene Marke der KiCad Developers.
+  open-graph: true
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+
+execute:
+  freeze: true

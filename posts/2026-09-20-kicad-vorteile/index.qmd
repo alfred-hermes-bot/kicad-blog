@@ -1,0 +1,100 @@
+---
+title: "Warum KiCad? Open Source schlägt Lizenzknast"
+author: ["Human", "Mistral Vibe (KI Assistent)"]
+date: 2026-09-20
+categories: [EDA, KiCad, OpenSource]
+description: "KiCad bietet Profi-Funktionen ohne Lizenzkosten – ein Vergleich, der kommerzielle EDA-Suiten unangenehm treffen kann."
+---
+
+Wer im Elektronikdesign arbeitet, kennt die Diskussion: "Nur
+kommerzielle Suiten sind richtig professionell." Stimmt so nicht
+mehr. KiCad hat sich vom Hobby-Werkzeug zu einer ernstzunehmenden
+Profi-Suite entwickelt – in einem Lizenzmodell, das man seiner
+Firma guten Gewissens empfehlen kann.
+
+## Das Lizenzmodell: Freiheit ohne Fußnoten
+
+KiCad steht unter der **GNU GPL v3** – und das bedeutet in der Praxis:
+
+- **Kosten: 0 €.** Kein Abo, kein Dongle, keine
+  "pro Jahr und Sitz"-Logik. Wer plötzlich drei Kollegen mehr
+  hat, muss mit niemandem sprechen.
+- **Keine Aktivierungs-Hürde.** Installation auf beliebig vielen Rechnern,
+  privat und kommerziell, ganz ohne Lizenzserver.
+- **Quelloffen.** Wer will, kann nachsehen, was die Software tut – oder
+  eigene Erweiterungen schreiben.
+- **Kein Vendor-Lock-in.** KiCads Dateiformate sind offen und
+  textbasiert. Projekte bleiben auch in 20 Jahren lesbar – ohne
+  funktionierende Lizenz.
+
+::: callout-tip
+## Kurzer Wermutstropfen
+Auch die KiCad-Bibliotheken sind frei lizenziert (CC-BY-SA 4.0, mit
+Ausnahme für Designs, die daraus entstehen) – du darfst also beide
+Welten nutzen, ohne Anwalt.
+:::
+
+## Funktionen, die mit den Großen mithalten
+
+- **Interaktiver Router** mit Push-and-Shove, Längenanpassung und
+  DRC in Echtzeit.
+- **3D-Viewer** direkt eingebaut – der Export nach STEP/VRML ist
+  inklusive.
+- **Schematic-ERC und PCB-DRC** mit anpassbaren Regeln.
+- **Scripting** über Python – Automation ohne teure Zusatz-APIs.
+- **Simulation** über integrierte SPICE-Unterstützung (ngspice).
+- **Ausgereifter Bibliotheksum**, geprüft und von der Community
+  gepflegt.
+
+## Wer nutzt KiCad? Institutionen und Unternehmen im Ernstfall
+
+"Open Source heißt doch Hobby." Sagt niemand mehr, der sich die
+Anwenderliste ansieht:
+
+- **CERN** – das europäische Kernforschungszentrum trägt seit über
+  einem Jahrzehnt aktiv zur **Entwicklung** von KiCad bei
+  ([ohwr.org](https://ohwr.org/projects/cern-kicad/)). Der
+  Push-and-Shove-Router und die SPICE-Simulation stammen maßgeblich
+  von CERN-Entwicklern
+  ([offerman.industries](https://offerman.industries/blog/cern-contribution-to-kicad-aids-open-source-hardware-and-knowledge-transfer)).
+  2026 veröffentlichte CERN sogar seine eigene KiCad-Bibliothek mit
+  über **17.000 Bauteilen** als Open Source – dieselben Symbole und
+  Footprints, die für Beschleuniger-Elektronik im Einsatz sind
+  ([home.cern](https://home.cern/cerns-kicad-component-library-now-open-source/)).
+- **NASA / JPL** – das Jet Propulsion Laboratory hat die Platinen
+  seines Open Source Rovers, einer funktionsfähigen Miniaturversion
+  der Mars-Rover, in KiCad entwickelt und die Design-Dateien
+  öffentlich bereitgestellt
+  ([github.com/nasa-jpl](https://github.com/nasa-jpl/open-source-rover)).
+- **SpaceIL** – das israelische Unternehmen flog 2019 mit der
+  Mondlandesonde *Beresheet* tatsächlich zum Mond – ein kommerzielles
+  Raumfahrtunternehmen, das auf offene Werkzeuge setzte
+  ([eoPortal](https://www.eoportal.org/satellite-missions/beresheet)).
+- **Kommerzielles Ökosystem** – mit der **KiCad Services Corporation**
+  existiert ein eigenes kommerzielles Support-Unternehmen für
+  professionelle Nutzer; Hersteller wie **NextPCB** und **PCBWay**
+  produzieren KiCad-Boards industriell bis zur Serienfertigung
+  ([kicad.org/sponsors](https://www.kicad.org/sponsors/sponsors/)).
+
+## Ein ehrlicher Vergleich
+
+| | KiCad | kommerzielle Suite |
+|---|---|---|
+| Lizenzkosten | 0 € | mehrere tausend €/Jahr |
+| Quellcode | offen (GPLv3) | verschlossen |
+| Installation | Download, fertig | Account, Lizenzserver |
+| Updates | Einfach installieren | Maintenance-Vertrag prüfen |
+| Projektdateien | offen, textbasiert | Proprietäres Format |
+
+Fairerweise: Für sehr große, verteilte Teams mit hohem
+Simulations- und Integrationsbedarf haben kommerzielle Suiten
+nach wie vor ihre Stärken. Für alles darunter ist der
+Lizenzunterschied schwer zu rechtfertigen – manche
+Verkaufsgespräche dauern länger als die KiCad-Installation.
+
+## Fazit
+
+KiCad ist keine "Spielzeug-Alternative" mehr, sondern ein
+professionelles Werkzeug mit einem Lizenzmodell ohne
+Rechnungs-Shock. Wer noch zweifelt: Der nächste Blogpost zeigt,
+wie man in zehn Minuten installiert – probier's einfach aus.

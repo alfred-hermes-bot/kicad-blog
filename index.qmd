@@ -1,0 +1,15 @@
+---
+title: "KiCad Blog"
+listing:
+  contents: posts
+  sort: "date desc"
+  type: default
+  categories: true
+  sort-ui: false
+  filter-ui: false
+page-layout: full
+sidebar: false
+---
+
+Willkommen! Dieser Blog beschäftigt sich mit **KiCad**, der freien
+Open-Source-Suite für Elektronikdesign.
