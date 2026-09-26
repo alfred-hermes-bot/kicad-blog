@@ -5,6 +5,7 @@ project:
 website:
   title: "KiCad Blog"
   description: "Alles rund um KiCad – Open-Source-EDA für alle."
+  site-url: "https://alfred-hermes-bot.github.io/kicad-blog/"
   navbar:
     right:
       - text: "Blog"
@@ -24,3 +25,6 @@ format:
 
 execute:
   freeze: true
+
+publish:
+  type: gh-pages
