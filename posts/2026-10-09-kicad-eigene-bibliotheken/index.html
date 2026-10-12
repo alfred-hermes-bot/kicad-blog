@@ -9,9 +9,9 @@
 <meta name="author" content="Human">
 <meta name="author" content="Mistral Vibe (KI Assistent)">
 <meta name="dcterms.date" content="2026-10-09">
-<meta name="description" content="Lerne, wie du in KiCad eigene Symbol- und Footprint-Bibliotheken über den Plugin and Content Manager oder manuell hinzufügst – und wie du die mitgelieferten Standard-Bibliotheken bei Bedarf deaktivierst.">
+<meta name="description" content="Lerne, wie du in KiCad Plugins und Erweiterungen über den Plugin and Content Manager installierst – aus dem offiziellen Repository, aus einer Datei oder direkt von einer URL.">
 
-<title>KiCad: Eigene Bibliotheken hinzufügen (Plugin and Content Manager) – und die Standard-Bibliotheken optional deaktivieren – KiCad Blog</title>
+<title>KiCad: Plugins installieren – Schritt-für-Schritt Anleitung – KiCad Blog</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -75,9 +75,8 @@ ul.task-list li input[type="checkbox"] {
 
 
 <link rel="stylesheet" href="../../styles.css">
-<meta property="og:title" content="KiCad: Eigene Bibliotheken hinzufügen (Plugin and Content Manager) – und die Standard-Bibliotheken optional deaktivieren – KiCad Blog">
-<meta property="og:description" content="Lerne, wie du in KiCad eigene Symbol- und Footprint-Bibliotheken über den Plugin and Content Manager oder manuell hinzufügst – und wie du die mitgelieferten Standard-Bibliotheken bei Bedarf deaktivierst.">
-<meta property="og:image" content="https://alfred-hermes-bot.github.io/kicad-blog/posts/2026-10-09-kicad-eigene-bibliotheken/images/01-pcm-browse.png">
+<meta property="og:title" content="KiCad: Plugins installieren – Schritt-für-Schritt Anleitung – KiCad Blog">
+<meta property="og:description" content="Lerne, wie du in KiCad Plugins und Erweiterungen über den Plugin and Content Manager installierst – aus dem offiziellen Repository, aus einer Datei oder direkt von einer URL.">
 <meta property="og:site_name" content="KiCad Blog">
 </head>
 
@@ -126,22 +125,24 @@ ul.task-list li input[type="checkbox"] {
   <ul>
   <li><a href="#was-du-lernst" id="toc-was-du-lernst" class="nav-link active" data-scroll-target="#was-du-lernst">Was du lernst</a></li>
   <li><a href="#voraussetzungen" id="toc-voraussetzungen" class="nav-link" data-scroll-target="#voraussetzungen">Voraussetzungen</a></li>
-  <li><a href="#überblick-zwei-wege-zur-eigenen-bibliothek" id="toc-überblick-zwei-wege-zur-eigenen-bibliothek" class="nav-link" data-scroll-target="#überblick-zwei-wege-zur-eigenen-bibliothek">Überblick: Zwei Wege zur eigenen Bibliothek</a></li>
-  <li><a href="#schritt-1-bibliothek-über-den-plugin-and-content-manager-installieren" id="toc-schritt-1-bibliothek-über-den-plugin-and-content-manager-installieren" class="nav-link" data-scroll-target="#schritt-1-bibliothek-über-den-plugin-and-content-manager-installieren">Schritt 1: Bibliothek über den Plugin and Content Manager installieren</a>
+  <li><a href="#was-ist-der-plugin-and-content-manager" id="toc-was-ist-der-plugin-and-content-manager" class="nav-link" data-scroll-target="#was-ist-der-plugin-and-content-manager">Was ist der Plugin and Content Manager?</a></li>
+  <li><a href="#schritt-1-den-pcm-öffnen" id="toc-schritt-1-den-pcm-öffnen" class="nav-link" data-scroll-target="#schritt-1-den-pcm-öffnen">Schritt 1: Den PCM öffnen</a></li>
+  <li><a href="#schritt-2-plugin-aus-dem-repository-installieren" id="toc-schritt-2-plugin-aus-dem-repository-installieren" class="nav-link" data-scroll-target="#schritt-2-plugin-aus-dem-repository-installieren">Schritt 2: Plugin aus dem Repository installieren</a>
   <ul class="collapse">
-  <li><a href="#bibliothek-testen" id="toc-bibliothek-testen" class="nav-link" data-scroll-target="#bibliothek-testen">Bibliothek testen</a></li>
+  <li><a href="#plugin-testen" id="toc-plugin-testen" class="nav-link" data-scroll-target="#plugin-testen">Plugin testen</a></li>
   </ul></li>
-  <li><a href="#schritt-2-eigene-bibliothek-manuell-hinzufügen" id="toc-schritt-2-eigene-bibliothek-manuell-hinzufügen" class="nav-link" data-scroll-target="#schritt-2-eigene-bibliothek-manuell-hinzufügen">Schritt 2: Eigene Bibliothek manuell hinzufügen</a>
+  <li><a href="#schritt-3-plugin-von-einer-url-installieren" id="toc-schritt-3-plugin-von-einer-url-installieren" class="nav-link" data-scroll-target="#schritt-3-plugin-von-einer-url-installieren">Schritt 3: Plugin von einer URL installieren</a>
   <ul class="collapse">
-  <li><a href="#symbol-bibliothek-hinzufügen" id="toc-symbol-bibliothek-hinzufügen" class="nav-link" data-scroll-target="#symbol-bibliothek-hinzufügen">Symbol-Bibliothek hinzufügen</a></li>
-  <li><a href="#footprint-bibliothek-hinzufügen" id="toc-footprint-bibliothek-hinzufügen" class="nav-link" data-scroll-target="#footprint-bibliothek-hinzufügen">Footprint-Bibliothek hinzufügen</a></li>
+  <li><a href="#methode-a-direkt-von-einer-paket-url" id="toc-methode-a-direkt-von-einer-paket-url" class="nav-link" data-scroll-target="#methode-a-direkt-von-einer-paket-url">Methode A: Direkt von einer Paket-URL</a></li>
+  <li><a href="#methode-b-ein-eigenes-repository-hinzufügen" id="toc-methode-b-ein-eigenes-repository-hinzufügen" class="nav-link" data-scroll-target="#methode-b-ein-eigenes-repository-hinzufügen">Methode B: Ein eigenes Repository hinzufügen</a></li>
+  <li><a href="#fallback-installation-aus-einer-datei" id="toc-fallback-installation-aus-einer-datei" class="nav-link" data-scroll-target="#fallback-installation-aus-einer-datei">Fallback: Installation aus einer Datei</a></li>
   </ul></li>
-  <li><a href="#schritt-3-standard-kicad-bibliotheken-deaktivieren-optional" id="toc-schritt-3-standard-kicad-bibliotheken-deaktivieren-optional" class="nav-link" data-scroll-target="#schritt-3-standard-kicad-bibliotheken-deaktivieren-optional">Schritt 3: Standard-KiCad-Bibliotheken deaktivieren (optional)</a>
+  <li><a href="#schritt-4-pakete-verwalten" id="toc-schritt-4-pakete-verwalten" class="nav-link" data-scroll-target="#schritt-4-pakete-verwalten">Schritt 4: Pakete verwalten</a>
   <ul class="collapse">
-  <li><a href="#so-gehts" id="toc-so-gehts" class="nav-link" data-scroll-target="#so-gehts">So geht’s</a></li>
-  <li><a href="#warum-deaktivieren-statt-löschen" id="toc-warum-deaktivieren-statt-löschen" class="nav-link" data-scroll-target="#warum-deaktivieren-statt-löschen">Warum deaktivieren statt löschen?</a></li>
+  <li><a href="#aktualisieren" id="toc-aktualisieren" class="nav-link" data-scroll-target="#aktualisieren">Aktualisieren</a></li>
+  <li><a href="#deinstallieren" id="toc-deinstallieren" class="nav-link" data-scroll-target="#deinstallieren">Deinstallieren</a></li>
   </ul></li>
-  <li><a href="#theorieteil-wie-kicad-bibliotheken-verwaltet" id="toc-theorieteil-wie-kicad-bibliotheken-verwaltet" class="nav-link" data-scroll-target="#theorieteil-wie-kicad-bibliotheken-verwaltet">Theorieteil: Wie KiCad Bibliotheken verwaltet</a></li>
+  <li><a href="#theorieteil-wie-der-pcm-funktioniert" id="toc-theorieteil-wie-der-pcm-funktioniert" class="nav-link" data-scroll-target="#theorieteil-wie-der-pcm-funktioniert">Theorieteil: Wie der PCM funktioniert</a></li>
   <li><a href="#tipps-und-tricks" id="toc-tipps-und-tricks" class="nav-link" data-scroll-target="#tipps-und-tricks">Tipps und Tricks</a></li>
   <li><a href="#nächste-schritte" id="toc-nächste-schritte" class="nav-link" data-scroll-target="#nächste-schritte">Nächste Schritte</a></li>
   </ul>
@@ -152,10 +153,10 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">KiCad: Eigene Bibliotheken hinzufügen (Plugin and Content Manager) – und die Standard-Bibliotheken optional deaktivieren</h1>
+<h1 class="title">KiCad: Plugins installieren – Schritt-für-Schritt Anleitung</h1>
   <div class="quarto-categories">
     <div class="quarto-category">Anleitung</div>
-    <div class="quarto-category">Bibliotheken</div>
+    <div class="quarto-category">Plugins</div>
     <div class="quarto-category">KiCad</div>
     <div class="quarto-category">PCM</div>
   </div>
@@ -163,7 +164,7 @@ ul.task-list li input[type="checkbox"] {
 
 <div>
   <div class="description">
-    Lerne, wie du in KiCad eigene Symbol- und Footprint-Bibliotheken über den Plugin and Content Manager oder manuell hinzufügst – und wie du die mitgelieferten Standard-Bibliotheken bei Bedarf deaktivierst.
+    Lerne, wie du in KiCad Plugins und Erweiterungen über den Plugin and Content Manager installierst – aus dem offiziellen Repository, aus einer Datei oder direkt von einer URL.
   </div>
 </div>
 
@@ -193,72 +194,80 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>KiCad bringt von Haus aus eine riesige Sammlung an Symbol- und Footprint-Bibliotheken mit. Aber spätestens, wenn du eigene Bauteile entwirfst oder Bibliotheken aus dem Netz (z. B. von SparkFun, Adafruit oder von der Schule) nutzen willst, brauchst du eigene Bibliotheken. In diesem Beitrag zeigen wir dir, wie du das am saubersten machst – über den <strong>Plugin and Content Manager (PCM)</strong> oder manuell über die Bibliotheks-Tabellen. Und wer die Standard-Bibliotheken loswerden will, z. B. um im Symbol-Auswahldialog nicht mehr hunderte Einträge zu sehen, bekommt dafür ebenfalls eine Anleitung.</p>
+<p>KiCad ist von Haus aus ein mächtiges Werkzeug – aber eines der bestgehüteten Geheimnisse ist der <strong>Plugin and Content Manager (PCM)</strong>. Damit erweiterst du KiCad um zusätzliche Werkzeuge, Bibliotheken, 3D-Modelle und Farbthemen – ganz ohne manuelles Kopieren von Dateien. In diesem Beitrag zeigen wir dir, wie du Plugins installierst, woher du sie bekommst und wie du sie wieder loswirst.</p>
 <section id="was-du-lernst" class="level2">
 <h2 class="anchored" data-anchor-id="was-du-lernst">Was du lernst</h2>
 <ul>
-<li>Bibliotheken über den <strong>Plugin and Content Manager</strong> installieren</li>
-<li>Eigene <strong>Symbol-</strong> und <strong>Footprint-Bibliotheken</strong> manuell hinzufügen</li>
-<li>Den Unterschied zwischen <strong>globaler</strong> und <strong>projektspezifischer</strong> Bibliothekstabelle verstehen</li>
-<li>Die <strong>Standard-KiCad-Bibliotheken optional deaktivieren</strong> (ohne sie zu löschen)</li>
+<li>Was der <strong>Plugin and Content Manager (PCM)</strong> ist und welche Paketarten es gibt</li>
+<li>Plugins aus dem <strong>offiziellen KiCad-Repository</strong> suchen und installieren</li>
+<li>Plugins <strong>direkt von einer URL</strong> installieren</li>
+<li>Installierte Pakete <strong>aktualisieren und deinstallieren</strong></li>
 </ul>
 </section>
 <section id="voraussetzungen" class="level2">
 <h2 class="anchored" data-anchor-id="voraussetzungen">Voraussetzungen</h2>
 <ul>
 <li>KiCad 10 installiert (siehe unseren <a href="../..\posts/2026-09-24-kicad-installation/">Installationsguide</a>)</li>
+<li>Eine Internetverbindung</li>
 <li>Grundlegende Kenntnisse der KiCad-Benutzeroberfläche</li>
 </ul>
 </section>
-<section id="überblick-zwei-wege-zur-eigenen-bibliothek" class="level2">
-<h2 class="anchored" data-anchor-id="überblick-zwei-wege-zur-eigenen-bibliothek">Überblick: Zwei Wege zur eigenen Bibliothek</h2>
+<section id="was-ist-der-plugin-and-content-manager" class="level2">
+<h2 class="anchored" data-anchor-id="was-ist-der-plugin-and-content-manager">Was ist der Plugin and Content Manager?</h2>
+<p>Der PCM ist KiCads zentrale Anlaufstelle für Erweiterungen. Er verwaltet vier Arten von <strong>Paketen</strong>:</p>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 17%">
-<col style="width: 51%">
-<col style="width: 31%">
+<col style="width: 47%">
+<col style="width: 52%">
 </colgroup>
 <thead>
 <tr class="header">
-<th>Weg</th>
-<th>Wann sinnvoll</th>
-<th>Aufwand</th>
+<th>Paketart</th>
+<th>Beispiele</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><strong>Plugin and Content Manager (PCM)</strong></td>
-<td>Bibliothek aus dem offiziellen KiCad-Repository (z. B. „ESP32-Boards”)</td>
-<td>Sehr gering</td>
+<td><strong>Plugins</strong></td>
+<td>Zusatzwerkzeuge im Schaltplan- und PCB-Editor, z. B. BOM-Exporte, DFM-Prüfungen, Bemaßungs-Helfer</td>
 </tr>
 <tr class="even">
-<td><strong>Manuelle Bibliothekstabelle</strong></td>
-<td>Eigene <code>.kicad_sym</code>-Dateien oder <code>.pretty</code>-Ordner, Bibliotheken von GitHub oder vom Schulserver</td>
-<td>Gering</td>
+<td><strong>Bibliotheken</strong></td>
+<td>Symbol- und Footprint-Bibliotheken von Herstellern wie SparkFun oder Adafruit</td>
+</tr>
+<tr class="odd">
+<td><strong>3D-Modelle</strong></td>
+<td>STEP-/WRL-Modelle für die 3D-Ansicht</td>
+</tr>
+<tr class="even">
+<td><strong>Farbthemen</strong></td>
+<td>Alternative Farbschemata für die Editoren</td>
 </tr>
 </tbody>
 </table>
-<p>Der PCM ist der komfortable Weg: Er lädt das Paket herunter, legt es im KiCad-Benutzerordner ab und <strong>registriert die enthaltenen Bibliotheken automatisch</strong> in den globalen Tabellen. Manuell brauchst du ihn nur, wenn die Bibliothek nicht im Repository verfügbar ist.</p>
+<p>Die Pakete stammen standardmäßig aus dem <strong>offiziellen KiCad-Repository</strong> (https://plugins.kicad.org). Dort prüft das KiCad-Team die Einträge, bevor sie erscheinen.</p>
 </section>
-<section id="schritt-1-bibliothek-über-den-plugin-and-content-manager-installieren" class="level2">
-<h2 class="anchored" data-anchor-id="schritt-1-bibliothek-über-den-plugin-and-content-manager-installieren">Schritt 1: Bibliothek über den Plugin and Content Manager installieren</h2>
+<section id="schritt-1-den-pcm-öffnen" class="level2">
+<h2 class="anchored" data-anchor-id="schritt-1-den-pcm-öffnen">Schritt 1: Den PCM öffnen</h2>
 <ol type="1">
-<li>Öffne den KiCad-Projektmanager</li>
+<li>Starte <strong>KiCad</strong> – der Projektmanager genügt, du brauchst kein offenes Projekt</li>
 <li>Gehe zu <strong>Tools → Plugin and Content Manager</strong></li>
-<li>Wechsle zum Reiter <strong>Browse</strong> und suche nach dem gewünschten Paket,
-<ol start="26" type="a">
-<li>B. nach <code>ESP32</code> oder nach dem Hersteller <code>SparkFun</code></li>
-</ol></li>
-<li>Klicke beim Paket auf <strong>Install</strong></li>
 </ol>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/01-pcm-browse.png" class="img-fluid figure-img"></p>
-<figcaption>Plugin and Content Manager mit dem Browse-Dialog</figcaption>
-</figure>
-</div>
-<ol start="5" type="1">
-<li>Wechsle zum Reiter <strong>Installed</strong> – hier siehst du alle installierten Pakete und kannst sie später aktualisieren oder deinstallieren</li>
+<p>Der PCM ist in drei Reiter unterteilt:</p>
+<ul>
+<li><strong>Browse</strong> – alle verfügbaren Pakete aus dem Repository</li>
+<li><strong>Installed</strong> – deine installierten Pakete</li>
+<li><strong>Updates</strong> – Pakete, für die eine neue Version verfügbar ist</li>
+</ul>
+<p>Über das <strong>Zahnrad-Symbol</strong> oben rechts erreichst du die Einstellungen, dort kannst du später auch eigene Repository-URLs hinterlegen.</p>
+</section>
+<section id="schritt-2-plugin-aus-dem-repository-installieren" class="level2">
+<h2 class="anchored" data-anchor-id="schritt-2-plugin-aus-dem-repository-installieren">Schritt 2: Plugin aus dem Repository installieren</h2>
+<ol type="1">
+<li>Wechsle zum Reiter <strong>Browse</strong></li>
+<li>Nutze das <strong>Suchfeld</strong> oder filtere über die Kategorien links (z. B. <em>Plugins</em>)</li>
+<li>Klicke auf ein Paket, um Details zu sehen: Beschreibung, Version, Homepage und die <strong>kompatible KiCad-Version</strong></li>
+<li>Klicke auf <strong>Install</strong></li>
 </ol>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -272,50 +281,30 @@ ul.task-list li input[type="checkbox"] {
 <div class="callout-body-container callout-body">
 <p>Der PCM speichert Pakete im KiCad-Benutzerordner, auf Windows typischerweise unter<br>
 <code>C:\Users\&lt;Name&gt;\AppData\Roaming\kicad\10.0\3rdparty\</code><br>
-Die enthaltenen Symbol- und Footprint-Bibliotheken werden automatisch in die <strong>globalen Bibliothekstabellen</strong> eingetragen – du musst nichts weiter konfigurieren.</p>
+Plugins liegen dort im Unterordner <code>plugins</code>. Enthaltene Bibliotheken werden automatisch in den globalen Bibliothekstabellen registriert – du musst nichts weiter konfigurieren.</p>
 </div>
 </div>
-<section id="bibliothek-testen" class="level3">
-<h3 class="anchored" data-anchor-id="bibliothek-testen">Bibliothek testen</h3>
+<p><strong>Wichtig bei Plugins:</strong> Action-Plugins werden beim Start von KiCad geladen. Nach der Installation starte KiCad einmal neu – danach erscheint das Plugin je nach Art als eigener Menüeintrag oder Toolbar-Button im Schaltplan- oder PCB-Editor.</p>
+<section id="plugin-testen" class="level3">
+<h3 class="anchored" data-anchor-id="plugin-testen">Plugin testen</h3>
 <ol type="1">
-<li>Öffne einen Schaltplan-Editor (Eeschema)</li>
-<li>Drücke <strong>A</strong> (Place → Add Symbol)</li>
-<li>Gib den <strong>Nickname</strong> der neuen Bibliothek oder eines ihrer Symbole in die Suche ein</li>
+<li>Starte KiCad neu</li>
+<li>Öffne einen Schaltplan- oder PCB-Editor</li>
+<li>Suche im Menü (oder in der Toolbar) nach dem neuen Eintrag</li>
 </ol>
-<p>Taucht das Symbol auf, war die Installation erfolgreich.</p>
+<p>Taucht der Eintrag auf, war die Installation erfolgreich.</p>
 </section>
 </section>
-<section id="schritt-2-eigene-bibliothek-manuell-hinzufügen" class="level2">
-<h2 class="anchored" data-anchor-id="schritt-2-eigene-bibliothek-manuell-hinzufügen">Schritt 2: Eigene Bibliothek manuell hinzufügen</h2>
-<p>Für eigene Dateien oder Bibliotheken von GitHub gibt es zwei Orte, an denen sie verwaltet werden:</p>
-<ul>
-<li><strong>Symbol-Bibliotheken:</strong> Dateien mit der Endung <code>.kicad_sym</code></li>
-<li><strong>Footprint-Bibliotheken:</strong> Ordner mit der Endung <code>.pretty</code></li>
-</ul>
-<section id="symbol-bibliothek-hinzufügen" class="level3">
-<h3 class="anchored" data-anchor-id="symbol-bibliothek-hinzufügen">Symbol-Bibliothek hinzufügen</h3>
+<section id="schritt-3-plugin-von-einer-url-installieren" class="level2">
+<h2 class="anchored" data-anchor-id="schritt-3-plugin-von-einer-url-installieren">Schritt 3: Plugin von einer URL installieren</h2>
+<p>Nicht jedes Plugin liegt im offiziellen Repository – manche Entwickler veröffentlichen ihre Pakete direkt auf GitHub oder auf einem eigenen Server. Dafür gibt es zwei Wege.</p>
+<section id="methode-a-direkt-von-einer-paket-url" class="level3">
+<h3 class="anchored" data-anchor-id="methode-a-direkt-von-einer-paket-url">Methode A: Direkt von einer Paket-URL</h3>
 <ol type="1">
-<li>Öffne den Schaltplan-Editor und gehe zu <strong>Preferences → Manage Symbol Libraries</strong></li>
-<li>Wähle oben den Reiter <strong>Global Libraries</strong> (für alle Projekte) oder <strong>Project Specific Libraries</strong> (nur für das aktuelle Projekt)</li>
-<li>Klicke auf das <strong>Plus-Symbol</strong> bzw. <strong>Add existing</strong> (das Ordner-Symbol)</li>
-<li>Wähle deine <code>.kicad_sym</code>-Datei aus</li>
-<li>Vergib einen sprechenden <strong>Nickname</strong>, z. B. <code>htl-eigene</code> – unter diesem Namen erscheint die Bibliothek später in der Symbol-Auswahl</li>
-<li>Kontrolliere, dass das Häkchen in der Spalte <strong>Active</strong> gesetzt ist</li>
-<li>Klicke auf <strong>OK</strong></li>
-</ol>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/02-symbol-bibliotheken.png" class="img-fluid figure-img"></p>
-<figcaption>Manage Symbol Libraries mit eigener Bibliothek</figcaption>
-</figure>
-</div>
-</section>
-<section id="footprint-bibliothek-hinzufügen" class="level3">
-<h3 class="anchored" data-anchor-id="footprint-bibliothek-hinzufügen">Footprint-Bibliothek hinzufügen</h3>
-<ol type="1">
-<li>Öffne den <strong>PCB-Editor (Pcbnew)</strong> und gehe zu <strong>Preferences → Manage Footprint Libraries</strong></li>
-<li>Gehe genauso vor wie bei den Symbolen – hier wählst du allerdings den <strong>Ordner</strong> mit der Endung <code>.pretty</code> aus</li>
-<li>Vergib wieder einen Nickname, z. B. <code>htl-eigene.pretty</code></li>
+<li><p>Klicke im PCM auf den Pfeil neben <strong>Install from File</strong> und wähle <strong>Install from URL</strong></p></li>
+<li><p>Füge die <strong>direkte URL zu einer Paket-.zip-Datei</strong> ein, z. B. den Download-Link eines GitHub-Releases:</p>
+<pre><code>https://github.com/&lt;Nutzer&gt;/&lt;Projekt&gt;/releases/download/v1.2/plugin-1.2.zip</code></pre></li>
+<li><p>Klicke auf <strong>Install</strong> – der PCM lädt das Archiv herunter, prüft die Kompatibilität und installiert es wie ein Repository-Paket</p></li>
 </ol>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -323,36 +312,106 @@ Die enthaltenen Symbol- und Footprint-Bibliotheken werden automatisch in die <st
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Tipp: Eigene Bibliothek direkt anlegen
+<span class="screen-reader-only">Tip</span>Tipp: Die richtige URL auf GitHub
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Wenn du noch keine Bibliothek hast, sondern eine erstellen willst, geht das direkt im <strong>Symbol-Editor</strong>:<br>
-<strong>File → New Library</strong> – KiCad fragt dann, ob die Bibliothek <strong>global</strong> oder <strong>projektspezifisch</strong> sein soll. Für Bauteile, die du in vielen Projekten brauchst, nimm <strong>global</strong>. Für eine einmalige Schaltung, z. B. eine Hausarbeit, nimm <strong>projektspezifisch</strong> – dann bleibt dein globales System sauber.</p>
+<p>Die URL muss <strong>direkt auf die .zip-Datei</strong> zeigen, nicht auf die Projektseite. Auf GitHub findest du sie unter <strong>Releases</strong> – Rechtsklick auf das Asset und <em>Link-Adresse kopieren</em>. URLs, die auf <code>/releases/download/...</code> enden, sind korrekt.</p>
 </div>
 </div>
 </section>
-</section>
-<section id="schritt-3-standard-kicad-bibliotheken-deaktivieren-optional" class="level2">
-<h2 class="anchored" data-anchor-id="schritt-3-standard-kicad-bibliotheken-deaktivieren-optional">Schritt 3: Standard-KiCad-Bibliotheken deaktivieren (optional)</h2>
-<p>Bei der Installation aktiviert KiCad automatisch alle mitgelieferten Bibliotheken (<code>Device</code>, <code>Connector</code>, <code>Simulation_SPICE</code>, …). Im Symbol-Dialog erscheinen dadurch leicht <strong>mehrere tausend Einträge</strong>. Wer im Unterricht oder in einem firmeneigenen Setup nur mit einer konsistenten, kleinen Bauteilpalette arbeiten will, kann die Standard-Bibliotheken <strong>deaktivieren</strong> – ohne sie zu deinstallieren.</p>
-<section id="so-gehts" class="level3">
-<h3 class="anchored" data-anchor-id="so-gehts">So geht’s</h3>
+<section id="methode-b-ein-eigenes-repository-hinzufügen" class="level3">
+<h3 class="anchored" data-anchor-id="methode-b-ein-eigenes-repository-hinzufügen">Methode B: Ein eigenes Repository hinzufügen</h3>
+<p>Hast du regelmäßig Pakete aus derselben Quelle (z. B. dem Schulserver oder einer Firma), lohnt sich ein eigenes Repository:</p>
 <ol type="1">
-<li>Öffne <strong>Preferences → Manage Symbol Libraries</strong> im Schaltplan-Editor</li>
-<li>Entferne in der Spalte <strong>Active</strong> das Häkchen bei allen Bibliotheken, die du nicht mehr sehen willst (z. B. bei allen außer deiner eigenen)</li>
-<li>Klicke auf <strong>OK</strong> und starte den Symbol-Dialog neu (<strong>A</strong>)</li>
+<li>Klicke im PCM auf das <strong>Zahnrad-Symbol</strong></li>
+<li>Füge unter <strong>Repositories</strong> die URL der Repository-Indexdatei (JSON) hinzu</li>
+<li>Die Pakete der Quelle erscheinen anschließend im Reiter <strong>Browse</strong> und lassen sich ganz normal installieren und aktualisieren</li>
 </ol>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/03-bibliotheken-deaktivieren.png" class="img-fluid figure-img"></p>
-<figcaption>Deaktivierte Standard-Bibliotheken in der Spalte Active</figcaption>
-</figure>
+</section>
+<section id="fallback-installation-aus-einer-datei" class="level3">
+<h3 class="anchored" data-anchor-id="fallback-installation-aus-einer-datei">Fallback: Installation aus einer Datei</h3>
+<p>Funktioniert keine der URLs (z. B. offline oder hinter einer Firewall), lade die <code>.zip</code>-Datei manuell herunter und nutze im PCM die Schaltfläche <strong>Install from File</strong>. Das Ergebnis ist identisch.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
 </div>
-<ol start="4" type="1">
-<li>Dasselbe funktioniert im <strong>PCB-Editor</strong> unter <strong>Preferences → Manage Footprint Libraries</strong> für die Footprints</li>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Sicherheitshinweis
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Plugins sind Programme – sie werden auf deinem Rechner ausgeführt und haben dieselben Rechte wie du. Installiere deshalb nur Pakete aus Quellen, denen du vertraust. Bei GitHub-Projekten: wirf vor der Installation einen Blick in den Quellcode und prüfe, wann zuletzt ein Update erschienen ist.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="schritt-4-pakete-verwalten" class="level2">
+<h2 class="anchored" data-anchor-id="schritt-4-pakete-verwalten">Schritt 4: Pakete verwalten</h2>
+<section id="aktualisieren" class="level3">
+<h3 class="anchored" data-anchor-id="aktualisieren">Aktualisieren</h3>
+<ol type="1">
+<li>Wechsle zum Reiter <strong>Updates</strong></li>
+<li>Aktualisiere einzelne Pakete per Klick oder alle auf einmal mit <strong>Update All</strong></li>
 </ol>
-<p>Die Bibliotheken bleiben installiert und die Einträge bleiben in der Tabelle erhalten – sie werden nur <strong>nicht mehr geladen</strong>. Ein erneutes Setzen des Häkchens bringt sie sofort zurück.</p>
+</section>
+<section id="deinstallieren" class="level3">
+<h3 class="anchored" data-anchor-id="deinstallieren">Deinstallieren</h3>
+<ol type="1">
+<li>Wechsle zum Reiter <strong>Installed</strong></li>
+<li>Klicke beim betreffenden Paket auf <strong>Uninstall</strong></li>
+<li>Starte KiCad neu – der Menüeintrag bzw. Toolbar-Button verschwindet, die restlichen Konfigurationen deines Projekts bleiben unberührt</li>
+</ol>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Tipp: Versionen festhalten
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In der Detailansicht eines installierten Pakets siehst du die exakte Version. Notiere sie dir für die Dokumentation (z. B. in der Schule oder im Team) – so wisst ihr später, mit welchem Stand ein Projekt gebaut wurde.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="theorieteil-wie-der-pcm-funktioniert" class="level2">
+<h2 class="anchored" data-anchor-id="theorieteil-wie-der-pcm-funktioniert">Theorieteil: Wie der PCM funktioniert</h2>
+<p>Ein PCM-Paket ist im Kern eine <strong>.zip-Datei mit einer <code>metadata.json</code></strong>. Darin stehen Name, Version, Beschreibung, Homepage und – wichtig – die <strong>kompatible KiCad-Version</strong>. Der PCM vergleicht diese Angabe mit deiner installierten Version und warnt bei Inkompabilität.</p>
+<p>Das Repository selbst ist nur eine <strong>große Index-Datei (JSON)</strong>, die alle verfügbaren Pakete samt Download-URLs listet. Genau deshalb funktioniert Methode B aus Schritt 3: Jede URL, die so eine Index-Datei ausliefert, kann als Repository eingetragen werden – der offizielle Server ist nur der Standardfall.</p>
+<p>Plugins im engeren Sinne sind <strong>Python-Action-Plugins</strong>: Skripte, die beim Start von KiCad geladen werden und eigene Menüeinträge, Buttons und Dialoge registrieren. Ihre Dateien liegen nach der Installation unter <code>3rdparty/plugins/&lt;paketname&gt;</code> – dort kannst du auch nachsehen, was ein Plugin konkret tut.</p>
+</section>
+<section id="tipps-und-tricks" class="level2">
+<h2 class="anchored" data-anchor-id="tipps-und-tricks">Tipps und Tricks</h2>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Eigenes Plugin testen
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Du willst selbst ein Plugin schreiben? Verpacke deinen Code mit einer <code>metadata.json</code> in eine .zip-Datei und installiere sie über <strong>Install from File</strong>. Genau so werden Plugins später auch von anderen installiert – ein guter Rundum-Test vor der Veröffentlichung.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Offline weitergeben
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Kein Internet im Klassenraum? Lade die Paket-.zip-Dateien zu Hause herunter und gib sie auf einem USB-Stick weiter – <strong>Install from File</strong> funktioniert komplett offline.</p>
+</div>
+</div>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -364,114 +423,22 @@ Die enthaltenen Symbol- und Footprint-Bibliotheken werden automatisch in die <st
 </div>
 <div class="callout-body-container callout-body">
 <ul>
-<li><strong>Zeilen löschen statt deaktivieren:</strong> Lösche die Einträge der Standard-Bibliotheken nicht aus der Tabelle – deaktiviere sie nur über das Häkchen. Sonst musst du später jeden Pfad per Hand neu eintragen.</li>
-<li><strong>Alte Projekte brechen:</strong> Öffnest du ein älteres Projekt, das Symbole aus einer deaktivierten Bibliothek verwendet, kann KiCad die Symbole nicht mehr aus der Bibliothek auflösen. Schalte die Bibliothek in diesem Fall wieder aktiv.</li>
-<li><strong>Globale vs.&nbsp;projektspezifische Tabelle:</strong> Deaktivierst du Bibliotheken in der <strong>globalen Tabelle</strong>, gilt das für alle Projekte. Willst du es nur für ein einziges Projekt, trage die benötigten Bibliotheken stattdessen in die <strong>projektspezifische Tabelle</strong> ein und lass die globale unverändert.</li>
+<li><strong>Plugin erscheint nicht:</strong> Starte KiCad neu – Plugins werden nur beim Programmstart geladen.</li>
+<li><strong>Inkompatible Version:</strong> Ein Paket für KiCad 9 muss nicht in KiCad 10 funktionieren. Achte auf die Versionsangabe in den Paketdetails.</li>
+<li><strong>Repository nicht erreichbar:</strong> Hinter einer Firewall oder mit Proxy kann der PCM das Repository nicht laden. Nutze in dem Fall <strong>Install from File</strong> mit einer manuell heruntergeladenen .zip.</li>
 </ul>
-</div>
-</div>
-</section>
-<section id="warum-deaktivieren-statt-löschen" class="level3">
-<h3 class="anchored" data-anchor-id="warum-deaktivieren-statt-löschen">Warum deaktivieren statt löschen?</h3>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 28%">
-<col style="width: 25%">
-<col style="width: 46%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Aktion</th>
-<th>Folge</th>
-<th>Rückgängig?</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><strong>Active-Häkchen entfernen</strong></td>
-<td>Bibliothek wird nicht geladen, Eintrag bleibt</td>
-<td>Sofort, per Häkchen</td>
-</tr>
-<tr class="even">
-<td><strong>Tabelleneintrag löschen</strong></td>
-<td>Pfad-Information geht verloren</td>
-<td>Nur per Hand (<code>Standard-KiCad-Bibliotheken</code> liegen unter <code>${KICAD10_SYMBOL_DIR}</code> bzw. <code>${KICAD10_FOOTPRINT_DIR}</code>)</td>
-</tr>
-<tr class="odd">
-<td><strong>Paket im PCM deinstallieren</strong></td>
-<td>Dateien werden gelöscht</td>
-<td>Neuinstallation über den PCM</td>
-</tr>
-</tbody>
-</table>
-</section>
-</section>
-<section id="theorieteil-wie-kicad-bibliotheken-verwaltet" class="level2">
-<h2 class="anchored" data-anchor-id="theorieteil-wie-kicad-bibliotheken-verwaltet">Theorieteil: Wie KiCad Bibliotheken verwaltet</h2>
-<p>KiCad verwaltet Bibliotheken über zwei <strong>Bibliothekstabellen</strong>:</p>
-<ul>
-<li><code>sym-lib-table</code> – Symbol-Bibliotheken</li>
-<li><code>fp-lib-table</code> – Footprint-Bibliotheken</li>
-</ul>
-<p>Jede Tabelle existiert in zwei Varianten:</p>
-<ol type="1">
-<li><strong>Global</strong> (im KiCad-Benutzerordner, z. B. <code>C:\Users\&lt;Name&gt;\AppData\Roaming\kicad\10.0\sym-lib-table</code>) – gilt für alle Projekte auf dem Rechner</li>
-<li><strong>Projektspezifisch</strong> (Datei <code>&lt;projekt&gt;.kicad_sym-lib-table</code> im Projektordner) – gilt nur für dieses Projekt und kann ideal mit versioniert oder an Mitschüler verteilt werden</li>
-</ol>
-<p>Beim Start sucht KiCad zuerst in der projektspezifischen, dann in der globalen Tabelle. Suchst du ein Symbol, wird nur in <strong>aktiven</strong> Bibliotheken gesucht – genau deshalb verschwinden deaktivierte Bibliotheken aus dem Symbol-Dialog.</p>
-<p>Wichtig zu wissen: Ein Symbol im Schaltplan speichert nur den <strong>Nickname der Bibliothek</strong> und den Symbolnamen. Die eigentliche Definition wird beim Platzieren <strong>in die Projektdatei kopiert</strong> (gecacht). Deshalb öffnen sich alte Schaltpläne auch dann noch korrekt, wenn eine Bibliothek (einmalig) nicht gefunden wird.</p>
-</section>
-<section id="tipps-und-tricks" class="level2">
-<h2 class="anchored" data-anchor-id="tipps-und-tricks">Tipps und Tricks</h2>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Bibliothen für die Klasse verteilen
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Lege die projektspezifische Bibliothekstabelle zusammen mit der <code>.kicad_sym</code>-Datei in einen geteilten Ordner (Schulserver, Git-Repository). Alle, die das Projekt öffnen, haben automatisch dieselben Bauteile – ohne dass jemand seine globalen Tabellen anfassen muss.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Umgebungsvariablen nutzen
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Trage in den Tabellen statt absoluter Pfade besser Variablen wie <code>${KICAD_USER_DIR}</code> ein. Dann funktioniert die Tabelle auch auf dem Rechner deiner Mitschüler, auch wenn dort der Benutzername anders lautet.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Veraltete Formate
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Bibliotheken mit der Endung <code>.lib</code> stammen noch aus KiCad 5 oder älter. Wandle sie im <strong>Symbol-Editor</strong> in das moderne <code>.kicad_sym</code>-Format um, bevor du sie registrierst – sonst kann KiCad 10 sie nicht lesen.</p>
 </div>
 </div>
 </section>
 <section id="nächste-schritte" class="level2">
 <h2 class="anchored" data-anchor-id="nächste-schritte">Nächste Schritte</h2>
-<p>Jetzt, wo deine Bibliotheken sauber eingerichtet sind, kannst du:</p>
+<p>Jetzt, wo du Plugins installieren kannst, kannst du:</p>
 <ul>
-<li><strong>Eigene Symbole</strong> im Symbol-Editor entwerfen und mit Footprints verknüpfen</li>
-<li><strong>3D-Modelle</strong> (<code>.step</code>/<code>.wrl</code>) deinen Footprints zuordnen</li>
-<li>Im <strong>PCM</strong> nach nützlichen Paketen stöbern – dort gibt es auch Plugins für Simulation und Fertigung</li>
+<li>Im <strong>offiziellen Repository</strong> nach Bibliotheken für deine Bauteile stöbern</li>
+<li>Mit Python dein <strong>eigenes Action-Plugin</strong> schreiben</li>
+<li>Pakete ausprobieren, die dir den Workflow erleichtern – von BOM-Export bis DFM-Prüfung</li>
 </ul>
-<p>Viel Erfolg beim Aufbau deiner eigenen Bauteil-Sammlung!</p>
+<p>Viel Erfolg beim Erweitern von KiCad!</p>
 
 
 </section>
