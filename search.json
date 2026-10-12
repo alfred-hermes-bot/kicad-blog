@@ -1,0 +1,359 @@
+[
+  {
+    "objectID": "posts/2026-10-09-kicad-projektvorlagen/index.html",
+    "href": "posts/2026-10-09-kicad-projektvorlagen/index.html",
+    "title": "KiCad: Projektvorlagen importieren und nutzen – Schritt-für-Schritt Anleitung",
+    "section": "",
+    "text": "Jedes neue Projekt beginnt eigentlich immer gleich: Titelblock ausfüllen, Designregeln einstellen, eigene Bibliothek verknüpfen, Netzklassen definieren. Mit einer Projektvorlage (Template) erledigst du das alles in einem Handgriff – die Vorlage wird kopiert, und du startest sofort mit fertigem Grundgerüst. In diesem Beitrag zeigen wir dir, wie du eine bestehende Vorlage in KiCad importierst – z. B. die Schul-Vorlage von deinem Lehrer oder ein Template aus dem Netz – und wie du daraus neue Projekte startest."
+  },
+  {
+    "objectID": "posts/2026-10-09-kicad-projektvorlagen/index.html#was-du-lernst",
+    "href": "posts/2026-10-09-kicad-projektvorlagen/index.html#was-du-lernst",
+    "title": "KiCad: Projektvorlagen importieren und nutzen – Schritt-für-Schritt Anleitung",
+    "section": "Was du lernst",
+    "text": "Was du lernst\n\nWissen, wie eine Projektvorlage aufgebaut ist\nEine Vorlage in KiCad importieren (in den Vorlagen-Ordner kopieren)\nEin neues Projekt über File → New Project from Template starten\nTypische Import-Fehler erkennen und beheben"
+  },
+  {
+    "objectID": "posts/2026-10-09-kicad-projektvorlagen/index.html#voraussetzungen",
+    "href": "posts/2026-10-09-kicad-projektvorlagen/index.html#voraussetzungen",
+    "title": "KiCad: Projektvorlagen importieren und nutzen – Schritt-für-Schritt Anleitung",
+    "section": "Voraussetzungen",
+    "text": "Voraussetzungen\n\nKiCad 10 installiert (siehe unseren Installationsguide)\nGrundlegende Kenntnisse der KiCad-Benutzeroberfläche\nEine Vorlage als ZIP-Ordner oder Ordner, z. B. von deinem Lehrer oder aus dem Netz"
+  },
+  {
+    "objectID": "posts/2026-10-09-kicad-projektvorlagen/index.html#was-ist-eine-projektvorlage",
+    "href": "posts/2026-10-09-kicad-projektvorlagen/index.html#was-ist-eine-projektvorlage",
+    "title": "KiCad: Projektvorlagen importieren und nutzen – Schritt-für-Schritt Anleitung",
+    "section": "Was ist eine Projektvorlage?",
+    "text": "Was ist eine Projektvorlage?\nEine Projektvorlage ist ein Ordner mit fertigen Projektdateien plus einer kurzen Beschreibung. Beim Erstellen eines neuen Projekts kopiert KiCad alle Dateien aus der Vorlage, benennt sie um – und du startest mit allen Einstellungen, die jemand einmal vorbereitet hat:\n\n\n\n\n\n\n\nVorlagen-Inhalt\nWas es dir erspart\n\n\n\n\nTitelblock mit Name, Klasse, Datum\nAusfüllen bei Page Settings\n\n\nBoard-Setup: Lagenaufbau, Netzklassen, Designregeln\nRegeln pro Projekt neu setzen\n\n\nVerknüpfte Bibliothekstabelle mit eigenen Bibliotheken\nBibliotheken suchen und eintragen\n\n\nZusatzdateien (Stücklisten-Vorlage, Abgabe-Hinweise)\nDateien manuell kopieren"
+  },
+  {
+    "objectID": "posts/2026-10-09-kicad-projektvorlagen/index.html#schritt-1-vorlage-besorgen",
+    "href": "posts/2026-10-09-kicad-projektvorlagen/index.html#schritt-1-vorlage-besorgen",
+    "title": "KiCad: Projektvorlagen importieren und nutzen – Schritt-für-Schritt Anleitung",
+    "section": "Schritt 1: Vorlage besorgen",
+    "text": "Schritt 1: Vorlage besorgen\nProjektvorlagen bekommst du auf verschiedenen Wegen:\n\nAls ZIP-Datei von deinem Lehrer oder aus dem Schulordner\nAls Ordner von einem Git-Repository oder Mitschüler\nAus dem Netz, z. B. Vorlagen für bestimmte Fertiger\n\nEntpacke ein ZIP-Archiv zuerst an einen beliebigen Ort, z. B. auf den Desktop."
+  },
+  {
+    "objectID": "posts/2026-10-09-kicad-projektvorlagen/index.html#schritt-2-den-vorlagen-ordner-von-kicad-finden",
+    "href": "posts/2026-10-09-kicad-projektvorlagen/index.html#schritt-2-den-vorlagen-ordner-von-kicad-finden",
+    "title": "KiCad: Projektvorlagen importieren und nutzen – Schritt-für-Schritt Anleitung",
+    "section": "Schritt 2: Den Vorlagen-Ordner von KiCad finden",
+    "text": "Schritt 2: Den Vorlagen-Ordner von KiCad finden\nKiCad zeigt Vorlagen nur an, wenn sie an einem festen Ort liegen. Wo der ist, siehst du in KiCad selbst:\n\nStarte KiCad (den Projektmanager, nicht einen Editor)\nGehe zu Preferences → Configure Paths\nSuche die Zeile KICAD_USER_TEMPLATE_DIR – dahinter steht dein persönlicher Vorlagen-Ordner\n\n\n\n\nConfigure Paths mit KICAD_USER_TEMPLATE_DIR\n\n\nAuf Windows ist das typischerweise C:\\Users\\&lt;Name&gt;\\AppData\\Roaming\\kicad\\10.0\\template\\. Klicke auf den Pfad-Eintrag, um den Ordner zu öffnen – falls er noch nicht existiert, lege ihn an.\n\n\n\n\n\n\nNoteZwei Vorlagen-Quellen\n\n\n\nKiCad kennt zwei Orte: System Templates (KICAD_TEMPLATE_DIR, mitgeliefert und schreibgeschützt) und User Templates (KICAD_USER_TEMPLATE_DIR, deine importierten Vorlagen). Importieren kannst du nur in letzteren."
+  },
+  {
+    "objectID": "posts/2026-10-09-kicad-projektvorlagen/index.html#schritt-3-vorlage-importieren",
+    "href": "posts/2026-10-09-kicad-projektvorlagen/index.html#schritt-3-vorlage-importieren",
+    "title": "KiCad: Projektvorlagen importieren und nutzen – Schritt-für-Schritt Anleitung",
+    "section": "Schritt 3: Vorlage importieren",
+    "text": "Schritt 3: Vorlage importieren\nJetzt prüfst du kurz den Aufbau und kopierst die Vorlage an ihren Platz.\n\nAufbau prüfen\nEine gültige Vorlage sieht so aus:\ntemplate/\n└── htl-vorlage/\n    ├── meta/\n    │   ├── info.html\n    │   └── icon.png\n    ├── htl-vorlage.kicad_pro\n    ├── htl-vorlage.kicad_sch\n    └── htl-vorlage.kicad_pcb\n\nmeta/ mit info.html (Name + Beschreibung) und icon.png (Vorschaubild) – ohne diesen Ordner zeigt KiCad die Vorlage nicht an\nDie eigentlichen Projektdateien (.kicad_pro, .kicad_sch, .kicad_pcb) direkt im Vorlagen-Ordner\n\nFehlt der meta-Ordner, ist das kein echtes Template – bitte den Ersteller um die Dateien oder ergänze meta/info.html selbst.\n\n\nKopieren\n\nKopiere den kompletten Vorlagen-Ordner (z. B. htl-vorlage) in deinen Ordner unter KICAD_USER_TEMPLATE_DIR\nStarte KiCad neu – die Vorlagenliste wird nur beim Start eingelesen\n\nDas war’s. Kein Setup-Dialog, kein Import-Assistent: Importieren heißt bei KiCad nichts anderes als an den richtigen Ort kopieren."
+  },
+  {
+    "objectID": "posts/2026-10-09-kicad-projektvorlagen/index.html#schritt-4-neues-projekt-aus-der-vorlage-erstellen",
+    "href": "posts/2026-10-09-kicad-projektvorlagen/index.html#schritt-4-neues-projekt-aus-der-vorlage-erstellen",
+    "title": "KiCad: Projektvorlagen importieren und nutzen – Schritt-für-Schritt Anleitung",
+    "section": "Schritt 4: Neues Projekt aus der Vorlage erstellen",
+    "text": "Schritt 4: Neues Projekt aus der Vorlage erstellen\n\nFile → New Project from Template\nWechsle zum Reiter User Templates – deine importierte Vorlage erscheint als Karte mit Icon und Beschreibung\n\n\n\n\nNew Project from Template mit importierter Vorlage\n\n\n\nWähle die Vorlage aus\nVergib unten einen Projektnamen, z. B. uebung-3, und wähle einen Speicherort\nKlicke auf OK\n\nKiCad kopiert jetzt alle Dateien aus der Vorlage, benennt sie nach deinem Projektnamen um (uebung-3.kicad_pro, uebung-3.kicad_sch, uebung-3.kicad_pcb, …) und öffnet das fertige Projekt."
+  },
+  {
+    "objectID": "posts/2026-10-09-kicad-projektvorlagen/index.html#schritt-5-kurz-prüfen",
+    "href": "posts/2026-10-09-kicad-projektvorlagen/index.html#schritt-5-kurz-prüfen",
+    "title": "KiCad: Projektvorlagen importieren und nutzen – Schritt-für-Schritt Anleitung",
+    "section": "Schritt 5: Kurz prüfen",
+    "text": "Schritt 5: Kurz prüfen\nBevor du loslegst, kontrolliere, ob alles angekommen ist:\n\nSchaltplan: Ist der Titelblock vorbelegt (Name, Klasse, Datum)? Trage jetzt nur noch deine konkreten Daten ein.\nBoard Setup: Sind die Netzklassen und Designregeln gesetzt?\nBibliothekstabelle: Ist die Vorlagen-Bibliothek unter Project Specific Libraries verknüpft?\n\nWenn ja: fertig. Ab jetzt dauert der Projektstart Sekunden statt Minuten – und jedes Projekt sieht einheitlich aus.\n\n\n\n\n\n\nWarningHäufige Fehler\n\n\n\n\nVorlage erscheint nicht im Assistenten: Der Ordner liegt nicht direkt unter KICAD_USER_TEMPLATE_DIR (häufiger Fehler: ein Ordner zu tief nach dem Entpacken, z. B. template/htl-vorlage/htl-vorlage/), der meta-Ordner fehlt, oder KiCad wurde nicht neu gestartet.\nFehlermeldung beim Öffnen des neuen Projekts: In der Vorlage enthaltene absolute Pfade (z. B. C:\\Users\\ersteller\\... in der Bibliothekstabelle) zeigen auf Rechner, die es bei dir nicht gibt. Trage die Pfade unter Manage Symbol Libraries → Project Specific Libraries neu ein.\nKomische Reste im neuen Projekt: Alles außer meta wird kopiert – inklusive eventueller Mülldateien aus der Vorlage. Lösche sie im neuen Projekt, sie stören weiter nicht."
+  },
+  {
+    "objectID": "posts/2026-10-09-kicad-projektvorlagen/index.html#theorieteil-wie-kicad-vorlagen-verwaltet",
+    "href": "posts/2026-10-09-kicad-projektvorlagen/index.html#theorieteil-wie-kicad-vorlagen-verwaltet",
+    "title": "KiCad: Projektvorlagen importieren und nutzen – Schritt-für-Schritt Anleitung",
+    "section": "Theorieteil: Wie KiCad Vorlagen verwaltet",
+    "text": "Theorieteil: Wie KiCad Vorlagen verwaltet\nDer Assistent unter File → New Project from Template liest beim Start zwei Verzeichnisse: die System-Vorlagen (KICAD_TEMPLATE_DIR, mitgeliefert) und deine User-Vorlagen (KICAD_USER_TEMPLATE_DIR). Jeder Unterordner mit gültigem meta-Ordner wird als Karte angezeigt.\nWichtig zu verstehen: Beim Erstellen wird die Vorlage komplett kopiert, nicht verlinkt. Das heißt:\n\nDas neue Projekt steht vollständig auf eigenen Füßen – auch wenn die Vorlage später gelöscht wird\nÄnderst oder aktualisiert jemand die Vorlage, wirken sich die Änderungen nicht auf bereits erstellte Projekte aus; nur neue Projekte bekommen die aktualisierte Version\nDie Vorlage selbst bleibt unangetastet – du kannst sie beliebig oft als Startpunkt verwenden"
+  },
+  {
+    "objectID": "posts/2026-10-09-kicad-projektvorlagen/index.html#tipps-und-tricks",
+    "href": "posts/2026-10-09-kicad-projektvorlagen/index.html#tipps-und-tricks",
+    "title": "KiCad: Projektvorlagen importieren und nutzen – Schritt-für-Schritt Anleitung",
+    "section": "Tipps und Tricks",
+    "text": "Tipps und Tricks\n\n\n\n\n\n\nTipMehrere Vorlagen sammeln\n\n\n\nDu kannst beliebig viele Vorlagen nebeneinander importieren – z. B. eine für Standard-Platinen und eine für SMD-Übungen mit feineren Designregeln. Der Assistent zeigt sie alle als Karten nebeneinander an.\n\n\n\n\n\n\n\n\nTipSchul-Vorlagen direkt vom Server nutzen\n\n\n\nWenn die Klasse ihre Vorlagen auf einem gemeinsamen Ordner (Schulserver, Git) pflegt, musst du gar nichts kopieren: Setze KICAD_USER_TEMPLATE_DIR in Preferences → Configure Paths einfach auf den gemeinsamen Ordner – ab sofort siehst du immer die aktuelle Vorlage."
+  },
+  {
+    "objectID": "posts/2026-10-09-kicad-projektvorlagen/index.html#nächste-schritte",
+    "href": "posts/2026-10-09-kicad-projektvorlagen/index.html#nächste-schritte",
+    "title": "KiCad: Projektvorlagen importieren und nutzen – Schritt-für-Schritt Anleitung",
+    "section": "Nächste Schritte",
+    "text": "Nächste Schritte\nJetzt, wo du Vorlagen importieren und nutzen kannst, kannst du:\n\nWeitere Vorlagen sammeln – z. B. vordefinierte Regeln verschiedener Fertiger\nDir überlegen, welche fünf Handgriffe du bei jedem Projekt wiederholst – und daraus irgendwann eine eigene Vorlage bauen\nDie Vorlagen-Bibliothek aus unserem Bibliotheken-Beitrag direkt mit in ein Schul-Template einbauen lassen\n\nViel Erfolg beim Start deiner Projekte aus Vorlagen!"
+  },
+  {
+    "objectID": "posts/2026-10-08-kicad-kondensator-simulation/index.html",
+    "href": "posts/2026-10-08-kicad-kondensator-simulation/index.html",
+    "title": "KiCad: Kondensator-Ladung simulieren – Schritt-für-Schritt Anleitung",
+    "section": "",
+    "text": "Die Simulation von Schaltungen ist einer der stärksten Vorteile von KiCad.\nMit dem eingebauten ngspice-Simulator kannst du das Verhalten deiner\nSchaltungen analysieren, bevor du sie baust. In diesem Beitrag zeigen\nwir dir, wie du eine einfache RC-Schaltung (Widerstand-Kondensator)\nsimulierst, um die Ladung eines Kondensators zu untersuchen."
+  },
+  {
+    "objectID": "posts/2026-10-08-kicad-kondensator-simulation/index.html#was-du-lernst",
+    "href": "posts/2026-10-08-kicad-kondensator-simulation/index.html#was-du-lernst",
+    "title": "KiCad: Kondensator-Ladung simulieren – Schritt-für-Schritt Anleitung",
+    "section": "Was du lernst",
+    "text": "Was du lernst\n\nEine RC-Schaltung in KiCad erstellen\n\nDie Simulation einrichten und durchführen\n\nDen Ladungsverlauf des Kondensators analysieren\n\nDie Zeitkonstante verstehen und berechnen"
+  },
+  {
+    "objectID": "posts/2026-10-08-kicad-kondensator-simulation/index.html#vorraussetzungen",
+    "href": "posts/2026-10-08-kicad-kondensator-simulation/index.html#vorraussetzungen",
+    "title": "KiCad: Kondensator-Ladung simulieren – Schritt-für-Schritt Anleitung",
+    "section": "Vorraussetzungen",
+    "text": "Vorraussetzungen\n\nKiCad 10 installiert (siehe unseren Installationsguide)\nGrundlegende Kenntnisse der KiCad-Benutzeroberfläche"
+  },
+  {
+    "objectID": "posts/2026-10-08-kicad-kondensator-simulation/index.html#schritt-1-neues-projekt-anlegen",
+    "href": "posts/2026-10-08-kicad-kondensator-simulation/index.html#schritt-1-neues-projekt-anlegen",
+    "title": "KiCad: Kondensator-Ladung simulieren – Schritt-für-Schritt Anleitung",
+    "section": "Schritt 1: Neues Projekt anlegen",
+    "text": "Schritt 1: Neues Projekt anlegen\n\nStarte KiCad und erstelle ein neues Projekt: File → New Project\n\nVergebe einen Namen, z. B. rc-simulation und wähle einen Speicherort\n\nÖffne den Schaltplan-Editor (Eeschema) über den Projektmanager\n\n\n\n\nNeues KiCad-Projekt erstellen"
+  },
+  {
+    "objectID": "posts/2026-10-08-kicad-kondensator-simulation/index.html#schritt-2-rc-schaltung-aufbauen",
+    "href": "posts/2026-10-08-kicad-kondensator-simulation/index.html#schritt-2-rc-schaltung-aufbauen",
+    "title": "KiCad: Kondensator-Ladung simulieren – Schritt-für-Schritt Anleitung",
+    "section": "Schritt 2: RC-Schaltung aufbauen",
+    "text": "Schritt 2: RC-Schaltung aufbauen\n\nKomponenten platzieren\n\nSpannungsquelle (VDC):\n\nKlicke auf “Place → Add Symbol” (Tastatur: A)\nSuche nach VDC oder power und wähle die Gleichspannungsquelle\nPlatziere sie auf dem Schaltplan\nDoppelklick auf das Symbol und setze Value = \\(10\\, \\text{V}\\)\n\nWiderstand (R):\n\nPlace → Add Symbol (A)\nSuche nach R oder Device und wähle einen Widerstand\nPlatziere ihn neben der Spannungsquelle\nDoppelklick und setze Value = \\(10\\, \\text{kΩ}\\)\n\nKondensator (C):\n\nPlace → Add Symbol (A)\nSuche nach C oder Device und wähle einen Kondensator\nPlatziere ihn in Reihe mit dem Widerstand\nDoppelklick und setze Value = \\(100\\, \\text{µF}\\)\n\nGND (Masse):\n\nPlace → Add Symbol (A)\nSuche nach GND und platziere ihn am unteren Ende\n\n\n\n\nVerbindung herstellen\nVerwende das Wire-Tool (W) oder klicke auf die Pins und ziehe Verbindungen:\n- Verbinde die Spannungsquelle (+) mit dem Widerstand - Verbinde den Widerstand mit dem Kondensator - Verbinde den Kondensator mit GND - Verbinde die Spannungsquelle (-) mit GND\nDeine Schaltung sollte so aussehen:\n\n\n\nRC-Schaltung im KiCad Schaltplan-Editor\n\n\n\n\n\n\n\n\nTipTipp: Netznamen zuweisen\n\n\n\nFür die Simulation ist es hilfreich, den Netzen sprechende Namen zu geben:\n- Klicke auf das Label-Tool (L) - Platziere ein Label am Verbindungspunkt zwischen Widerstand und Kondensator - Nenne es \\(U_C\\) (für die Kondensatorspannung) - Benenne das Netz nach der Spannungsquelle \\(U_{in}\\)"
+  },
+  {
+    "objectID": "posts/2026-10-08-kicad-kondensator-simulation/index.html#schritt-3-simulation-einrichten",
+    "href": "posts/2026-10-08-kicad-kondensator-simulation/index.html#schritt-3-simulation-einrichten",
+    "title": "KiCad: Kondensator-Ladung simulieren – Schritt-für-Schritt Anleitung",
+    "section": "Schritt 3: Simulation einrichten",
+    "text": "Schritt 3: Simulation einrichten\nEs gibt zwei Methoden um die Simulation einzurichten. Wähle die, die dir lieber ist:\n\nMethode A: SPICE-Direktiven im Schaltplan\n\nKlicke auf Place → Add SPICE Directive (oder Tastatur: S)\nPlatziere die Direktiven auf dem Schaltplan und füge folgende Zeilen ein:\n.tran 0.01 5 0\n.ic V(U_C)=0\n.plot tran V(U_C) V(U_in)\n\n.tran 0.01 5 0 – Transiente Analyse mit \\(0{,}01\\, \\text{s}\\) Schrittweite für \\(5\\, \\text{s}\\)\n.ic V(U_C)=0 – Anfangsbedingung: \\(U_C = 0\\, \\text{V}\\) (Kondensator entladen)\n.plot tran V(U_C) V(U_in) – Plot \\(U_C\\) und \\(U_{in}\\)\n\n\n\n\n\nSPICE-Direktiven im Schaltplan\n\n\n\n\nMethode B: Simulations-GUI\n\nGehe zu View → Simulation → Simulation Frame\nKlicke auf Add Signal und wähle die Signale:\n\nV(U_C) – Spannung \\(U_C\\) am Kondensator\nV(U_in) – Eingangsspannung \\(U_{in}\\)\nI(C1) – Strom \\(I\\) durch den Kondensator (optional)\n\nUnter Simulation Settings:\n\nAnalysis Type: Transient\nStop Time: \\(5\\, \\text{s}\\)\nTime Step: \\(0{,}01\\, \\text{s}\\)\n\n\n\n\n\nSimulations-Einstellungen"
+  },
+  {
+    "objectID": "posts/2026-10-08-kicad-kondensator-simulation/index.html#schritt-4-simulation-durchführen",
+    "href": "posts/2026-10-08-kicad-kondensator-simulation/index.html#schritt-4-simulation-durchführen",
+    "title": "KiCad: Kondensator-Ladung simulieren – Schritt-für-Schritt Anleitung",
+    "section": "Schritt 4: Simulation durchführen",
+    "text": "Schritt 4: Simulation durchführen\n\nKlicke auf die Play-Schaltfläche (▶) oder gehe zu Simulation → Run Simulation\nKiCad startet ngspice und führt die Simulation durch\nNach einigen Sekunden erscheint das Ergebnis im Simulationsfenster"
+  },
+  {
+    "objectID": "posts/2026-10-08-kicad-kondensator-simulation/index.html#schritt-5-ergebnisse-analysieren",
+    "href": "posts/2026-10-08-kicad-kondensator-simulation/index.html#schritt-5-ergebnisse-analysieren",
+    "title": "KiCad: Kondensator-Ladung simulieren – Schritt-für-Schritt Anleitung",
+    "section": "Schritt 5: Ergebnisse analysieren",
+    "text": "Schritt 5: Ergebnisse analysieren\n\nSpannungsverlauf am Kondensator\nDu solltest eine exponentielle Kurve sehen, die von \\(0\\, \\text{V}\\) auf \\(10\\, \\text{V}\\) ansteigt.\n\n\n\nKondensator-Ladespannung über die Zeit\n\n\n\n\nWichtige Zeitpunkte\n\n\n\nZeit in \\(\\text{s}\\)\n\\(U_C\\) in \\(\\text{V}\\)\n% der Endspannung\n\n\n\n\n0,00\n0,0000\n0,0 %\n\n\n0,50\n3,9347\n39,3 %\n\n\n1,00\n6,3212\n63,2 %\n\n\n1,50\n7,7687\n77,7 %\n\n\n2,00\n8,6466\n86,5 %\n\n\n3,00\n9,5021\n95,0 %\n\n\n5,00\n9,9326\n99,3 %\n\n\n\n\n\nZeitkonstante (\\(\\tau\\)) verstehen\nDie Zeitkonstante eines RC-Glieds berechnet sich nach:\n\\[\\tau = R \\cdot C\\]\nIn unserem Beispiel:\n- \\(R = 10\\, \\text{kΩ}\\)\n- \\(C = 100\\, \\text{µF}\\)\n- \\(\\tau = R \\cdot C = 1\\, \\text{s}\\)\n\n\n\n\n\n\nNoteWichtige Regel\n\n\n\nNach 1 τ (1 Sekunde) ist der Kondensator zu 63,2 %geladen. Nach 5 τ (5 Sekunden) gilt er als vollständig geladen (99,3 %).\n\n\n\n\nStromverlauf\nDer Ladestrom folgt einer exponentiellen Abnahme:\n\nAnfangsstrom (\\(t = 0\\)): \\(I_0 = \\frac{U_0}{R} = \\frac{10\\, \\text{V}}{10\\, \\text{kΩ}} = 1\\, \\text{mA}\\)\nNach \\(1\\, \\text{s}\\): ca. \\(0{,}37\\, \\text{mA}\\)\nNach \\(2\\, \\text{s}\\): ca. \\(0{,}14\\, \\text{mA}\\)\n\n\n\n\nLadestrom über die Zeit"
+  },
+  {
+    "objectID": "posts/2026-10-08-kicad-kondensator-simulation/index.html#schritt-6-simulation-anpassen-optional",
+    "href": "posts/2026-10-08-kicad-kondensator-simulation/index.html#schritt-6-simulation-anpassen-optional",
+    "title": "KiCad: Kondensator-Ladung simulieren – Schritt-für-Schritt Anleitung",
+    "section": "Schritt 6: Simulation anpassen (optional)",
+    "text": "Schritt 6: Simulation anpassen (optional)\n\nAndere Werte ausprobieren\nÄndere die Werte und beobachte, wie sich die Ladezeit ändert:\n\n\n\nWiderstand (\\(R\\))\nKapazität (\\(C\\))\nZeitkonstante \\(\\tau\\)\n\n\n\n\n\\(10\\, \\text{kΩ}\\)\n\\(100\\, \\text{µF}\\)\n\\(1\\, \\text{s}\\)\n\n\n\\(10\\, \\text{kΩ}\\)\n\\(10\\, \\text{µF}\\)\n\\(0{,}1\\, \\text{s}\\)\n\n\n\\(100\\, \\text{kΩ}\\)\n\\(100\\, \\text{µF}\\)\n\\(10\\, \\text{s}\\)\n\n\n\\(1\\, \\text{kΩ}\\)\n\\(1\\, \\text{mF}\\)\n\\(1\\, \\text{s}\\)\n\n\n\n\n\nSimulationsdauer anpassen\nFür schnellere Schaltungen (kleineres \\(\\tau\\)):\n- Stop Time: \\(1\\, \\text{s}\\) - Time Step: \\(0{,}001\\, \\text{s}\\)\nFür langsamere Schaltungen (größeres \\(\\tau\\)):\n- Stop Time: \\(20\\, \\text{s}\\) - Time Step: \\(0{,}1\\, \\text{s}\\)"
+  },
+  {
+    "objectID": "posts/2026-10-08-kicad-kondensator-simulation/index.html#theorieteil-mathematische-grundlagen",
+    "href": "posts/2026-10-08-kicad-kondensator-simulation/index.html#theorieteil-mathematische-grundlagen",
+    "title": "KiCad: Kondensator-Ladung simulieren – Schritt-für-Schritt Anleitung",
+    "section": "Theorieteil: Mathematische Grundlagen",
+    "text": "Theorieteil: Mathematische Grundlagen\n\nLadespannung\nDie Spannung am Kondensator während des Ladevorgangs folgt der Formel:\n\\[U_C(t) = U_0 \\cdot \\left(1 - e^{-\\frac{t}{\\tau}}\\right)\\]\n\n\\(U_C(t)\\) = Spannung am Kondensator zur Zeit \\(t\\)\n\\(U_0 = 10\\, \\text{V}\\) = Versorgungsspannung\n\\(t\\) = Zeit in \\(\\text{s}\\)\n\\(\\tau\\) = Zeitkonstante (\\(R \\cdot C\\))\n\n\n\nLadestrom\nDer Strom während des Ladevorgangs:\n\\[I(t) = \\frac{U_0}{R} \\cdot e^{-\\frac{t}{\\tau}}\\]"
+  },
+  {
+    "objectID": "posts/2026-10-08-kicad-kondensator-simulation/index.html#tipps-und-tricks",
+    "href": "posts/2026-10-08-kicad-kondensator-simulation/index.html#tipps-und-tricks",
+    "title": "KiCad: Kondensator-Ladung simulieren – Schritt-für-Schritt Anleitung",
+    "section": "Tipps und Tricks",
+    "text": "Tipps und Tricks\n\n\n\n\n\n\nTipSimulation speichern\n\n\n\n\nDie Simulations-Einstellungen werden in einer .spice-Datei gespeichert\nDu kannst diese unter File → Save im Simulationsfenster speichern\nSo kannst du die Simulation später schnell wieder laden\n\n\n\n\n\n\n\n\n\nWarningHäufige Fehler\n\n\n\n\nKeine GND-Verbindung: Jede Schaltung braucht einen Masseanschluss\nFalsche Werte: Achte auf die Einheit (kΩ, µF, mF etc.)\nZu großer Zeitschritt: Bei schnellen Vorgängen kleinere Schritte wählen"
+  },
+  {
+    "objectID": "posts/2026-10-08-kicad-kondensator-simulation/index.html#nächste-schritte",
+    "href": "posts/2026-10-08-kicad-kondensator-simulation/index.html#nächste-schritte",
+    "title": "KiCad: Kondensator-Ladung simulieren – Schritt-für-Schritt Anleitung",
+    "section": "Nächste Schritte",
+    "text": "Nächste Schritte\nJetzt, wo du die Grundlagen der RC-Simulation beherrschst, kannst du:\n\nFilter-Schaltungen simulieren (Tiefpass, Hochpass)\nOszillator-Schaltungen analysieren\nKomplexere Schaltungen mit mehreren RC-Gliedern aufbauen\n\nViel Erfolg beim Experimentieren mit KiCad-Simulationen!"
+  },
+  {
+    "objectID": "posts/2026-09-20-kicad-vorteile/index.html",
+    "href": "posts/2026-09-20-kicad-vorteile/index.html",
+    "title": "Warum KiCad? Open Source schlägt Lizenz",
+    "section": "",
+    "text": "Wer im Elektronikdesign arbeitet, kennt die Diskussion: “Nur kommerzielle Suiten sind richtig professionell.” Stimmt so nicht mehr. KiCad hat sich vom Hobby-Werkzeug zu einer ernstzunehmenden Profi-Suite entwickelt – in einem Lizenzmodell, das man seiner Firma guten Gewissens empfehlen kann."
+  },
+  {
+    "objectID": "posts/2026-09-20-kicad-vorteile/index.html#das-lizenzmodell-freiheit-ohne-fußnoten",
+    "href": "posts/2026-09-20-kicad-vorteile/index.html#das-lizenzmodell-freiheit-ohne-fußnoten",
+    "title": "Warum KiCad? Open Source schlägt Lizenz",
+    "section": "Das Lizenzmodell: Freiheit ohne Fußnoten",
+    "text": "Das Lizenzmodell: Freiheit ohne Fußnoten\nKiCad steht unter der GNU GPL v3 – und das bedeutet in der Praxis:\n\nKosten: 0 €. Kein Abo, kein Dongle, keine “pro Jahr und Sitz”-Logik. Wer plötzlich drei Kollegen mehr hat, muss mit niemandem sprechen.\nKeine Aktivierungs-Hürde. Installation auf beliebig vielen Rechnern, privat und kommerziell, ganz ohne Lizenzserver.\nQuelloffen. Wer will, kann nachsehen, was die Software tut – oder eigene Erweiterungen schreiben.\nKein Vendor-Lock-in. KiCads Dateiformate sind offen und textbasiert. Projekte bleiben auch in 20 Jahren lesbar – ohne funktionierende Lizenz.\n\n\n\n\n\n\n\nTipKurzer Wermutstropfen\n\n\n\nAuch die KiCad-Bibliotheken sind frei lizenziert (CC-BY-SA 4.0, mit Ausnahme für Designs, die daraus entstehen) – du darfst also beide Welten nutzen, ohne Anwalt."
+  },
+  {
+    "objectID": "posts/2026-09-20-kicad-vorteile/index.html#funktionen-die-mit-den-großen-mithalten",
+    "href": "posts/2026-09-20-kicad-vorteile/index.html#funktionen-die-mit-den-großen-mithalten",
+    "title": "Warum KiCad? Open Source schlägt Lizenz",
+    "section": "Funktionen, die mit den Großen mithalten",
+    "text": "Funktionen, die mit den Großen mithalten\n\nInteraktiver Router mit Push-and-Shove, Längenanpassung und DRC in Echtzeit.\n3D-Viewer direkt eingebaut – der Export nach STEP/VRML ist inklusive.\nSchematic-ERC und PCB-DRC mit anpassbaren Regeln.\nScripting über Python – Automation ohne teure Zusatz-APIs.\nSimulation über integrierte SPICE-Unterstützung (ngspice).\nAusgereifter Bibliotheksum, geprüft und von der Community gepflegt."
+  },
+  {
+    "objectID": "posts/2026-09-20-kicad-vorteile/index.html#wer-nutzt-kicad-institutionen-und-unternehmen-im-ernstfall",
+    "href": "posts/2026-09-20-kicad-vorteile/index.html#wer-nutzt-kicad-institutionen-und-unternehmen-im-ernstfall",
+    "title": "Warum KiCad? Open Source schlägt Lizenz",
+    "section": "Wer nutzt KiCad? Institutionen und Unternehmen im Ernstfall",
+    "text": "Wer nutzt KiCad? Institutionen und Unternehmen im Ernstfall\n“Open Source heißt doch Hobby.” Sagt niemand mehr, der sich die Anwenderliste ansieht:\n\nCERN – das europäische Kernforschungszentrum trägt seit über einem Jahrzehnt aktiv zur Entwicklung von KiCad bei (ohwr.org). Der Push-and-Shove-Router und die SPICE-Simulation stammen maßgeblich von CERN-Entwicklern (offerman.industries). 2026 veröffentlichte CERN sogar seine eigene KiCad-Bibliothek mit über 17.000 Bauteilen als Open Source – dieselben Symbole und Footprints, die für Beschleuniger-Elektronik im Einsatz sind (home.cern).\nNASA / JPL – das Jet Propulsion Laboratory hat die Platinen seines Open Source Rovers, einer funktionsfähigen Miniaturversion der Mars-Rover, in KiCad entwickelt und die Design-Dateien öffentlich bereitgestellt (github.com/nasa-jpl).\nSpaceIL – das israelische Unternehmen flog 2019 mit der Mondlandesonde Beresheet tatsächlich zum Mond – ein kommerzielles Raumfahrtunternehmen, das auf offene Werkzeuge setzte (eoPortal).\nKommerzielles Ökosystem – mit der KiCad Services Corporation existiert ein eigenes kommerzielles Support-Unternehmen für professionelle Nutzer; Hersteller wie NextPCB und PCBWay produzieren KiCad-Boards industriell bis zur Serienfertigung (kicad.org/sponsors)."
+  },
+  {
+    "objectID": "posts/2026-09-20-kicad-vorteile/index.html#ein-ehrlicher-vergleich",
+    "href": "posts/2026-09-20-kicad-vorteile/index.html#ein-ehrlicher-vergleich",
+    "title": "Warum KiCad? Open Source schlägt Lizenz",
+    "section": "Ein ehrlicher Vergleich",
+    "text": "Ein ehrlicher Vergleich\n\n\n\n\nKiCad\nkommerzielle Suite\n\n\n\n\nLizenzkosten\n0 €\nmehrere tausend €/Jahr\n\n\nQuellcode\noffen (GPLv3)\nverschlossen\n\n\nInstallation\nDownload, fertig\nAccount, Lizenzserver\n\n\nUpdates\nEinfach installieren\nMaintenance-Vertrag prüfen\n\n\nProjektdateien\noffen, textbasiert\nProprietäres Format\n\n\n\nFairerweise: Für sehr große, verteilte Teams mit hohem Simulations- und Integrationsbedarf haben kommerzielle Suiten nach wie vor ihre Stärken. Für alles darunter ist der Lizenzunterschied schwer zu rechtfertigen – manche Verkaufsgespräche dauern länger als die KiCad-Installation."
+  },
+  {
+    "objectID": "posts/2026-09-20-kicad-vorteile/index.html#fazit",
+    "href": "posts/2026-09-20-kicad-vorteile/index.html#fazit",
+    "title": "Warum KiCad? Open Source schlägt Lizenz",
+    "section": "Fazit",
+    "text": "Fazit\nKiCad ist keine “Spielzeug-Alternative” mehr, sondern ein professionelles Werkzeug mit einem Lizenzmodell ohne Rechnungs-Shock. Wer noch zweifelt: Der nächste Blogpost zeigt, wie man in zehn Minuten installiert – probier’s einfach aus."
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "Über diesen Blog",
+    "section": "",
+    "text": "Herzlich willkommen! Dieser Blog beschäftigt sich mit KiCad, der freien Open-Source-Suite für Elektronikdesign (Schaltplan, PCB, Gerber-Export).\nHier findest du Anleitungen, Vergleiche und Praxis-Tipps – ohne Lizenzkosten-Komplexe und ohne dongle-basierte Existenzangst."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "KiCad Blog",
+    "section": "",
+    "text": "Willkommen! Dieser Blog beschäftigt sich mit KiCad, der freien Open-Source-Suite für Elektronikdesign.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nKiCad: Eigene Bibliotheken hinzufügen (Plugin and Content Manager) – und die Standard-Bibliotheken optional deaktivieren\n\n\n\nAnleitung\n\nBibliotheken\n\nKiCad\n\nPCM\n\n\n\nLerne, wie du in KiCad eigene Symbol- und Footprint-Bibliotheken über den Plugin and Content Manager oder manuell hinzufügst – und wie du die mitgelieferten Standard-Bibliotheken bei Bedarf deaktivierst.\n\n\n\n\n\nOct 9, 2026\n\n\nHuman , Mistral Vibe (KI Assistent)\n\n\n\n\n\n\n\n\n\n\n\n\nKiCad: Projektvorlagen importieren und nutzen – Schritt-für-Schritt Anleitung\n\n\n\nAnleitung\n\nVorlagen\n\nKiCad\n\nWorkflow\n\n\n\nLerne, wie du in KiCad eine Projektvorlage importierst – z. B. die Schul-Vorlage von deinem Lehrer – und daraus in Sekunden ein neues Projekt startest.\n\n\n\n\n\nOct 9, 2026\n\n\nHuman , Mistral Vibe (KI Assistent)\n\n\n\n\n\n\n\n\n\n\n\n\nKiCad: Kondensator-Ladung simulieren – Schritt-für-Schritt Anleitung\n\n\n\nAnleitung\n\nSimulation\n\nKiCad\n\nRC-Schaltung\n\n\n\nLerne, wie du in KiCad eine einfache RC-Schaltung simulierst und die Ladung eines Kondensators analysierst – inklusive Zeitkonstante und Spannungsverlauf.\n\n\n\n\n\nOct 8, 2026\n\n\nHuman , Mistral Vibe (KI Assistent)\n\n\n\n\n\n\n\n\n\n\n\n\nKiCad 10 installieren – Schritt für Schritt\n\n\n\nAnleitung\n\nInstallation\n\nKiCad\n\n\n\nVon null zum Schaltplan in 15 Minuten: Die komplette Installation von KiCad 10 auf Windows, macOS und Linux.\n\n\n\n\n\nSep 24, 2026\n\n\nHuman , Mistral Vibe (KI Assistent)\n\n\n\n\n\n\n\n\n\n\n\n\nWarum KiCad? Open Source schlägt Lizenz\n\n\n\nEDA\n\nKiCad\n\nOpenSource\n\n\n\nKiCad bietet Profi-Funktionen ohne Lizenzkosten – ein Vergleich, der kommerzielle EDA-Suiten unangenehm treffen kann.\n\n\n\n\n\nSep 20, 2026\n\n\nHuman , Mistral Vibe (KI Assistent)\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "posts/2026-09-24-kicad-installation/index.html",
+    "href": "posts/2026-09-24-kicad-installation/index.html",
+    "title": "KiCad 10 installieren – Schritt für Schritt",
+    "section": "",
+    "text": "KiCad 10 ist die aktuelle stabile Version (Stand September 2026). Hier führen wir dich durch die Installation auf allen drei Betriebssystemen – inklusive der ersten Startvorbereitung."
+  },
+  {
+    "objectID": "posts/2026-09-24-kicad-installation/index.html#schritt-1-download",
+    "href": "posts/2026-09-24-kicad-installation/index.html#schritt-1-download",
+    "title": "KiCad 10 installieren – Schritt für Schritt",
+    "section": "Schritt 1: Download",
+    "text": "Schritt 1: Download\nGehe auf die offizielle Download-Seite https://www.kicad.org/download/ und wähle dein Betriebssystem. Nimm die stabile Version (10.0.x), nicht die Nightly-Builds – die sind nur für Tester gedacht.\n\n\n\n\n\n\nWarningImmer vom offiziellen Server laden\n\n\n\nDownloade KiCad ausschließlich von kicad.org. Inoffizielle Spiegelserver können veraltete oder veränderte Pakete enthalten.\n\n\n\n\n\nDownload-Seite auf kicad.org – wähle dein Betriebssystem"
+  },
+  {
+    "objectID": "posts/2026-09-24-kicad-installation/index.html#schritt-2-windows-1011",
+    "href": "posts/2026-09-24-kicad-installation/index.html#schritt-2-windows-1011",
+    "title": "KiCad 10 installieren – Schritt für Schritt",
+    "section": "Schritt 2: Windows (10/11)",
+    "text": "Schritt 2: Windows (10/11)\n\nLade den Windows-Installer (64-bit) als .exe herunter.\nDoppelklick auf die Datei – Windows fragt ggf. nach einer Freigabe (“Dieser App erlauben, Änderungen vorzunehmen”) → Ja.\nDer Installer öffnet sich. Wähle die Sprache (z. B. Deutsch) und akzeptiere die GPLv3-Lizenz – die du übrigens tatsächlich lesen kannst, weil sie keine versteckten Klauseln hat.\nKomponentenauswahl: Standardmäßig wird alles installiert, inklusive der offiziellen Bibliotheken und Support-Pakete für 3D-Modelle. Für Einsteiger: Standard lassen.\nZielordner bestätigen (Standard: C:\\Program Files\\KiCad\\10.0), Install klicken, kurzer Warte-Vorgang, Finish.\n\n\n\n\nWindows-Installer: Komponenten auswählen"
+  },
+  {
+    "objectID": "posts/2026-09-24-kicad-installation/index.html#schritt-3-macos",
+    "href": "posts/2026-09-24-kicad-installation/index.html#schritt-3-macos",
+    "title": "KiCad 10 installieren – Schritt für Schritt",
+    "section": "Schritt 3: macOS",
+    "text": "Schritt 3: macOS\n\nLade die .dmg-Datei von kicad.org (Apple Silicon oder Intel, je nach Mac).\nDoppelklick auf die .dmg – das Fenster mit dem KiCad-Icon erscheint.\nZiehe das KiCad-Icon in den Programme-Ordner.\nErster Start: macOS blockiert ggf. Apps “von einem nicht überprüften Entwickler” (KiCad wird ordnungsgemäß signiert – falls trotzdem eine Meldung kommt: Systemeinstellungen → Sicherheit → Trotzdem öffnen)."
+  },
+  {
+    "objectID": "posts/2026-09-24-kicad-installation/index.html#schritt-4-linux",
+    "href": "posts/2026-09-24-kicad-installation/index.html#schritt-4-linux",
+    "title": "KiCad 10 installieren – Schritt für Schritt",
+    "section": "Schritt 4: Linux",
+    "text": "Schritt 4: Linux\n\nUbuntu / Debian (und Derivate)\nDas offizielle KiCad-Team pflegt ein stabiles PPA:\nsudo add-apt-repository ppa:kicad/kicad-10.0-releases\nsudo apt update\nsudo apt install kicad\n\n\nFedora\nsudo dnf install kicad\n\n\nArch Linux\nsudo pacman -S kicad"
+  },
+  {
+    "objectID": "posts/2026-09-24-kicad-installation/index.html#schritt-5-erster-start-projekt-anlegen",
+    "href": "posts/2026-09-24-kicad-installation/index.html#schritt-5-erster-start-projekt-anlegen",
+    "title": "KiCad 10 installieren – Schritt für Schritt",
+    "section": "Schritt 5: Erster Start – Projekt anlegen",
+    "text": "Schritt 5: Erster Start – Projekt anlegen\n\nStarte KiCad (Windows: Startmenü; macOS: Programme; Linux: kicad &).\nDer Projektmanager begrüßt dich – ohne Login, ohne Aktivierung, direkt einsatzbereit.\nFile → New Project, Name vergeben (z. B. blinkende-led), Speicherort wählen.\nDu hast jetzt Schaltplan (.kicad_sch) und Board (.kicad_pcb) in einem Projekt – beide öffnest du direkt aus dem Projektmanager.\n\n\n\n\nKiCad-Projektmanager mit frisch angelegtem Projekt\n\n\n\n\n\n\n\n\nTipTipp: Englisch behalten\n\n\n\nDa die englischen Begriffe in Tutorials und Foren üblich sind, ist es oft einfacher, die englische Oberfläche zu nutzen. Du kannst jederzeit unter Preferences → Set Language wechseln."
+  },
+  {
+    "objectID": "posts/2026-09-24-kicad-installation/index.html#schritt-6-sprachpaket-optional",
+    "href": "posts/2026-09-24-kicad-installation/index.html#schritt-6-sprachpaket-optional",
+    "title": "KiCad 10 installieren – Schritt für Schritt",
+    "section": "Schritt 6: Sprachpaket (optional)",
+    "text": "Schritt 6: Sprachpaket (optional)\nFalls KiCad nicht auf Deutsch startet: Preferences → Set Language → German, anschließend KiCad neu starten. Die Übersetzungen kommen direkt mit dem Installer."
+  },
+  {
+    "objectID": "posts/2026-09-24-kicad-installation/index.html#troubleshooting",
+    "href": "posts/2026-09-24-kicad-installation/index.html#troubleshooting",
+    "title": "KiCad 10 installieren – Schritt für Schritt",
+    "section": "Troubleshooting",
+    "text": "Troubleshooting\n\n\n\n\n\n\nNoteHäufige Fehler\n\n\n\n\nWindows: Installer bricht ab → als Administrator ausführen.\nmacOS: “App ist beschädigt” → xattr -cr /Applications/kicad.app im Terminal ausführen (passiert selten beim offiziellen Download).\nLinux: PPA-Fehler → Distribution prüfen; auf Debian ggf. das offizielle KiCad-Repository verwenden."
+  },
+  {
+    "objectID": "posts/2026-09-24-kicad-installation/index.html#nächste-schritte",
+    "href": "posts/2026-09-24-kicad-installation/index.html#nächste-schritte",
+    "title": "KiCad 10 installieren – Schritt für Schritt",
+    "section": "Nächste Schritte",
+    "text": "Nächste Schritte\nJetzt, wo KiCad läuft, kannst du direkt loslegen: Öffne die mitgelieferten Demoprojekte unter File → Open Demo Project – oder wirf einen Blick auf die offizielle Dokumentation: https://docs.kicad.org\nViel Erfolg beim ersten eigenen Board!"
+  },
+  {
+    "objectID": "posts/2026-10-09-kicad-eigene-bibliotheken/index.html",
+    "href": "posts/2026-10-09-kicad-eigene-bibliotheken/index.html",
+    "title": "KiCad: Eigene Bibliotheken hinzufügen (Plugin and Content Manager) – und die Standard-Bibliotheken optional deaktivieren",
+    "section": "",
+    "text": "KiCad bringt von Haus aus eine riesige Sammlung an Symbol- und Footprint-Bibliotheken mit. Aber spätestens, wenn du eigene Bauteile entwirfst oder Bibliotheken aus dem Netz (z. B. von SparkFun, Adafruit oder von der Schule) nutzen willst, brauchst du eigene Bibliotheken. In diesem Beitrag zeigen wir dir, wie du das am saubersten machst – über den Plugin and Content Manager (PCM) oder manuell über die Bibliotheks-Tabellen. Und wer die Standard-Bibliotheken loswerden will, z. B. um im Symbol-Auswahldialog nicht mehr hunderte Einträge zu sehen, bekommt dafür ebenfalls eine Anleitung."
+  },
+  {
+    "objectID": "posts/2026-10-09-kicad-eigene-bibliotheken/index.html#was-du-lernst",
+    "href": "posts/2026-10-09-kicad-eigene-bibliotheken/index.html#was-du-lernst",
+    "title": "KiCad: Eigene Bibliotheken hinzufügen (Plugin and Content Manager) – und die Standard-Bibliotheken optional deaktivieren",
+    "section": "Was du lernst",
+    "text": "Was du lernst\n\nBibliotheken über den Plugin and Content Manager installieren\nEigene Symbol- und Footprint-Bibliotheken manuell hinzufügen\nDen Unterschied zwischen globaler und projektspezifischer Bibliothekstabelle verstehen\nDie Standard-KiCad-Bibliotheken optional deaktivieren (ohne sie zu löschen)"
+  },
+  {
+    "objectID": "posts/2026-10-09-kicad-eigene-bibliotheken/index.html#voraussetzungen",
+    "href": "posts/2026-10-09-kicad-eigene-bibliotheken/index.html#voraussetzungen",
+    "title": "KiCad: Eigene Bibliotheken hinzufügen (Plugin and Content Manager) – und die Standard-Bibliotheken optional deaktivieren",
+    "section": "Voraussetzungen",
+    "text": "Voraussetzungen\n\nKiCad 10 installiert (siehe unseren Installationsguide)\nGrundlegende Kenntnisse der KiCad-Benutzeroberfläche"
+  },
+  {
+    "objectID": "posts/2026-10-09-kicad-eigene-bibliotheken/index.html#überblick-zwei-wege-zur-eigenen-bibliothek",
+    "href": "posts/2026-10-09-kicad-eigene-bibliotheken/index.html#überblick-zwei-wege-zur-eigenen-bibliothek",
+    "title": "KiCad: Eigene Bibliotheken hinzufügen (Plugin and Content Manager) – und die Standard-Bibliotheken optional deaktivieren",
+    "section": "Überblick: Zwei Wege zur eigenen Bibliothek",
+    "text": "Überblick: Zwei Wege zur eigenen Bibliothek\n\n\n\n\n\n\n\n\nWeg\nWann sinnvoll\nAufwand\n\n\n\n\nPlugin and Content Manager (PCM)\nBibliothek aus dem offiziellen KiCad-Repository (z. B. „ESP32-Boards”)\nSehr gering\n\n\nManuelle Bibliothekstabelle\nEigene .kicad_sym-Dateien oder .pretty-Ordner, Bibliotheken von GitHub oder vom Schulserver\nGering\n\n\n\nDer PCM ist der komfortable Weg: Er lädt das Paket herunter, legt es im KiCad-Benutzerordner ab und registriert die enthaltenen Bibliotheken automatisch in den globalen Tabellen. Manuell brauchst du ihn nur, wenn die Bibliothek nicht im Repository verfügbar ist."
+  },
+  {
+    "objectID": "posts/2026-10-09-kicad-eigene-bibliotheken/index.html#schritt-1-bibliothek-über-den-plugin-and-content-manager-installieren",
+    "href": "posts/2026-10-09-kicad-eigene-bibliotheken/index.html#schritt-1-bibliothek-über-den-plugin-and-content-manager-installieren",
+    "title": "KiCad: Eigene Bibliotheken hinzufügen (Plugin and Content Manager) – und die Standard-Bibliotheken optional deaktivieren",
+    "section": "Schritt 1: Bibliothek über den Plugin and Content Manager installieren",
+    "text": "Schritt 1: Bibliothek über den Plugin and Content Manager installieren\n\nÖffne den KiCad-Projektmanager\nGehe zu Tools → Plugin and Content Manager\nWechsle zum Reiter Browse und suche nach dem gewünschten Paket,\n\nB. nach ESP32 oder nach dem Hersteller SparkFun\n\nKlicke beim Paket auf Install\n\n\n\n\nPlugin and Content Manager mit dem Browse-Dialog\n\n\n\nWechsle zum Reiter Installed – hier siehst du alle installierten Pakete und kannst sie später aktualisieren oder deinstallieren\n\n\n\n\n\n\n\nNoteWo landet der Inhalt?\n\n\n\nDer PCM speichert Pakete im KiCad-Benutzerordner, auf Windows typischerweise unter\nC:\\Users\\&lt;Name&gt;\\AppData\\Roaming\\kicad\\10.0\\3rdparty\\\nDie enthaltenen Symbol- und Footprint-Bibliotheken werden automatisch in die globalen Bibliothekstabellen eingetragen – du musst nichts weiter konfigurieren.\n\n\n\nBibliothek testen\n\nÖffne einen Schaltplan-Editor (Eeschema)\nDrücke A (Place → Add Symbol)\nGib den Nickname der neuen Bibliothek oder eines ihrer Symbole in die Suche ein\n\nTaucht das Symbol auf, war die Installation erfolgreich."
+  },
+  {
+    "objectID": "posts/2026-10-09-kicad-eigene-bibliotheken/index.html#schritt-2-eigene-bibliothek-manuell-hinzufügen",
+    "href": "posts/2026-10-09-kicad-eigene-bibliotheken/index.html#schritt-2-eigene-bibliothek-manuell-hinzufügen",
+    "title": "KiCad: Eigene Bibliotheken hinzufügen (Plugin and Content Manager) – und die Standard-Bibliotheken optional deaktivieren",
+    "section": "Schritt 2: Eigene Bibliothek manuell hinzufügen",
+    "text": "Schritt 2: Eigene Bibliothek manuell hinzufügen\nFür eigene Dateien oder Bibliotheken von GitHub gibt es zwei Orte, an denen sie verwaltet werden:\n\nSymbol-Bibliotheken: Dateien mit der Endung .kicad_sym\nFootprint-Bibliotheken: Ordner mit der Endung .pretty\n\n\nSymbol-Bibliothek hinzufügen\n\nÖffne den Schaltplan-Editor und gehe zu Preferences → Manage Symbol Libraries\nWähle oben den Reiter Global Libraries (für alle Projekte) oder Project Specific Libraries (nur für das aktuelle Projekt)\nKlicke auf das Plus-Symbol bzw. Add existing (das Ordner-Symbol)\nWähle deine .kicad_sym-Datei aus\nVergib einen sprechenden Nickname, z. B. htl-eigene – unter diesem Namen erscheint die Bibliothek später in der Symbol-Auswahl\nKontrolliere, dass das Häkchen in der Spalte Active gesetzt ist\nKlicke auf OK\n\n\n\n\nManage Symbol Libraries mit eigener Bibliothek\n\n\n\n\nFootprint-Bibliothek hinzufügen\n\nÖffne den PCB-Editor (Pcbnew) und gehe zu Preferences → Manage Footprint Libraries\nGehe genauso vor wie bei den Symbolen – hier wählst du allerdings den Ordner mit der Endung .pretty aus\nVergib wieder einen Nickname, z. B. htl-eigene.pretty\n\n\n\n\n\n\n\nTipTipp: Eigene Bibliothek direkt anlegen\n\n\n\nWenn du noch keine Bibliothek hast, sondern eine erstellen willst, geht das direkt im Symbol-Editor:\nFile → New Library – KiCad fragt dann, ob die Bibliothek global oder projektspezifisch sein soll. Für Bauteile, die du in vielen Projekten brauchst, nimm global. Für eine einmalige Schaltung, z. B. eine Hausarbeit, nimm projektspezifisch – dann bleibt dein globales System sauber."
+  },
+  {
+    "objectID": "posts/2026-10-09-kicad-eigene-bibliotheken/index.html#schritt-3-standard-kicad-bibliotheken-deaktivieren-optional",
+    "href": "posts/2026-10-09-kicad-eigene-bibliotheken/index.html#schritt-3-standard-kicad-bibliotheken-deaktivieren-optional",
+    "title": "KiCad: Eigene Bibliotheken hinzufügen (Plugin and Content Manager) – und die Standard-Bibliotheken optional deaktivieren",
+    "section": "Schritt 3: Standard-KiCad-Bibliotheken deaktivieren (optional)",
+    "text": "Schritt 3: Standard-KiCad-Bibliotheken deaktivieren (optional)\nBei der Installation aktiviert KiCad automatisch alle mitgelieferten Bibliotheken (Device, Connector, Simulation_SPICE, …). Im Symbol-Dialog erscheinen dadurch leicht mehrere tausend Einträge. Wer im Unterricht oder in einem firmeneigenen Setup nur mit einer konsistenten, kleinen Bauteilpalette arbeiten will, kann die Standard-Bibliotheken deaktivieren – ohne sie zu deinstallieren.\n\nSo geht’s\n\nÖffne Preferences → Manage Symbol Libraries im Schaltplan-Editor\nEntferne in der Spalte Active das Häkchen bei allen Bibliotheken, die du nicht mehr sehen willst (z. B. bei allen außer deiner eigenen)\nKlicke auf OK und starte den Symbol-Dialog neu (A)\n\n\n\n\nDeaktivierte Standard-Bibliotheken in der Spalte Active\n\n\n\nDasselbe funktioniert im PCB-Editor unter Preferences → Manage Footprint Libraries für die Footprints\n\nDie Bibliotheken bleiben installiert und die Einträge bleiben in der Tabelle erhalten – sie werden nur nicht mehr geladen. Ein erneutes Setzen des Häkchens bringt sie sofort zurück.\n\n\n\n\n\n\nWarningHäufige Fehler\n\n\n\n\nZeilen löschen statt deaktivieren: Lösche die Einträge der Standard-Bibliotheken nicht aus der Tabelle – deaktiviere sie nur über das Häkchen. Sonst musst du später jeden Pfad per Hand neu eintragen.\nAlte Projekte brechen: Öffnest du ein älteres Projekt, das Symbole aus einer deaktivierten Bibliothek verwendet, kann KiCad die Symbole nicht mehr aus der Bibliothek auflösen. Schalte die Bibliothek in diesem Fall wieder aktiv.\nGlobale vs. projektspezifische Tabelle: Deaktivierst du Bibliotheken in der globalen Tabelle, gilt das für alle Projekte. Willst du es nur für ein einziges Projekt, trage die benötigten Bibliotheken stattdessen in die projektspezifische Tabelle ein und lass die globale unverändert.\n\n\n\n\n\nWarum deaktivieren statt löschen?\n\n\n\n\n\n\n\n\nAktion\nFolge\nRückgängig?\n\n\n\n\nActive-Häkchen entfernen\nBibliothek wird nicht geladen, Eintrag bleibt\nSofort, per Häkchen\n\n\nTabelleneintrag löschen\nPfad-Information geht verloren\nNur per Hand (Standard-KiCad-Bibliotheken liegen unter ${KICAD10_SYMBOL_DIR} bzw. ${KICAD10_FOOTPRINT_DIR})\n\n\nPaket im PCM deinstallieren\nDateien werden gelöscht\nNeuinstallation über den PCM"
+  },
+  {
+    "objectID": "posts/2026-10-09-kicad-eigene-bibliotheken/index.html#theorieteil-wie-kicad-bibliotheken-verwaltet",
+    "href": "posts/2026-10-09-kicad-eigene-bibliotheken/index.html#theorieteil-wie-kicad-bibliotheken-verwaltet",
+    "title": "KiCad: Eigene Bibliotheken hinzufügen (Plugin and Content Manager) – und die Standard-Bibliotheken optional deaktivieren",
+    "section": "Theorieteil: Wie KiCad Bibliotheken verwaltet",
+    "text": "Theorieteil: Wie KiCad Bibliotheken verwaltet\nKiCad verwaltet Bibliotheken über zwei Bibliothekstabellen:\n\nsym-lib-table – Symbol-Bibliotheken\nfp-lib-table – Footprint-Bibliotheken\n\nJede Tabelle existiert in zwei Varianten:\n\nGlobal (im KiCad-Benutzerordner, z. B. C:\\Users\\&lt;Name&gt;\\AppData\\Roaming\\kicad\\10.0\\sym-lib-table) – gilt für alle Projekte auf dem Rechner\nProjektspezifisch (Datei &lt;projekt&gt;.kicad_sym-lib-table im Projektordner) – gilt nur für dieses Projekt und kann ideal mit versioniert oder an Mitschüler verteilt werden\n\nBeim Start sucht KiCad zuerst in der projektspezifischen, dann in der globalen Tabelle. Suchst du ein Symbol, wird nur in aktiven Bibliotheken gesucht – genau deshalb verschwinden deaktivierte Bibliotheken aus dem Symbol-Dialog.\nWichtig zu wissen: Ein Symbol im Schaltplan speichert nur den Nickname der Bibliothek und den Symbolnamen. Die eigentliche Definition wird beim Platzieren in die Projektdatei kopiert (gecacht). Deshalb öffnen sich alte Schaltpläne auch dann noch korrekt, wenn eine Bibliothek (einmalig) nicht gefunden wird."
+  },
+  {
+    "objectID": "posts/2026-10-09-kicad-eigene-bibliotheken/index.html#tipps-und-tricks",
+    "href": "posts/2026-10-09-kicad-eigene-bibliotheken/index.html#tipps-und-tricks",
+    "title": "KiCad: Eigene Bibliotheken hinzufügen (Plugin and Content Manager) – und die Standard-Bibliotheken optional deaktivieren",
+    "section": "Tipps und Tricks",
+    "text": "Tipps und Tricks\n\n\n\n\n\n\nTipBibliothen für die Klasse verteilen\n\n\n\nLege die projektspezifische Bibliothekstabelle zusammen mit der .kicad_sym-Datei in einen geteilten Ordner (Schulserver, Git-Repository). Alle, die das Projekt öffnen, haben automatisch dieselben Bauteile – ohne dass jemand seine globalen Tabellen anfassen muss.\n\n\n\n\n\n\n\n\nTipUmgebungsvariablen nutzen\n\n\n\nTrage in den Tabellen statt absoluter Pfade besser Variablen wie ${KICAD_USER_DIR} ein. Dann funktioniert die Tabelle auch auf dem Rechner deiner Mitschüler, auch wenn dort der Benutzername anders lautet.\n\n\n\n\n\n\n\n\nWarningVeraltete Formate\n\n\n\nBibliotheken mit der Endung .lib stammen noch aus KiCad 5 oder älter. Wandle sie im Symbol-Editor in das moderne .kicad_sym-Format um, bevor du sie registrierst – sonst kann KiCad 10 sie nicht lesen."
+  },
+  {
+    "objectID": "posts/2026-10-09-kicad-eigene-bibliotheken/index.html#nächste-schritte",
+    "href": "posts/2026-10-09-kicad-eigene-bibliotheken/index.html#nächste-schritte",
+    "title": "KiCad: Eigene Bibliotheken hinzufügen (Plugin and Content Manager) – und die Standard-Bibliotheken optional deaktivieren",
+    "section": "Nächste Schritte",
+    "text": "Nächste Schritte\nJetzt, wo deine Bibliotheken sauber eingerichtet sind, kannst du:\n\nEigene Symbole im Symbol-Editor entwerfen und mit Footprints verknüpfen\n3D-Modelle (.step/.wrl) deinen Footprints zuordnen\nIm PCM nach nützlichen Paketen stöbern – dort gibt es auch Plugins für Simulation und Fertigung\n\nViel Erfolg beim Aufbau deiner eigenen Bauteil-Sammlung!"
+  }
+]

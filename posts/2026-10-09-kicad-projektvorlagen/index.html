@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.24">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Human">
+<meta name="author" content="Mistral Vibe (KI Assistent)">
+<meta name="dcterms.date" content="2026-10-09">
+<meta name="description" content="Lerne, wie du in KiCad eine Projektvorlage importierst – z. B. die Schul-Vorlage von deinem Lehrer – und daraus in Sekunden ein neues Projekt startest.">
+
+<title>KiCad: Projektvorlagen importieren und nutzen – Schritt-für-Schritt Anleitung – KiCad Blog</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-e31584831b205ffbb2d98406f31c2a5b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+<meta property="og:title" content="KiCad: Projektvorlagen importieren und nutzen – Schritt-für-Schritt Anleitung – KiCad Blog">
+<meta property="og:description" content="Lerne, wie du in KiCad eine Projektvorlage importierst – z. B. die Schul-Vorlage von deinem Lehrer – und daraus in Sekunden ein neues Projekt startest.">
+<meta property="og:image" content="https://alfred-hermes-bot.github.io/kicad-blog/posts/2026-10-09-kicad-projektvorlagen/images/02-configure-paths.png">
+<meta property="og:site_name" content="KiCad Blog">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    </a>
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">KiCad Blog</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Blog</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">Über</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#was-du-lernst" id="toc-was-du-lernst" class="nav-link active" data-scroll-target="#was-du-lernst">Was du lernst</a></li>
+  <li><a href="#voraussetzungen" id="toc-voraussetzungen" class="nav-link" data-scroll-target="#voraussetzungen">Voraussetzungen</a></li>
+  <li><a href="#was-ist-eine-projektvorlage" id="toc-was-ist-eine-projektvorlage" class="nav-link" data-scroll-target="#was-ist-eine-projektvorlage">Was ist eine Projektvorlage?</a></li>
+  <li><a href="#schritt-1-vorlage-besorgen" id="toc-schritt-1-vorlage-besorgen" class="nav-link" data-scroll-target="#schritt-1-vorlage-besorgen">Schritt 1: Vorlage besorgen</a></li>
+  <li><a href="#schritt-2-den-vorlagen-ordner-von-kicad-finden" id="toc-schritt-2-den-vorlagen-ordner-von-kicad-finden" class="nav-link" data-scroll-target="#schritt-2-den-vorlagen-ordner-von-kicad-finden">Schritt 2: Den Vorlagen-Ordner von KiCad finden</a></li>
+  <li><a href="#schritt-3-vorlage-importieren" id="toc-schritt-3-vorlage-importieren" class="nav-link" data-scroll-target="#schritt-3-vorlage-importieren">Schritt 3: Vorlage importieren</a>
+  <ul class="collapse">
+  <li><a href="#aufbau-prüfen" id="toc-aufbau-prüfen" class="nav-link" data-scroll-target="#aufbau-prüfen">Aufbau prüfen</a></li>
+  <li><a href="#kopieren" id="toc-kopieren" class="nav-link" data-scroll-target="#kopieren">Kopieren</a></li>
+  </ul></li>
+  <li><a href="#schritt-4-neues-projekt-aus-der-vorlage-erstellen" id="toc-schritt-4-neues-projekt-aus-der-vorlage-erstellen" class="nav-link" data-scroll-target="#schritt-4-neues-projekt-aus-der-vorlage-erstellen">Schritt 4: Neues Projekt aus der Vorlage erstellen</a></li>
+  <li><a href="#schritt-5-kurz-prüfen" id="toc-schritt-5-kurz-prüfen" class="nav-link" data-scroll-target="#schritt-5-kurz-prüfen">Schritt 5: Kurz prüfen</a></li>
+  <li><a href="#theorieteil-wie-kicad-vorlagen-verwaltet" id="toc-theorieteil-wie-kicad-vorlagen-verwaltet" class="nav-link" data-scroll-target="#theorieteil-wie-kicad-vorlagen-verwaltet">Theorieteil: Wie KiCad Vorlagen verwaltet</a></li>
+  <li><a href="#tipps-und-tricks" id="toc-tipps-und-tricks" class="nav-link" data-scroll-target="#tipps-und-tricks">Tipps und Tricks</a></li>
+  <li><a href="#nächste-schritte" id="toc-nächste-schritte" class="nav-link" data-scroll-target="#nächste-schritte">Nächste Schritte</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">KiCad: Projektvorlagen importieren und nutzen – Schritt-für-Schritt Anleitung</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">Anleitung</div>
+    <div class="quarto-category">Vorlagen</div>
+    <div class="quarto-category">KiCad</div>
+    <div class="quarto-category">Workflow</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    Lerne, wie du in KiCad eine Projektvorlage importierst – z. B. die Schul-Vorlage von deinem Lehrer – und daraus in Sekunden ein neues Projekt startest.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Authors</div>
+    <div class="quarto-title-meta-contents">
+             <p>Human </p>
+             <p>Mistral Vibe (KI Assistent) </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">October 9, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Jedes neue Projekt beginnt eigentlich immer gleich: Titelblock ausfüllen, Designregeln einstellen, eigene Bibliothek verknüpfen, Netzklassen definieren. Mit einer <strong>Projektvorlage (Template)</strong> erledigst du das alles in einem Handgriff – die Vorlage wird kopiert, und du startest sofort mit fertigem Grundgerüst. In diesem Beitrag zeigen wir dir, wie du eine bestehende Vorlage in KiCad <strong>importierst</strong> – z. B. die Schul-Vorlage von deinem Lehrer oder ein Template aus dem Netz – und wie du daraus neue Projekte startest.</p>
+<section id="was-du-lernst" class="level2">
+<h2 class="anchored" data-anchor-id="was-du-lernst">Was du lernst</h2>
+<ul>
+<li>Wissen, wie eine Projektvorlage <strong>aufgebaut</strong> ist</li>
+<li>Eine Vorlage in KiCad <strong>importieren</strong> (in den Vorlagen-Ordner kopieren)</li>
+<li>Ein neues Projekt über <strong>File → New Project from Template</strong> starten</li>
+<li>Typische Import-Fehler <strong>erkennen und beheben</strong></li>
+</ul>
+</section>
+<section id="voraussetzungen" class="level2">
+<h2 class="anchored" data-anchor-id="voraussetzungen">Voraussetzungen</h2>
+<ul>
+<li>KiCad 10 installiert (siehe unseren <a href="../..\posts/2026-09-24-kicad-installation/">Installationsguide</a>)</li>
+<li>Grundlegende Kenntnisse der KiCad-Benutzeroberfläche</li>
+<li>Eine Vorlage als ZIP-Ordner oder Ordner, z. B. von deinem Lehrer oder aus dem Netz</li>
+</ul>
+</section>
+<section id="was-ist-eine-projektvorlage" class="level2">
+<h2 class="anchored" data-anchor-id="was-ist-eine-projektvorlage">Was ist eine Projektvorlage?</h2>
+<p>Eine Projektvorlage ist ein Ordner mit fertigen Projektdateien plus einer kurzen Beschreibung. Beim Erstellen eines neuen Projekts kopiert KiCad alle Dateien aus der Vorlage, benennt sie um – und du startest mit allen Einstellungen, die jemand einmal vorbereitet hat:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 45%">
+<col style="width: 54%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Vorlagen-Inhalt</th>
+<th>Was es dir erspart</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Titelblock</strong> mit Name, Klasse, Datum</td>
+<td>Ausfüllen bei Page Settings</td>
+</tr>
+<tr class="even">
+<td><strong>Board-Setup</strong>: Lagenaufbau, Netzklassen, Designregeln</td>
+<td>Regeln pro Projekt neu setzen</td>
+</tr>
+<tr class="odd">
+<td><strong>Verknüpfte Bibliothekstabelle</strong> mit eigenen Bibliotheken</td>
+<td>Bibliotheken suchen und eintragen</td>
+</tr>
+<tr class="even">
+<td><strong>Zusatzdateien</strong> (Stücklisten-Vorlage, Abgabe-Hinweise)</td>
+<td>Dateien manuell kopieren</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="schritt-1-vorlage-besorgen" class="level2">
+<h2 class="anchored" data-anchor-id="schritt-1-vorlage-besorgen">Schritt 1: Vorlage besorgen</h2>
+<p>Projektvorlagen bekommst du auf verschiedenen Wegen:</p>
+<ul>
+<li>Als <strong>ZIP-Datei</strong> von deinem Lehrer oder aus dem Schulordner</li>
+<li>Als <strong>Ordner</strong> von einem Git-Repository oder Mitschüler</li>
+<li>Aus dem Netz, z. B. Vorlagen für bestimmte Fertiger</li>
+</ul>
+<p>Entpacke ein ZIP-Archiv zuerst an einen beliebigen Ort, z. B. auf den Desktop.</p>
+</section>
+<section id="schritt-2-den-vorlagen-ordner-von-kicad-finden" class="level2">
+<h2 class="anchored" data-anchor-id="schritt-2-den-vorlagen-ordner-von-kicad-finden">Schritt 2: Den Vorlagen-Ordner von KiCad finden</h2>
+<p>KiCad zeigt Vorlagen nur an, wenn sie an einem festen Ort liegen. Wo der ist, siehst du in KiCad selbst:</p>
+<ol type="1">
+<li>Starte <strong>KiCad</strong> (den Projektmanager, nicht einen Editor)</li>
+<li>Gehe zu <strong>Preferences → Configure Paths</strong></li>
+<li>Suche die Zeile <strong><code>KICAD_USER_TEMPLATE_DIR</code></strong> – dahinter steht dein persönlicher Vorlagen-Ordner</li>
+</ol>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/02-configure-paths.png" class="img-fluid figure-img"></p>
+<figcaption>Configure Paths mit KICAD_USER_TEMPLATE_DIR</figcaption>
+</figure>
+</div>
+<p>Auf Windows ist das typischerweise <code>C:\Users\&lt;Name&gt;\AppData\Roaming\kicad\10.0\template\</code>. Klicke auf den Pfad-Eintrag, um den Ordner zu öffnen – falls er noch nicht existiert, lege ihn an.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Zwei Vorlagen-Quellen
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>KiCad kennt zwei Orte: <strong>System Templates</strong> (<code>KICAD_TEMPLATE_DIR</code>, mitgeliefert und schreibgeschützt) und <strong>User Templates</strong> (<code>KICAD_USER_TEMPLATE_DIR</code>, deine importierten Vorlagen). Importieren kannst du nur in letzteren.</p>
+</div>
+</div>
+</section>
+<section id="schritt-3-vorlage-importieren" class="level2">
+<h2 class="anchored" data-anchor-id="schritt-3-vorlage-importieren">Schritt 3: Vorlage importieren</h2>
+<p>Jetzt prüfst du kurz den Aufbau und kopierst die Vorlage an ihren Platz.</p>
+<section id="aufbau-prüfen" class="level3">
+<h3 class="anchored" data-anchor-id="aufbau-prüfen">Aufbau prüfen</h3>
+<p>Eine gültige Vorlage sieht so aus:</p>
+<pre><code>template/
+└── htl-vorlage/
+    ├── meta/
+    │   ├── info.html
+    │   └── icon.png
+    ├── htl-vorlage.kicad_pro
+    ├── htl-vorlage.kicad_sch
+    └── htl-vorlage.kicad_pcb</code></pre>
+<ul>
+<li><strong><code>meta/</code></strong> mit <code>info.html</code> (Name + Beschreibung) und <code>icon.png</code> (Vorschaubild) – ohne diesen Ordner zeigt KiCad die Vorlage <strong>nicht</strong> an</li>
+<li>Die eigentlichen <strong>Projektdateien</strong> (<code>.kicad_pro</code>, <code>.kicad_sch</code>, <code>.kicad_pcb</code>) direkt im Vorlagen-Ordner</li>
+</ul>
+<p>Fehlt der <code>meta</code>-Ordner, ist das kein echtes Template – bitte den Ersteller um die Dateien oder ergänze <code>meta/info.html</code> selbst.</p>
+</section>
+<section id="kopieren" class="level3">
+<h3 class="anchored" data-anchor-id="kopieren">Kopieren</h3>
+<ol type="1">
+<li>Kopiere den <strong>kompletten Vorlagen-Ordner</strong> (z. B. <code>htl-vorlage</code>) in deinen Ordner unter <code>KICAD_USER_TEMPLATE_DIR</code></li>
+<li><strong>Starte KiCad neu</strong> – die Vorlagenliste wird nur beim Start eingelesen</li>
+</ol>
+<p>Das war’s. Kein Setup-Dialog, kein Import-Assistent: Importieren heißt bei KiCad nichts anderes als <strong>an den richtigen Ort kopieren</strong>.</p>
+</section>
+</section>
+<section id="schritt-4-neues-projekt-aus-der-vorlage-erstellen" class="level2">
+<h2 class="anchored" data-anchor-id="schritt-4-neues-projekt-aus-der-vorlage-erstellen">Schritt 4: Neues Projekt aus der Vorlage erstellen</h2>
+<ol type="1">
+<li><strong>File → New Project from Template</strong></li>
+<li>Wechsle zum Reiter <strong>User Templates</strong> – deine importierte Vorlage erscheint als Karte mit Icon und Beschreibung</li>
+</ol>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/01-new-from-template.png" class="img-fluid figure-img"></p>
+<figcaption>New Project from Template mit importierter Vorlage</figcaption>
+</figure>
+</div>
+<ol start="3" type="1">
+<li>Wähle die Vorlage aus</li>
+<li>Vergib unten einen <strong>Projektnamen</strong>, z. B. <code>uebung-3</code>, und wähle einen <strong>Speicherort</strong></li>
+<li>Klicke auf <strong>OK</strong></li>
+</ol>
+<p>KiCad kopiert jetzt alle Dateien aus der Vorlage, benennt sie nach deinem Projektnamen um (<code>uebung-3.kicad_pro</code>, <code>uebung-3.kicad_sch</code>, <code>uebung-3.kicad_pcb</code>, …) und öffnet das fertige Projekt.</p>
+</section>
+<section id="schritt-5-kurz-prüfen" class="level2">
+<h2 class="anchored" data-anchor-id="schritt-5-kurz-prüfen">Schritt 5: Kurz prüfen</h2>
+<p>Bevor du loslegst, kontrolliere, ob alles angekommen ist:</p>
+<ul>
+<li><strong>Schaltplan:</strong> Ist der Titelblock vorbelegt (Name, Klasse, Datum)? Trage jetzt nur noch deine konkreten Daten ein.</li>
+<li><strong>Board Setup:</strong> Sind die Netzklassen und Designregeln gesetzt?</li>
+<li><strong>Bibliothekstabelle:</strong> Ist die Vorlagen-Bibliothek unter <em>Project Specific Libraries</em> verknüpft?</li>
+</ul>
+<p>Wenn ja: fertig. Ab jetzt dauert der Projektstart Sekunden statt Minuten – und jedes Projekt sieht einheitlich aus.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Häufige Fehler
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>Vorlage erscheint nicht im Assistenten:</strong> Der Ordner liegt nicht direkt unter <code>KICAD_USER_TEMPLATE_DIR</code> (häufiger Fehler: ein Ordner zu tief nach dem Entpacken, z. B. <code>template/htl-vorlage/htl-vorlage/</code>), der <code>meta</code>-Ordner fehlt, oder KiCad wurde nicht neu gestartet.</li>
+<li><strong>Fehlermeldung beim Öffnen des neuen Projekts:</strong> In der Vorlage enthaltene absolute Pfade (z. B. <code>C:\Users\ersteller\...</code> in der Bibliothekstabelle) zeigen auf Rechner, die es bei dir nicht gibt. Trage die Pfade unter <strong>Manage Symbol Libraries → Project Specific Libraries</strong> neu ein.</li>
+<li><strong>Komische Reste im neuen Projekt:</strong> Alles außer <code>meta</code> wird kopiert – inklusive eventueller Mülldateien aus der Vorlage. Lösche sie im neuen Projekt, sie stören weiter nicht.</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="theorieteil-wie-kicad-vorlagen-verwaltet" class="level2">
+<h2 class="anchored" data-anchor-id="theorieteil-wie-kicad-vorlagen-verwaltet">Theorieteil: Wie KiCad Vorlagen verwaltet</h2>
+<p>Der Assistent unter <strong>File → New Project from Template</strong> liest beim Start zwei Verzeichnisse: die System-Vorlagen (<code>KICAD_TEMPLATE_DIR</code>, mitgeliefert) und deine User-Vorlagen (<code>KICAD_USER_TEMPLATE_DIR</code>). Jeder Unterordner mit gültigem <code>meta</code>-Ordner wird als Karte angezeigt.</p>
+<p>Wichtig zu verstehen: Beim Erstellen wird die Vorlage <strong>komplett kopiert</strong>, nicht verlinkt. Das heißt:</p>
+<ul>
+<li>Das neue Projekt steht vollständig auf eigenen Füßen – auch wenn die Vorlage später gelöscht wird</li>
+<li>Änderst oder aktualisiert jemand die Vorlage, wirken sich die Änderungen <strong>nicht</strong> auf bereits erstellte Projekte aus; nur neue Projekte bekommen die aktualisierte Version</li>
+<li>Die Vorlage selbst bleibt unangetastet – du kannst sie beliebig oft als Startpunkt verwenden</li>
+</ul>
+</section>
+<section id="tipps-und-tricks" class="level2">
+<h2 class="anchored" data-anchor-id="tipps-und-tricks">Tipps und Tricks</h2>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Mehrere Vorlagen sammeln
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Du kannst beliebig viele Vorlagen nebeneinander importieren – z. B. eine für Standard-Platinen und eine für SMD-Übungen mit feineren Designregeln. Der Assistent zeigt sie alle als Karten nebeneinander an.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Schul-Vorlagen direkt vom Server nutzen
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Wenn die Klasse ihre Vorlagen auf einem gemeinsamen Ordner (Schulserver, Git) pflegt, musst du gar nichts kopieren: Setze <code>KICAD_USER_TEMPLATE_DIR</code> in <strong>Preferences → Configure Paths</strong> einfach auf den gemeinsamen Ordner – ab sofort siehst du immer die aktuelle Vorlage.</p>
+</div>
+</div>
+</section>
+<section id="nächste-schritte" class="level2">
+<h2 class="anchored" data-anchor-id="nächste-schritte">Nächste Schritte</h2>
+<p>Jetzt, wo du Vorlagen importieren und nutzen kannst, kannst du:</p>
+<ul>
+<li>Weitere Vorlagen sammeln – z. B. <strong>vordefinierte Regeln verschiedener Fertiger</strong></li>
+<li>Dir überlegen, welche fünf Handgriffe <strong>du</strong> bei jedem Projekt wiederholst – und daraus irgendwann eine eigene Vorlage bauen</li>
+<li>Die Vorlagen-Bibliothek aus unserem <a href="../..\posts/2026-10-09-kicad-eigene-bibliotheken/">Bibliotheken-Beitrag</a> direkt mit in ein Schul-Template einbauen lassen</li>
+</ul>
+<p>Viel Erfolg beim Start deiner Projekte aus Vorlagen!</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/alfred-hermes-bot\.github\.io\/kicad-blog\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>© 2026 · <a href="https://www.kicad.org">KiCad</a> ist eine eingetragene Marke der KiCad Developers.</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

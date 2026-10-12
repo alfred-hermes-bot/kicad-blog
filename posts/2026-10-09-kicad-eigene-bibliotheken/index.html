@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.24">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Human">
+<meta name="author" content="Mistral Vibe (KI Assistent)">
+<meta name="dcterms.date" content="2026-10-09">
+<meta name="description" content="Lerne, wie du in KiCad eigene Symbol- und Footprint-Bibliotheken über den Plugin and Content Manager oder manuell hinzufügst – und wie du die mitgelieferten Standard-Bibliotheken bei Bedarf deaktivierst.">
+
+<title>KiCad: Eigene Bibliotheken hinzufügen (Plugin and Content Manager) – und die Standard-Bibliotheken optional deaktivieren – KiCad Blog</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-e31584831b205ffbb2d98406f31c2a5b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+<meta property="og:title" content="KiCad: Eigene Bibliotheken hinzufügen (Plugin and Content Manager) – und die Standard-Bibliotheken optional deaktivieren – KiCad Blog">
+<meta property="og:description" content="Lerne, wie du in KiCad eigene Symbol- und Footprint-Bibliotheken über den Plugin and Content Manager oder manuell hinzufügst – und wie du die mitgelieferten Standard-Bibliotheken bei Bedarf deaktivierst.">
+<meta property="og:image" content="https://alfred-hermes-bot.github.io/kicad-blog/posts/2026-10-09-kicad-eigene-bibliotheken/images/01-pcm-browse.png">
+<meta property="og:site_name" content="KiCad Blog">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    </a>
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">KiCad Blog</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Blog</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">Über</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#was-du-lernst" id="toc-was-du-lernst" class="nav-link active" data-scroll-target="#was-du-lernst">Was du lernst</a></li>
+  <li><a href="#voraussetzungen" id="toc-voraussetzungen" class="nav-link" data-scroll-target="#voraussetzungen">Voraussetzungen</a></li>
+  <li><a href="#überblick-zwei-wege-zur-eigenen-bibliothek" id="toc-überblick-zwei-wege-zur-eigenen-bibliothek" class="nav-link" data-scroll-target="#überblick-zwei-wege-zur-eigenen-bibliothek">Überblick: Zwei Wege zur eigenen Bibliothek</a></li>
+  <li><a href="#schritt-1-bibliothek-über-den-plugin-and-content-manager-installieren" id="toc-schritt-1-bibliothek-über-den-plugin-and-content-manager-installieren" class="nav-link" data-scroll-target="#schritt-1-bibliothek-über-den-plugin-and-content-manager-installieren">Schritt 1: Bibliothek über den Plugin and Content Manager installieren</a>
+  <ul class="collapse">
+  <li><a href="#bibliothek-testen" id="toc-bibliothek-testen" class="nav-link" data-scroll-target="#bibliothek-testen">Bibliothek testen</a></li>
+  </ul></li>
+  <li><a href="#schritt-2-eigene-bibliothek-manuell-hinzufügen" id="toc-schritt-2-eigene-bibliothek-manuell-hinzufügen" class="nav-link" data-scroll-target="#schritt-2-eigene-bibliothek-manuell-hinzufügen">Schritt 2: Eigene Bibliothek manuell hinzufügen</a>
+  <ul class="collapse">
+  <li><a href="#symbol-bibliothek-hinzufügen" id="toc-symbol-bibliothek-hinzufügen" class="nav-link" data-scroll-target="#symbol-bibliothek-hinzufügen">Symbol-Bibliothek hinzufügen</a></li>
+  <li><a href="#footprint-bibliothek-hinzufügen" id="toc-footprint-bibliothek-hinzufügen" class="nav-link" data-scroll-target="#footprint-bibliothek-hinzufügen">Footprint-Bibliothek hinzufügen</a></li>
+  </ul></li>
+  <li><a href="#schritt-3-standard-kicad-bibliotheken-deaktivieren-optional" id="toc-schritt-3-standard-kicad-bibliotheken-deaktivieren-optional" class="nav-link" data-scroll-target="#schritt-3-standard-kicad-bibliotheken-deaktivieren-optional">Schritt 3: Standard-KiCad-Bibliotheken deaktivieren (optional)</a>
+  <ul class="collapse">
+  <li><a href="#so-gehts" id="toc-so-gehts" class="nav-link" data-scroll-target="#so-gehts">So geht’s</a></li>
+  <li><a href="#warum-deaktivieren-statt-löschen" id="toc-warum-deaktivieren-statt-löschen" class="nav-link" data-scroll-target="#warum-deaktivieren-statt-löschen">Warum deaktivieren statt löschen?</a></li>
+  </ul></li>
+  <li><a href="#theorieteil-wie-kicad-bibliotheken-verwaltet" id="toc-theorieteil-wie-kicad-bibliotheken-verwaltet" class="nav-link" data-scroll-target="#theorieteil-wie-kicad-bibliotheken-verwaltet">Theorieteil: Wie KiCad Bibliotheken verwaltet</a></li>
+  <li><a href="#tipps-und-tricks" id="toc-tipps-und-tricks" class="nav-link" data-scroll-target="#tipps-und-tricks">Tipps und Tricks</a></li>
+  <li><a href="#nächste-schritte" id="toc-nächste-schritte" class="nav-link" data-scroll-target="#nächste-schritte">Nächste Schritte</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">KiCad: Eigene Bibliotheken hinzufügen (Plugin and Content Manager) – und die Standard-Bibliotheken optional deaktivieren</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">Anleitung</div>
+    <div class="quarto-category">Bibliotheken</div>
+    <div class="quarto-category">KiCad</div>
+    <div class="quarto-category">PCM</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    Lerne, wie du in KiCad eigene Symbol- und Footprint-Bibliotheken über den Plugin and Content Manager oder manuell hinzufügst – und wie du die mitgelieferten Standard-Bibliotheken bei Bedarf deaktivierst.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Authors</div>
+    <div class="quarto-title-meta-contents">
+             <p>Human </p>
+             <p>Mistral Vibe (KI Assistent) </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">October 9, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>KiCad bringt von Haus aus eine riesige Sammlung an Symbol- und Footprint-Bibliotheken mit. Aber spätestens, wenn du eigene Bauteile entwirfst oder Bibliotheken aus dem Netz (z. B. von SparkFun, Adafruit oder von der Schule) nutzen willst, brauchst du eigene Bibliotheken. In diesem Beitrag zeigen wir dir, wie du das am saubersten machst – über den <strong>Plugin and Content Manager (PCM)</strong> oder manuell über die Bibliotheks-Tabellen. Und wer die Standard-Bibliotheken loswerden will, z. B. um im Symbol-Auswahldialog nicht mehr hunderte Einträge zu sehen, bekommt dafür ebenfalls eine Anleitung.</p>
+<section id="was-du-lernst" class="level2">
+<h2 class="anchored" data-anchor-id="was-du-lernst">Was du lernst</h2>
+<ul>
+<li>Bibliotheken über den <strong>Plugin and Content Manager</strong> installieren</li>
+<li>Eigene <strong>Symbol-</strong> und <strong>Footprint-Bibliotheken</strong> manuell hinzufügen</li>
+<li>Den Unterschied zwischen <strong>globaler</strong> und <strong>projektspezifischer</strong> Bibliothekstabelle verstehen</li>
+<li>Die <strong>Standard-KiCad-Bibliotheken optional deaktivieren</strong> (ohne sie zu löschen)</li>
+</ul>
+</section>
+<section id="voraussetzungen" class="level2">
+<h2 class="anchored" data-anchor-id="voraussetzungen">Voraussetzungen</h2>
+<ul>
+<li>KiCad 10 installiert (siehe unseren <a href="../..\posts/2026-09-24-kicad-installation/">Installationsguide</a>)</li>
+<li>Grundlegende Kenntnisse der KiCad-Benutzeroberfläche</li>
+</ul>
+</section>
+<section id="überblick-zwei-wege-zur-eigenen-bibliothek" class="level2">
+<h2 class="anchored" data-anchor-id="überblick-zwei-wege-zur-eigenen-bibliothek">Überblick: Zwei Wege zur eigenen Bibliothek</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 17%">
+<col style="width: 51%">
+<col style="width: 31%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Weg</th>
+<th>Wann sinnvoll</th>
+<th>Aufwand</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Plugin and Content Manager (PCM)</strong></td>
+<td>Bibliothek aus dem offiziellen KiCad-Repository (z. B. „ESP32-Boards”)</td>
+<td>Sehr gering</td>
+</tr>
+<tr class="even">
+<td><strong>Manuelle Bibliothekstabelle</strong></td>
+<td>Eigene <code>.kicad_sym</code>-Dateien oder <code>.pretty</code>-Ordner, Bibliotheken von GitHub oder vom Schulserver</td>
+<td>Gering</td>
+</tr>
+</tbody>
+</table>
+<p>Der PCM ist der komfortable Weg: Er lädt das Paket herunter, legt es im KiCad-Benutzerordner ab und <strong>registriert die enthaltenen Bibliotheken automatisch</strong> in den globalen Tabellen. Manuell brauchst du ihn nur, wenn die Bibliothek nicht im Repository verfügbar ist.</p>
+</section>
+<section id="schritt-1-bibliothek-über-den-plugin-and-content-manager-installieren" class="level2">
+<h2 class="anchored" data-anchor-id="schritt-1-bibliothek-über-den-plugin-and-content-manager-installieren">Schritt 1: Bibliothek über den Plugin and Content Manager installieren</h2>
+<ol type="1">
+<li>Öffne den KiCad-Projektmanager</li>
+<li>Gehe zu <strong>Tools → Plugin and Content Manager</strong></li>
+<li>Wechsle zum Reiter <strong>Browse</strong> und suche nach dem gewünschten Paket,
+<ol start="26" type="a">
+<li>B. nach <code>ESP32</code> oder nach dem Hersteller <code>SparkFun</code></li>
+</ol></li>
+<li>Klicke beim Paket auf <strong>Install</strong></li>
+</ol>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/01-pcm-browse.png" class="img-fluid figure-img"></p>
+<figcaption>Plugin and Content Manager mit dem Browse-Dialog</figcaption>
+</figure>
+</div>
+<ol start="5" type="1">
+<li>Wechsle zum Reiter <strong>Installed</strong> – hier siehst du alle installierten Pakete und kannst sie später aktualisieren oder deinstallieren</li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Wo landet der Inhalt?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Der PCM speichert Pakete im KiCad-Benutzerordner, auf Windows typischerweise unter<br>
+<code>C:\Users\&lt;Name&gt;\AppData\Roaming\kicad\10.0\3rdparty\</code><br>
+Die enthaltenen Symbol- und Footprint-Bibliotheken werden automatisch in die <strong>globalen Bibliothekstabellen</strong> eingetragen – du musst nichts weiter konfigurieren.</p>
+</div>
+</div>
+<section id="bibliothek-testen" class="level3">
+<h3 class="anchored" data-anchor-id="bibliothek-testen">Bibliothek testen</h3>
+<ol type="1">
+<li>Öffne einen Schaltplan-Editor (Eeschema)</li>
+<li>Drücke <strong>A</strong> (Place → Add Symbol)</li>
+<li>Gib den <strong>Nickname</strong> der neuen Bibliothek oder eines ihrer Symbole in die Suche ein</li>
+</ol>
+<p>Taucht das Symbol auf, war die Installation erfolgreich.</p>
+</section>
+</section>
+<section id="schritt-2-eigene-bibliothek-manuell-hinzufügen" class="level2">
+<h2 class="anchored" data-anchor-id="schritt-2-eigene-bibliothek-manuell-hinzufügen">Schritt 2: Eigene Bibliothek manuell hinzufügen</h2>
+<p>Für eigene Dateien oder Bibliotheken von GitHub gibt es zwei Orte, an denen sie verwaltet werden:</p>
+<ul>
+<li><strong>Symbol-Bibliotheken:</strong> Dateien mit der Endung <code>.kicad_sym</code></li>
+<li><strong>Footprint-Bibliotheken:</strong> Ordner mit der Endung <code>.pretty</code></li>
+</ul>
+<section id="symbol-bibliothek-hinzufügen" class="level3">
+<h3 class="anchored" data-anchor-id="symbol-bibliothek-hinzufügen">Symbol-Bibliothek hinzufügen</h3>
+<ol type="1">
+<li>Öffne den Schaltplan-Editor und gehe zu <strong>Preferences → Manage Symbol Libraries</strong></li>
+<li>Wähle oben den Reiter <strong>Global Libraries</strong> (für alle Projekte) oder <strong>Project Specific Libraries</strong> (nur für das aktuelle Projekt)</li>
+<li>Klicke auf das <strong>Plus-Symbol</strong> bzw. <strong>Add existing</strong> (das Ordner-Symbol)</li>
+<li>Wähle deine <code>.kicad_sym</code>-Datei aus</li>
+<li>Vergib einen sprechenden <strong>Nickname</strong>, z. B. <code>htl-eigene</code> – unter diesem Namen erscheint die Bibliothek später in der Symbol-Auswahl</li>
+<li>Kontrolliere, dass das Häkchen in der Spalte <strong>Active</strong> gesetzt ist</li>
+<li>Klicke auf <strong>OK</strong></li>
+</ol>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/02-symbol-bibliotheken.png" class="img-fluid figure-img"></p>
+<figcaption>Manage Symbol Libraries mit eigener Bibliothek</figcaption>
+</figure>
+</div>
+</section>
+<section id="footprint-bibliothek-hinzufügen" class="level3">
+<h3 class="anchored" data-anchor-id="footprint-bibliothek-hinzufügen">Footprint-Bibliothek hinzufügen</h3>
+<ol type="1">
+<li>Öffne den <strong>PCB-Editor (Pcbnew)</strong> und gehe zu <strong>Preferences → Manage Footprint Libraries</strong></li>
+<li>Gehe genauso vor wie bei den Symbolen – hier wählst du allerdings den <strong>Ordner</strong> mit der Endung <code>.pretty</code> aus</li>
+<li>Vergib wieder einen Nickname, z. B. <code>htl-eigene.pretty</code></li>
+</ol>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Tipp: Eigene Bibliothek direkt anlegen
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Wenn du noch keine Bibliothek hast, sondern eine erstellen willst, geht das direkt im <strong>Symbol-Editor</strong>:<br>
+<strong>File → New Library</strong> – KiCad fragt dann, ob die Bibliothek <strong>global</strong> oder <strong>projektspezifisch</strong> sein soll. Für Bauteile, die du in vielen Projekten brauchst, nimm <strong>global</strong>. Für eine einmalige Schaltung, z. B. eine Hausarbeit, nimm <strong>projektspezifisch</strong> – dann bleibt dein globales System sauber.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="schritt-3-standard-kicad-bibliotheken-deaktivieren-optional" class="level2">
+<h2 class="anchored" data-anchor-id="schritt-3-standard-kicad-bibliotheken-deaktivieren-optional">Schritt 3: Standard-KiCad-Bibliotheken deaktivieren (optional)</h2>
+<p>Bei der Installation aktiviert KiCad automatisch alle mitgelieferten Bibliotheken (<code>Device</code>, <code>Connector</code>, <code>Simulation_SPICE</code>, …). Im Symbol-Dialog erscheinen dadurch leicht <strong>mehrere tausend Einträge</strong>. Wer im Unterricht oder in einem firmeneigenen Setup nur mit einer konsistenten, kleinen Bauteilpalette arbeiten will, kann die Standard-Bibliotheken <strong>deaktivieren</strong> – ohne sie zu deinstallieren.</p>
+<section id="so-gehts" class="level3">
+<h3 class="anchored" data-anchor-id="so-gehts">So geht’s</h3>
+<ol type="1">
+<li>Öffne <strong>Preferences → Manage Symbol Libraries</strong> im Schaltplan-Editor</li>
+<li>Entferne in der Spalte <strong>Active</strong> das Häkchen bei allen Bibliotheken, die du nicht mehr sehen willst (z. B. bei allen außer deiner eigenen)</li>
+<li>Klicke auf <strong>OK</strong> und starte den Symbol-Dialog neu (<strong>A</strong>)</li>
+</ol>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/03-bibliotheken-deaktivieren.png" class="img-fluid figure-img"></p>
+<figcaption>Deaktivierte Standard-Bibliotheken in der Spalte Active</figcaption>
+</figure>
+</div>
+<ol start="4" type="1">
+<li>Dasselbe funktioniert im <strong>PCB-Editor</strong> unter <strong>Preferences → Manage Footprint Libraries</strong> für die Footprints</li>
+</ol>
+<p>Die Bibliotheken bleiben installiert und die Einträge bleiben in der Tabelle erhalten – sie werden nur <strong>nicht mehr geladen</strong>. Ein erneutes Setzen des Häkchens bringt sie sofort zurück.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Häufige Fehler
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>Zeilen löschen statt deaktivieren:</strong> Lösche die Einträge der Standard-Bibliotheken nicht aus der Tabelle – deaktiviere sie nur über das Häkchen. Sonst musst du später jeden Pfad per Hand neu eintragen.</li>
+<li><strong>Alte Projekte brechen:</strong> Öffnest du ein älteres Projekt, das Symbole aus einer deaktivierten Bibliothek verwendet, kann KiCad die Symbole nicht mehr aus der Bibliothek auflösen. Schalte die Bibliothek in diesem Fall wieder aktiv.</li>
+<li><strong>Globale vs.&nbsp;projektspezifische Tabelle:</strong> Deaktivierst du Bibliotheken in der <strong>globalen Tabelle</strong>, gilt das für alle Projekte. Willst du es nur für ein einziges Projekt, trage die benötigten Bibliotheken stattdessen in die <strong>projektspezifische Tabelle</strong> ein und lass die globale unverändert.</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="warum-deaktivieren-statt-löschen" class="level3">
+<h3 class="anchored" data-anchor-id="warum-deaktivieren-statt-löschen">Warum deaktivieren statt löschen?</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 28%">
+<col style="width: 25%">
+<col style="width: 46%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Aktion</th>
+<th>Folge</th>
+<th>Rückgängig?</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Active-Häkchen entfernen</strong></td>
+<td>Bibliothek wird nicht geladen, Eintrag bleibt</td>
+<td>Sofort, per Häkchen</td>
+</tr>
+<tr class="even">
+<td><strong>Tabelleneintrag löschen</strong></td>
+<td>Pfad-Information geht verloren</td>
+<td>Nur per Hand (<code>Standard-KiCad-Bibliotheken</code> liegen unter <code>${KICAD10_SYMBOL_DIR}</code> bzw. <code>${KICAD10_FOOTPRINT_DIR}</code>)</td>
+</tr>
+<tr class="odd">
+<td><strong>Paket im PCM deinstallieren</strong></td>
+<td>Dateien werden gelöscht</td>
+<td>Neuinstallation über den PCM</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="theorieteil-wie-kicad-bibliotheken-verwaltet" class="level2">
+<h2 class="anchored" data-anchor-id="theorieteil-wie-kicad-bibliotheken-verwaltet">Theorieteil: Wie KiCad Bibliotheken verwaltet</h2>
+<p>KiCad verwaltet Bibliotheken über zwei <strong>Bibliothekstabellen</strong>:</p>
+<ul>
+<li><code>sym-lib-table</code> – Symbol-Bibliotheken</li>
+<li><code>fp-lib-table</code> – Footprint-Bibliotheken</li>
+</ul>
+<p>Jede Tabelle existiert in zwei Varianten:</p>
+<ol type="1">
+<li><strong>Global</strong> (im KiCad-Benutzerordner, z. B. <code>C:\Users\&lt;Name&gt;\AppData\Roaming\kicad\10.0\sym-lib-table</code>) – gilt für alle Projekte auf dem Rechner</li>
+<li><strong>Projektspezifisch</strong> (Datei <code>&lt;projekt&gt;.kicad_sym-lib-table</code> im Projektordner) – gilt nur für dieses Projekt und kann ideal mit versioniert oder an Mitschüler verteilt werden</li>
+</ol>
+<p>Beim Start sucht KiCad zuerst in der projektspezifischen, dann in der globalen Tabelle. Suchst du ein Symbol, wird nur in <strong>aktiven</strong> Bibliotheken gesucht – genau deshalb verschwinden deaktivierte Bibliotheken aus dem Symbol-Dialog.</p>
+<p>Wichtig zu wissen: Ein Symbol im Schaltplan speichert nur den <strong>Nickname der Bibliothek</strong> und den Symbolnamen. Die eigentliche Definition wird beim Platzieren <strong>in die Projektdatei kopiert</strong> (gecacht). Deshalb öffnen sich alte Schaltpläne auch dann noch korrekt, wenn eine Bibliothek (einmalig) nicht gefunden wird.</p>
+</section>
+<section id="tipps-und-tricks" class="level2">
+<h2 class="anchored" data-anchor-id="tipps-und-tricks">Tipps und Tricks</h2>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Bibliothen für die Klasse verteilen
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Lege die projektspezifische Bibliothekstabelle zusammen mit der <code>.kicad_sym</code>-Datei in einen geteilten Ordner (Schulserver, Git-Repository). Alle, die das Projekt öffnen, haben automatisch dieselben Bauteile – ohne dass jemand seine globalen Tabellen anfassen muss.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Umgebungsvariablen nutzen
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Trage in den Tabellen statt absoluter Pfade besser Variablen wie <code>${KICAD_USER_DIR}</code> ein. Dann funktioniert die Tabelle auch auf dem Rechner deiner Mitschüler, auch wenn dort der Benutzername anders lautet.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Veraltete Formate
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Bibliotheken mit der Endung <code>.lib</code> stammen noch aus KiCad 5 oder älter. Wandle sie im <strong>Symbol-Editor</strong> in das moderne <code>.kicad_sym</code>-Format um, bevor du sie registrierst – sonst kann KiCad 10 sie nicht lesen.</p>
+</div>
+</div>
+</section>
+<section id="nächste-schritte" class="level2">
+<h2 class="anchored" data-anchor-id="nächste-schritte">Nächste Schritte</h2>
+<p>Jetzt, wo deine Bibliotheken sauber eingerichtet sind, kannst du:</p>
+<ul>
+<li><strong>Eigene Symbole</strong> im Symbol-Editor entwerfen und mit Footprints verknüpfen</li>
+<li><strong>3D-Modelle</strong> (<code>.step</code>/<code>.wrl</code>) deinen Footprints zuordnen</li>
+<li>Im <strong>PCM</strong> nach nützlichen Paketen stöbern – dort gibt es auch Plugins für Simulation und Fertigung</li>
+</ul>
+<p>Viel Erfolg beim Aufbau deiner eigenen Bauteil-Sammlung!</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/alfred-hermes-bot\.github\.io\/kicad-blog\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>© 2026 · <a href="https://www.kicad.org">KiCad</a> ist eine eingetragene Marke der KiCad Developers.</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
