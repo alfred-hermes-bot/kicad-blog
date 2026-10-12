@@ -1,0 +1,198 @@
+---
+title: "KiCad: Eigene Bibliotheken hinzufügen (Plugin and Content Manager) – und die Standard-Bibliotheken optional deaktivieren"
+author: ["Human", "Mistral Vibe (KI Assistent)"]
+date: 2026-10-09
+categories: [Anleitung, Bibliotheken, KiCad, PCM]
+description: "Lerne, wie du in KiCad eigene Symbol- und Footprint-Bibliotheken über den Plugin and Content Manager oder manuell hinzufügst – und wie du die mitgelieferten Standard-Bibliotheken bei Bedarf deaktivierst."
+---
+
+KiCad bringt von Haus aus eine riesige Sammlung an Symbol- und
+Footprint-Bibliotheken mit. Aber spätestens, wenn du eigene Bauteile
+entwirfst oder Bibliotheken aus dem Netz (z. B. von SparkFun, Adafruit
+oder von der Schule) nutzen willst, brauchst du eigene Bibliotheken. In
+diesem Beitrag zeigen wir dir, wie du das am saubersten machst – über
+den **Plugin and Content Manager (PCM)** oder manuell über die
+Bibliotheks-Tabellen. Und wer die Standard-Bibliotheken loswerden
+will, z. B. um im Symbol-Auswahldialog nicht mehr hunderte Einträge zu
+sehen, bekommt dafür ebenfalls eine Anleitung.
+
+## Was du lernst
+
+- Bibliotheken über den **Plugin and Content Manager** installieren
+- Eigene **Symbol-** und **Footprint-Bibliotheken** manuell hinzufügen
+- Den Unterschied zwischen **globaler** und **projektspezifischer** Bibliothekstabelle verstehen
+- Die **Standard-KiCad-Bibliotheken optional deaktivieren** (ohne sie zu löschen)
+
+## Voraussetzungen
+
+- KiCad 10 installiert (siehe unseren [Installationsguide](/posts/2026-09-24-kicad-installation/))
+- Grundlegende Kenntnisse der KiCad-Benutzeroberfläche
+
+## Überblick: Zwei Wege zur eigenen Bibliothek
+
+| Weg | Wann sinnvoll | Aufwand |
+|-----|---------------|---------|
+| **Plugin and Content Manager (PCM)** | Bibliothek aus dem offiziellen KiCad-Repository (z. B. „ESP32-Boards") | Sehr gering |
+| **Manuelle Bibliothekstabelle** | Eigene `.kicad_sym`-Dateien oder `.pretty`-Ordner, Bibliotheken von GitHub oder vom Schulserver | Gering |
+
+Der PCM ist der komfortable Weg: Er lädt das Paket herunter, legt es im
+KiCad-Benutzerordner ab und **registriert die enthaltenen Bibliotheken
+automatisch** in den globalen Tabellen. Manuell brauchst du ihn nur,
+wenn die Bibliothek nicht im Repository verfügbar ist.
+
+## Schritt 1: Bibliothek über den Plugin and Content Manager installieren
+
+1. Öffne den KiCad-Projektmanager
+2. Gehe zu **Tools → Plugin and Content Manager**
+3. Wechsle zum Reiter **Browse** und suche nach dem gewünschten Paket,
+   z. B. nach `ESP32` oder nach dem Hersteller `SparkFun`
+4. Klicke beim Paket auf **Install**
+
+![Plugin and Content Manager mit dem Browse-Dialog](images/01-pcm-browse.png)
+
+5. Wechsle zum Reiter **Installed** – hier siehst du alle installierten
+   Pakete und kannst sie später aktualisieren oder deinstallieren
+
+::: callout-note
+### Wo landet der Inhalt?
+Der PCM speichert Pakete im KiCad-Benutzerordner, auf Windows typischerweise unter  
+`C:\Users\<Name>\AppData\Roaming\kicad\10.0\3rdparty\`  
+Die enthaltenen Symbol- und Footprint-Bibliotheken werden automatisch in die **globalen Bibliothekstabellen** eingetragen – du musst nichts weiter konfigurieren.
+:::
+
+### Bibliothek testen
+
+1. Öffne einen Schaltplan-Editor (Eeschema)
+2. Drücke **A** (Place → Add Symbol)
+3. Gib den **Nickname** der neuen Bibliothek oder eines ihrer Symbole in die Suche ein
+
+Taucht das Symbol auf, war die Installation erfolgreich.
+
+## Schritt 2: Eigene Bibliothek manuell hinzufügen
+
+Für eigene Dateien oder Bibliotheken von GitHub gibt es zwei Orte, an
+denen sie verwaltet werden:
+
+- **Symbol-Bibliotheken:** Dateien mit der Endung `.kicad_sym`
+- **Footprint-Bibliotheken:** Ordner mit der Endung `.pretty`
+
+### Symbol-Bibliothek hinzufügen
+
+1. Öffne den Schaltplan-Editor und gehe zu **Preferences → Manage Symbol Libraries**
+2. Wähle oben den Reiter **Global Libraries** (für alle Projekte) oder
+   **Project Specific Libraries** (nur für das aktuelle Projekt)
+3. Klicke auf das **Plus-Symbol** bzw. **Add existing** (das Ordner-Symbol)
+4. Wähle deine `.kicad_sym`-Datei aus
+5. Vergib einen sprechenden **Nickname**, z. B. `htl-eigene` – unter diesem
+   Namen erscheint die Bibliothek später in der Symbol-Auswahl
+6. Kontrolliere, dass das Häkchen in der Spalte **Active** gesetzt ist
+7. Klicke auf **OK**
+
+![Manage Symbol Libraries mit eigener Bibliothek](images/02-symbol-bibliotheken.png)
+
+### Footprint-Bibliothek hinzufügen
+
+1. Öffne den **PCB-Editor (Pcbnew)** und gehe zu **Preferences → Manage Footprint Libraries**
+2. Gehe genauso vor wie bei den Symbolen – hier wählst du allerdings
+   den **Ordner** mit der Endung `.pretty` aus
+3. Vergib wieder einen Nickname, z. B. `htl-eigene.pretty`
+
+::: callout-tip
+### Tipp: Eigene Bibliothek direkt anlegen
+Wenn du noch keine Bibliothek hast, sondern eine erstellen willst, geht das direkt im **Symbol-Editor**:  
+**File → New Library** – KiCad fragt dann, ob die Bibliothek **global** oder **projektspezifisch** sein soll. Für Bauteile, die du in vielen Projekten brauchst, nimm **global**. Für eine einmalige Schaltung, z. B. eine Hausarbeit, nimm **projektspezifisch** – dann bleibt dein globales System sauber.
+:::
+
+## Schritt 3: Standard-KiCad-Bibliotheken deaktivieren (optional)
+
+Bei der Installation aktiviert KiCad automatisch alle mitgelieferten
+Bibliotheken (`Device`, `Connector`, `Simulation_SPICE`, …). Im
+Symbol-Dialog erscheinen dadurch leicht **mehrere tausend Einträge**.
+Wer im Unterricht oder in einem firmeneigenen Setup nur mit einer
+konsistenten, kleinen Bauteilpalette arbeiten will, kann die
+Standard-Bibliotheken **deaktivieren** – ohne sie zu deinstallieren.
+
+### So geht's
+
+1. Öffne **Preferences → Manage Symbol Libraries** im Schaltplan-Editor
+2. Entferne in der Spalte **Active** das Häkchen bei allen Bibliotheken,
+   die du nicht mehr sehen willst (z. B. bei allen außer deiner eigenen)
+3. Klicke auf **OK** und starte den Symbol-Dialog neu (**A**)
+
+![Deaktivierte Standard-Bibliotheken in der Spalte Active](images/03-bibliotheken-deaktivieren.png)
+
+4. Dasselbe funktioniert im **PCB-Editor** unter
+   **Preferences → Manage Footprint Libraries** für die Footprints
+
+Die Bibliotheken bleiben installiert und die Einträge bleiben in der
+Tabelle erhalten – sie werden nur **nicht mehr geladen**. Ein erneutes
+Setzen des Häkchens bringt sie sofort zurück.
+
+::: callout-warning
+### Häufige Fehler
+- **Zeilen löschen statt deaktivieren:** Lösche die Einträge der Standard-Bibliotheken nicht aus der Tabelle – deaktiviere sie nur über das Häkchen. Sonst musst du später jeden Pfad per Hand neu eintragen.
+- **Alte Projekte brechen:** Öffnest du ein älteres Projekt, das Symbole aus einer deaktivierten Bibliothek verwendet, kann KiCad die Symbole nicht mehr aus der Bibliothek auflösen. Schalte die Bibliothek in diesem Fall wieder aktiv.
+- **Globale vs. projektspezifische Tabelle:** Deaktivierst du Bibliotheken in der **globalen Tabelle**, gilt das für alle Projekte. Willst du es nur für ein einziges Projekt, trage die benötigten Bibliotheken stattdessen in die **projektspezifische Tabelle** ein und lass die globale unverändert.
+:::
+
+### Warum deaktivieren statt löschen?
+
+| Aktion | Folge | Rückgängig? |
+|--------|-------|-------------|
+| **Active-Häkchen entfernen** | Bibliothek wird nicht geladen, Eintrag bleibt | Sofort, per Häkchen |
+| **Tabelleneintrag löschen** | Pfad-Information geht verloren | Nur per Hand (`Standard-KiCad-Bibliotheken` liegen unter `${KICAD10_SYMBOL_DIR}` bzw. `${KICAD10_FOOTPRINT_DIR}`) |
+| **Paket im PCM deinstallieren** | Dateien werden gelöscht | Neuinstallation über den PCM |
+
+## Theorieteil: Wie KiCad Bibliotheken verwaltet
+
+KiCad verwaltet Bibliotheken über zwei **Bibliothekstabellen**:
+
+- `sym-lib-table` – Symbol-Bibliotheken
+- `fp-lib-table` – Footprint-Bibliotheken
+
+Jede Tabelle existiert in zwei Varianten:
+
+1. **Global** (im KiCad-Benutzerordner, z. B.
+   `C:\Users\<Name>\AppData\Roaming\kicad\10.0\sym-lib-table`) – gilt
+   für alle Projekte auf dem Rechner
+2. **Projektspezifisch** (Datei `<projekt>.kicad_sym-lib-table` im
+   Projektordner) – gilt nur für dieses Projekt und kann ideal mit
+   versioniert oder an Mitschüler verteilt werden
+
+Beim Start sucht KiCad zuerst in der projektspezifischen, dann in der
+globalen Tabelle. Suchst du ein Symbol, wird nur in **aktiven**
+Bibliotheken gesucht – genau deshalb verschwinden deaktivierte
+Bibliotheken aus dem Symbol-Dialog.
+
+Wichtig zu wissen: Ein Symbol im Schaltplan speichert nur den
+**Nickname der Bibliothek** und den Symbolnamen. Die eigentliche
+Definition wird beim Platzieren **in die Projektdatei kopiert**
+(gecacht). Deshalb öffnen sich alte Schaltpläne auch dann noch
+korrekt, wenn eine Bibliothek (einmalig) nicht gefunden wird.
+
+## Tipps und Tricks
+
+::: callout-tip
+### Bibliothen für die Klasse verteilen
+Lege die projektspezifische Bibliothekstabelle zusammen mit der `.kicad_sym`-Datei in einen geteilten Ordner (Schulserver, Git-Repository). Alle, die das Projekt öffnen, haben automatisch dieselben Bauteile – ohne dass jemand seine globalen Tabellen anfassen muss.
+:::
+
+::: callout-tip
+### Umgebungsvariablen nutzen
+Trage in den Tabellen statt absoluter Pfade besser Variablen wie `${KICAD_USER_DIR}` ein. Dann funktioniert die Tabelle auch auf dem Rechner deiner Mitschüler, auch wenn dort der Benutzername anders lautet.
+:::
+
+::: callout-warning
+### Veraltete Formate
+Bibliotheken mit der Endung `.lib` stammen noch aus KiCad 5 oder älter. Wandle sie im **Symbol-Editor** in das moderne `.kicad_sym`-Format um, bevor du sie registrierst – sonst kann KiCad 10 sie nicht lesen.
+:::
+
+## Nächste Schritte
+
+Jetzt, wo deine Bibliotheken sauber eingerichtet sind, kannst du:
+
+- **Eigene Symbole** im Symbol-Editor entwerfen und mit Footprints verknüpfen
+- **3D-Modelle** (`.step`/`.wrl`) deinen Footprints zuordnen
+- Im **PCM** nach nützlichen Paketen stöbern – dort gibt es auch Plugins für Simulation und Fertigung
+
+Viel Erfolg beim Aufbau deiner eigenen Bauteil-Sammlung!

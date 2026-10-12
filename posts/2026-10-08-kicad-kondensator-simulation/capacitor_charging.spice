@@ -1,0 +1,22 @@
+* RC Circuit - Capacitor Charging Simulation
+* Generated: 24.09.2026
+* European Standards Applied
+
+.title Capacitor Charging in RC Circuit
+
+* Circuit Components
+V1 /Uin GND DC 10
+R1 /Uin /Uc 10k
+C1 /Uc GND 100u IC=0
+
+* Simulation Settings
+.tran 0.01 5  * Time step: 0,01 s, Total time: 5 s
+
+* Initial Conditions
+.ic V(/Uc)=0
+
+* Analysis
+.plot tran V(/Uc) V(/Uin)
+.print tran V(/Uc)
+
+.end

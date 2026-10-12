@@ -1,5 +1,5 @@
 ---
-title: "Warum KiCad? Open Source schlägt Lizenzknast"
+title: "Warum KiCad? Open Source schlägt Lizenz"
 author: ["Human", "Mistral Vibe (KI Assistent)"]
 date: 2026-09-20
 categories: [EDA, KiCad, OpenSource]

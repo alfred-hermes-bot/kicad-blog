@@ -52,7 +52,6 @@ Spiegelserver können veraltete oder veränderte Pakete enthalten.
    falls trotzdem eine Meldung kommt: Systemeinstellungen →
    Sicherheit → **Trotzdem öffnen**).
 
-![macOS: KiCad-Icon per Drag & Drop installieren](images/03-macos-dmg.png)
 
 ## Schritt 4: Linux
 
@@ -89,6 +88,12 @@ sudo pacman -S kicad
    einem Projekt – beide öffnest du direkt aus dem Projektmanager.
 
 ![KiCad-Projektmanager mit frisch angelegtem Projekt](images/04-projektmanager.png)
+
+::: callout-tip
+## Tipp: Englisch behalten
+Da die englischen Begriffe in Tutorials und Foren üblich sind, ist es oft einfacher, die englische Oberfläche zu nutzen. Du kannst jederzeit unter
+**Preferences → Set Language** wechseln.
+:::
 
 ## Schritt 6: Sprachpaket (optional)
 

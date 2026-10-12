@@ -1,0 +1,191 @@
+---
+title: "KiCad: Projektvorlagen importieren und nutzen – Schritt-für-Schritt Anleitung"
+author: ["Human", "Mistral Vibe (KI Assistent)"]
+date: 2026-10-09
+categories: [Anleitung, Vorlagen, KiCad, Workflow]
+description: "Lerne, wie du in KiCad eine Projektvorlage importierst – z. B. die Schul-Vorlage von deinem Lehrer – und daraus in Sekunden ein neues Projekt startest."
+---
+
+Jedes neue Projekt beginnt eigentlich immer gleich: Titelblock
+ausfüllen, Designregeln einstellen, eigene Bibliothek verknüpfen,
+Netzklassen definieren. Mit einer **Projektvorlage (Template)** erledigst
+du das alles in einem Handgriff – die Vorlage wird kopiert, und du
+startest sofort mit fertigem Grundgerüst. In diesem Beitrag zeigen wir
+dir, wie du eine bestehende Vorlage in KiCad **importierst** – z. B. die
+Schul-Vorlage von deinem Lehrer oder ein Template aus dem Netz – und
+wie du daraus neue Projekte startest.
+
+## Was du lernst
+
+- Wissen, wie eine Projektvorlage **aufgebaut** ist
+- Eine Vorlage in KiCad **importieren** (in den Vorlagen-Ordner kopieren)
+- Ein neues Projekt über **File → New Project from Template** starten
+- Typische Import-Fehler **erkennen und beheben**
+
+## Voraussetzungen
+
+- KiCad 10 installiert (siehe unseren [Installationsguide](/posts/2026-09-24-kicad-installation/))
+- Grundlegende Kenntnisse der KiCad-Benutzeroberfläche
+- Eine Vorlage als ZIP-Ordner oder Ordner, z. B. von deinem Lehrer oder
+  aus dem Netz
+
+## Was ist eine Projektvorlage?
+
+Eine Projektvorlage ist ein Ordner mit fertigen Projektdateien plus
+einer kurzen Beschreibung. Beim Erstellen eines neuen Projekts kopiert
+KiCad alle Dateien aus der Vorlage, benennt sie um – und du startest
+mit allen Einstellungen, die jemand einmal vorbereitet hat:
+
+| Vorlagen-Inhalt | Was es dir erspart |
+|-----------------|--------------------|
+| **Titelblock** mit Name, Klasse, Datum | Ausfüllen bei Page Settings |
+| **Board-Setup**: Lagenaufbau, Netzklassen, Designregeln | Regeln pro Projekt neu setzen |
+| **Verknüpfte Bibliothekstabelle** mit eigenen Bibliotheken | Bibliotheken suchen und eintragen |
+| **Zusatzdateien** (Stücklisten-Vorlage, Abgabe-Hinweise) | Dateien manuell kopieren |
+
+## Schritt 1: Vorlage besorgen
+
+Projektvorlagen bekommst du auf verschiedenen Wegen:
+
+- Als **ZIP-Datei** von deinem Lehrer oder aus dem Schulordner
+- Als **Ordner** von einem Git-Repository oder Mitschüler
+- Aus dem Netz, z. B. Vorlagen für bestimmte Fertiger
+
+Entpacke ein ZIP-Archiv zuerst an einen beliebigen Ort, z. B. auf den
+Desktop.
+
+## Schritt 2: Den Vorlagen-Ordner von KiCad finden
+
+KiCad zeigt Vorlagen nur an, wenn sie an einem festen Ort liegen. Wo der
+ist, siehst du in KiCad selbst:
+
+1. Starte **KiCad** (den Projektmanager, nicht einen Editor)
+2. Gehe zu **Preferences → Configure Paths**
+3. Suche die Zeile **`KICAD_USER_TEMPLATE_DIR`** – dahinter steht dein
+   persönlicher Vorlagen-Ordner
+
+![Configure Paths mit KICAD_USER_TEMPLATE_DIR](images/02-configure-paths.png)
+
+Auf Windows ist das typischerweise
+`C:\Users\<Name>\AppData\Roaming\kicad\10.0\template\`. Klicke auf den
+Pfad-Eintrag, um den Ordner zu öffnen – falls er noch nicht existiert,
+lege ihn an.
+
+::: callout-note
+### Zwei Vorlagen-Quellen
+KiCad kennt zwei Orte: **System Templates** (`KICAD_TEMPLATE_DIR`, mitgeliefert und schreibgeschützt) und **User Templates** (`KICAD_USER_TEMPLATE_DIR`, deine importierten Vorlagen). Importieren kannst du nur in letzteren.
+:::
+
+## Schritt 3: Vorlage importieren
+
+Jetzt prüfst du kurz den Aufbau und kopierst die Vorlage an ihren Platz.
+
+### Aufbau prüfen
+
+Eine gültige Vorlage sieht so aus:
+
+```
+template/
+└── htl-vorlage/
+    ├── meta/
+    │   ├── info.html
+    │   └── icon.png
+    ├── htl-vorlage.kicad_pro
+    ├── htl-vorlage.kicad_sch
+    └── htl-vorlage.kicad_pcb
+```
+
+- **`meta/`** mit `info.html` (Name + Beschreibung) und `icon.png`
+  (Vorschaubild) – ohne diesen Ordner zeigt KiCad die Vorlage **nicht** an
+- Die eigentlichen **Projektdateien** (`.kicad_pro`, `.kicad_sch`,
+  `.kicad_pcb`) direkt im Vorlagen-Ordner
+
+Fehlt der `meta`-Ordner, ist das kein echtes Template – bitte den
+Ersteller um die Dateien oder ergänze `meta/info.html` selbst.
+
+### Kopieren
+
+1. Kopiere den **kompletten Vorlagen-Ordner** (z. B. `htl-vorlage`)
+   in deinen Ordner unter `KICAD_USER_TEMPLATE_DIR`
+2. **Starte KiCad neu** – die Vorlagenliste wird nur beim Start
+   eingelesen
+
+Das war's. Kein Setup-Dialog, kein Import-Assistent: Importieren heißt
+bei KiCad nichts anderes als **an den richtigen Ort kopieren**.
+
+## Schritt 4: Neues Projekt aus der Vorlage erstellen
+
+1. **File → New Project from Template**
+2. Wechsle zum Reiter **User Templates** – deine importierte Vorlage
+   erscheint als Karte mit Icon und Beschreibung
+
+![New Project from Template mit importierter Vorlage](images/01-new-from-template.png)
+
+3. Wähle die Vorlage aus
+4. Vergib unten einen **Projektnamen**, z. B. `uebung-3`, und wähle
+   einen **Speicherort**
+5. Klicke auf **OK**
+
+KiCad kopiert jetzt alle Dateien aus der Vorlage, benennt sie nach
+deinem Projektnamen um (`uebung-3.kicad_pro`, `uebung-3.kicad_sch`,
+`uebung-3.kicad_pcb`, …) und öffnet das fertige Projekt.
+
+## Schritt 5: Kurz prüfen
+
+Bevor du loslegst, kontrolliere, ob alles angekommen ist:
+
+- **Schaltplan:** Ist der Titelblock vorbelegt (Name, Klasse, Datum)?
+  Trage jetzt nur noch deine konkreten Daten ein.
+- **Board Setup:** Sind die Netzklassen und Designregeln gesetzt?
+- **Bibliothekstabelle:** Ist die Vorlagen-Bibliothek unter *Project
+  Specific Libraries* verknüpft?
+
+Wenn ja: fertig. Ab jetzt dauert der Projektstart Sekunden statt
+Minuten – und jedes Projekt sieht einheitlich aus.
+
+::: callout-warning
+### Häufige Fehler
+- **Vorlage erscheint nicht im Assistenten:** Der Ordner liegt nicht direkt unter `KICAD_USER_TEMPLATE_DIR` (häufiger Fehler: ein Ordner zu tief nach dem Entpacken, z. B. `template/htl-vorlage/htl-vorlage/`), der `meta`-Ordner fehlt, oder KiCad wurde nicht neu gestartet.
+- **Fehlermeldung beim Öffnen des neuen Projekts:** In der Vorlage enthaltene absolute Pfade (z. B. `C:\Users\ersteller\...` in der Bibliothekstabelle) zeigen auf Rechner, die es bei dir nicht gibt. Trage die Pfade unter **Manage Symbol Libraries → Project Specific Libraries** neu ein.
+- **Komische Reste im neuen Projekt:** Alles außer `meta` wird kopiert – inklusive eventueller Mülldateien aus der Vorlage. Lösche sie im neuen Projekt, sie stören weiter nicht.
+:::
+
+## Theorieteil: Wie KiCad Vorlagen verwaltet
+
+Der Assistent unter **File → New Project from Template** liest beim
+Start zwei Verzeichnisse: die System-Vorlagen (`KICAD_TEMPLATE_DIR`,
+mitgeliefert) und deine User-Vorlagen (`KICAD_USER_TEMPLATE_DIR`). Jeder
+Unterordner mit gültigem `meta`-Ordner wird als Karte angezeigt.
+
+Wichtig zu verstehen: Beim Erstellen wird die Vorlage **komplett
+kopiert**, nicht verlinkt. Das heißt:
+
+- Das neue Projekt steht vollständig auf eigenen Füßen – auch wenn die
+  Vorlage später gelöscht wird
+- Änderst oder aktualisiert jemand die Vorlage, wirken sich die
+  Änderungen **nicht** auf bereits erstellte Projekte aus; nur neue
+  Projekte bekommen die aktualisierte Version
+- Die Vorlage selbst bleibt unangetastet – du kannst sie beliebig oft
+  als Startpunkt verwenden
+
+## Tipps und Tricks
+
+::: callout-tip
+### Mehrere Vorlagen sammeln
+Du kannst beliebig viele Vorlagen nebeneinander importieren – z. B. eine für Standard-Platinen und eine für SMD-Übungen mit feineren Designregeln. Der Assistent zeigt sie alle als Karten nebeneinander an.
+:::
+
+::: callout-tip
+### Schul-Vorlagen direkt vom Server nutzen
+Wenn die Klasse ihre Vorlagen auf einem gemeinsamen Ordner (Schulserver, Git) pflegt, musst du gar nichts kopieren: Setze `KICAD_USER_TEMPLATE_DIR` in **Preferences → Configure Paths** einfach auf den gemeinsamen Ordner – ab sofort siehst du immer die aktuelle Vorlage.
+:::
+
+## Nächste Schritte
+
+Jetzt, wo du Vorlagen importieren und nutzen kannst, kannst du:
+
+- Weitere Vorlagen sammeln – z. B. **vordefinierte Regeln verschiedener Fertiger**
+- Dir überlegen, welche fünf Handgriffe **du** bei jedem Projekt wiederholst – und daraus irgendwann eine eigene Vorlage bauen
+- Die Vorlagen-Bibliothek aus unserem [Bibliotheken-Beitrag](/posts/2026-10-09-kicad-eigene-bibliotheken/) direkt mit in ein Schul-Template einbauen lassen
+
+Viel Erfolg beim Start deiner Projekte aus Vorlagen!
