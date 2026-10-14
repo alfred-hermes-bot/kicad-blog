@@ -58,49 +58,49 @@
   {
     "objectID": "posts/2026-10-09-kicad-eigene-plugins/index.html",
     "href": "posts/2026-10-09-kicad-eigene-plugins/index.html",
-    "title": "KiCad: Plugins installieren",
+    "title": "KiCad: In House Bauteile und Vorlagen installieren",
     "section": "",
     "text": "KiCad ist von Haus aus ein mächtiges Werkzeug – aber eines der bestgehüteten Geheimnisse ist der Plugin and Content Manager (PCM). Damit erweiterst du KiCad um zusätzliche Werkzeuge, Bibliotheken, 3D-Modelle und Farbthemen – ganz ohne manuelles Kopieren von Dateien. In diesem Beitrag zeigen wir dir, wie du Plugins aus einer .zip-Datei installierst und wie du sie wieder loswirst."
   },
   {
     "objectID": "posts/2026-10-09-kicad-eigene-plugins/index.html#was-du-lernst",
     "href": "posts/2026-10-09-kicad-eigene-plugins/index.html#was-du-lernst",
-    "title": "KiCad: Plugins installieren",
+    "title": "KiCad: In House Bauteile und Vorlagen installieren",
     "section": "Was du lernst",
     "text": "Was du lernst\n\nWas der Plugin and Content Manager (PCM) ist und welche Paketarten es gibt\nPlugins aus einer .zip-Datei über Install from File installieren\nInstallierte Pakete aktualisieren und deinstallieren"
   },
   {
     "objectID": "posts/2026-10-09-kicad-eigene-plugins/index.html#voraussetzungen",
     "href": "posts/2026-10-09-kicad-eigene-plugins/index.html#voraussetzungen",
-    "title": "KiCad: Plugins installieren",
+    "title": "KiCad: In House Bauteile und Vorlagen installieren",
     "section": "Voraussetzungen",
     "text": "Voraussetzungen\n\nKiCad 10 installiert (siehe unseren Installationsguide)\nDie .zip-Datei des Pakets (z. B. vom USB-Stick oder Schulserver)\nGrundlegende Kenntnisse der KiCad-Benutzeroberfläche"
   },
   {
     "objectID": "posts/2026-10-09-kicad-eigene-plugins/index.html#was-ist-der-plugin-and-content-manager",
     "href": "posts/2026-10-09-kicad-eigene-plugins/index.html#was-ist-der-plugin-and-content-manager",
-    "title": "KiCad: Plugins installieren",
+    "title": "KiCad: In House Bauteile und Vorlagen installieren",
     "section": "Was ist der Plugin and Content Manager?",
     "text": "Was ist der Plugin and Content Manager?\nDer PCM ist KiCads zentrale Anlaufstelle für Erweiterungen. Er verwaltet vier Arten von Paketen:\n\n\n\n\n\n\n\nPaketart\nBeispiele\n\n\n\n\nPlugins\nZusatzwerkzeuge im Schaltplan- und PCB-Editor, z. B. BOM-Exporte, DFM-Prüfungen, Bemaßungs-Helfer\n\n\nBibliotheken\nSymbol- und Footprint-Bibliotheken von Herstellern wie SparkFun oder Adafruit\n\n\n3D-Modelle\nSTEP-/WRL-Modelle für die 3D-Ansicht\n\n\nFarbthemen\nAlternative Farbschemata für die Editoren\n\n\n\nDer PCM kann auch direkt aus dem offiziellen Repository (https://plugins.kicad.org) installieren – das ist aber nicht das Thema dieses Beitrags. Hier geht es gezielt um die .zip-Datei."
   },
   {
     "objectID": "posts/2026-10-09-kicad-eigene-plugins/index.html#schritt-1-den-pcm-öffnen",
     "href": "posts/2026-10-09-kicad-eigene-plugins/index.html#schritt-1-den-pcm-öffnen",
-    "title": "KiCad: Plugins installieren",
+    "title": "KiCad: In House Bauteile und Vorlagen installieren",
     "section": "Schritt 1: Den PCM öffnen",
     "text": "Schritt 1: Den PCM öffnen\n\nStarte KiCad – der Projektmanager genügt.\nGehe zu Tools → Plugin and Content Manager\n\nDer PCM ist in drei Reiter unterteilt:\n\nBrowse – alle verfügbaren Pakete aus dem Repository\nInstalled – deine installierten Pakete\nUpdates – Pakete, für die eine neue Version verfügbar ist"
   },
   {
     "objectID": "posts/2026-10-09-kicad-eigene-plugins/index.html#schritt-2-plugin-aus-einer-.zip-datei-installieren",
     "href": "posts/2026-10-09-kicad-eigene-plugins/index.html#schritt-2-plugin-aus-einer-.zip-datei-installieren",
-    "title": "KiCad: Plugins installieren",
+    "title": "KiCad: In House Bauteile und Vorlagen installieren",
     "section": "Schritt 2: Plugin aus einer .zip-Datei installieren",
     "text": "Schritt 2: Plugin aus einer .zip-Datei installieren\n\nHol dir die .zip-Datei des Pakets – vom Schulserver\nKlicke im PCM auf die Schaltfläche Install from File\nWähle die .zip-Datei des Pakets aus und bestätige\nDer PCM liest die metadata.json, prüft die kompatible KiCad-Version und installiert das Paket\n\nWichtig bei Plugins: Action-Plugins werden beim Start von KiCad geladen. Nach der Installation starte KiCad einmal neu und öffne den Board Designer.\nJetzt stehen dir die Inhalte des Plugins zur Verfügung.\n\nPlugin testen\n\nIn House Vorlage\n\nStarte KiCad neu\nErstelle ein neues Projekt und überprüfe, ob die Vorlage für die in House Fertigung (File → New → Project)\n\nTaucht der Eintrag auf, war die Installation erfolgreich.\n\n\nIn House Bauteile\nNachdem du ein Projekt angelegt hast, öffne den Schematic Editor und platziere ein Bauteil. In der Symbolauswahl sollte jetzt die Bibliothek für die in House Bauteile verfügbar sein.\n\n\n\n\n\n\nNote\n\n\n\nFür mehr übersichtlichkeit können die mit KiCAD installierten Bibliotheken in den Einstellungen unter Preferences → Manage Symbol Libraries und Preferences → Manage Footprint Libraries verwaltet werden. Dort können Bibliotheken aktiviert, deaktiviert oder priorisiert werden."
   },
   {
     "objectID": "posts/2026-10-09-kicad-eigene-plugins/index.html#schritt-3-pakete-verwalten",
     "href": "posts/2026-10-09-kicad-eigene-plugins/index.html#schritt-3-pakete-verwalten",
-    "title": "KiCad: Plugins installieren",
+    "title": "KiCad: In House Bauteile und Vorlagen installieren",
     "section": "Schritt 3: Pakete verwalten",
     "text": "Schritt 3: Pakete verwalten\n\nAktualisieren\nEinfach eine aktuellere Version des Plugins wie oben beschrieben installieren – der PCM ersetzt die alte Version automatisch."
   },
@@ -165,7 +165,7 @@
     "href": "index.html",
     "title": "KiCad Blog",
     "section": "",
-    "text": "Willkommen! Dieser Blog beschäftigt sich mit KiCad, der freien Open-Source-Suite für Elektronikdesign.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nKiCad: Von der Simulation zur Platine\n\n\n\nAnleitung\n\nPCB-Design\n\nKiCad\n\nRC-Schaltung\n\n\n\nVerwandle die simulierte RC-Schaltung in eine echte Leiterplatte: ersetze die Simulationsquelle durch eine Stiftleiste, ergänze eine Stiftleiste am Ausgang, weise Footprints zu, route die Platine und exportiere die Fertigungsdaten.\n\n\n\n\n\nOct 14, 2026\n\n\nHuman , Mistral Vibe (KI Assistent)\n\n\n\n\n\n\n\n\n\n\n\n\nKiCad 10 installieren\n\n\n\nAnleitung\n\nInstallation\n\nKiCad\n\n\n\nInstallation von KiCad 10\n\n\n\n\n\nOct 10, 2026\n\n\nHuman , Mistral Vibe (KI Assistent)\n\n\n\n\n\n\n\n\n\n\n\n\nKiCad: Plugins installieren\n\n\n\nAnleitung\n\nPlugins\n\nKiCad\n\nPCM\n\n\n\nLerne, wie du in KiCad Plugins und Erweiterungen über den Plugin and Content Manager aus einer .zip-Datei installierst – offline und ohne manuelles Kopieren.\n\n\n\n\n\nOct 9, 2026\n\n\nHuman , Mistral Vibe (KI Assistent)\n\n\n\n\n\n\n\n\n\n\n\n\nKiCad: Kondensator-Ladung simulieren\n\n\n\nAnleitung\n\nSimulation\n\nKiCad\n\nRC-Schaltung\n\n\n\nLerne, wie du in KiCad eine einfache RC-Schaltung simulierst und die Ladung eines Kondensators analysierst – inklusive Zeitkonstante und Spannungsverlauf.\n\n\n\n\n\nOct 8, 2026\n\n\nHuman , Mistral Vibe (KI Assistent)\n\n\n\n\n\nNo matching items"
+    "text": "Willkommen! Dieser Blog beschäftigt sich mit KiCad, der freien Open-Source-Suite für Elektronikdesign.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nKiCad: Von der Simulation zur Platine\n\n\n\nAnleitung\n\nPCB-Design\n\nKiCad\n\nRC-Schaltung\n\n\n\nVerwandle die simulierte RC-Schaltung in eine echte Leiterplatte: ersetze die Simulationsquelle durch eine Stiftleiste, ergänze eine Stiftleiste am Ausgang, weise Footprints zu, route die Platine und exportiere die Fertigungsdaten.\n\n\n\n\n\nOct 14, 2026\n\n\nHuman , Mistral Vibe (KI Assistent)\n\n\n\n\n\n\n\n\n\n\n\n\nKiCad 10 installieren\n\n\n\nAnleitung\n\nInstallation\n\nKiCad\n\n\n\nInstallation von KiCad 10\n\n\n\n\n\nOct 10, 2026\n\n\nHuman , Mistral Vibe (KI Assistent)\n\n\n\n\n\n\n\n\n\n\n\n\nKiCad: In House Bauteile und Vorlagen installieren\n\n\n\nAnleitung\n\nPlugins\n\nKiCad\n\nPCM\n\n\n\nLerne, wie du in KiCad Plugins und Erweiterungen über den Plugin and Content Manager aus einer .zip-Datei installierst – offline und ohne manuelles Kopieren.\n\n\n\n\n\nOct 9, 2026\n\n\nHuman , Mistral Vibe (KI Assistent)\n\n\n\n\n\n\n\n\n\n\n\n\nKiCad: Kondensator-Ladung simulieren\n\n\n\nAnleitung\n\nSimulation\n\nKiCad\n\nRC-Schaltung\n\n\n\nLerne, wie du in KiCad eine einfache RC-Schaltung simulierst und die Ladung eines Kondensators analysierst – inklusive Zeitkonstante und Spannungsverlauf.\n\n\n\n\n\nOct 8, 2026\n\n\nHuman , Mistral Vibe (KI Assistent)\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "about.html",
