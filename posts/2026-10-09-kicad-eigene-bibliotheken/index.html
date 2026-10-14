@@ -9,9 +9,9 @@
 <meta name="author" content="Human">
 <meta name="author" content="Mistral Vibe (KI Assistent)">
 <meta name="dcterms.date" content="2026-10-09">
-<meta name="description" content="Lerne, wie du in KiCad Plugins und Erweiterungen über den Plugin and Content Manager installierst – aus dem offiziellen Repository, aus einer Datei oder direkt von einer URL.">
+<meta name="description" content="Lerne, wie du in KiCad Plugins und Erweiterungen über den Plugin and Content Manager aus einer .zip-Datei installierst – offline und ohne manuelles Kopieren.">
 
-<title>KiCad: Plugins installieren – Schritt-für-Schritt Anleitung – KiCad Blog</title>
+<title>KiCad: Plugins installieren – KiCad Blog</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -75,8 +75,8 @@ ul.task-list li input[type="checkbox"] {
 
 
 <link rel="stylesheet" href="../../styles.css">
-<meta property="og:title" content="KiCad: Plugins installieren – Schritt-für-Schritt Anleitung – KiCad Blog">
-<meta property="og:description" content="Lerne, wie du in KiCad Plugins und Erweiterungen über den Plugin and Content Manager installierst – aus dem offiziellen Repository, aus einer Datei oder direkt von einer URL.">
+<meta property="og:title" content="KiCad: Plugins installieren – KiCad Blog">
+<meta property="og:description" content="Lerne, wie du in KiCad Plugins und Erweiterungen über den Plugin and Content Manager aus einer .zip-Datei installierst – offline und ohne manuelles Kopieren.">
 <meta property="og:site_name" content="KiCad Blog">
 </head>
 
@@ -127,24 +127,14 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#voraussetzungen" id="toc-voraussetzungen" class="nav-link" data-scroll-target="#voraussetzungen">Voraussetzungen</a></li>
   <li><a href="#was-ist-der-plugin-and-content-manager" id="toc-was-ist-der-plugin-and-content-manager" class="nav-link" data-scroll-target="#was-ist-der-plugin-and-content-manager">Was ist der Plugin and Content Manager?</a></li>
   <li><a href="#schritt-1-den-pcm-öffnen" id="toc-schritt-1-den-pcm-öffnen" class="nav-link" data-scroll-target="#schritt-1-den-pcm-öffnen">Schritt 1: Den PCM öffnen</a></li>
-  <li><a href="#schritt-2-plugin-aus-dem-repository-installieren" id="toc-schritt-2-plugin-aus-dem-repository-installieren" class="nav-link" data-scroll-target="#schritt-2-plugin-aus-dem-repository-installieren">Schritt 2: Plugin aus dem Repository installieren</a>
+  <li><a href="#schritt-2-plugin-aus-einer-.zip-datei-installieren" id="toc-schritt-2-plugin-aus-einer-.zip-datei-installieren" class="nav-link" data-scroll-target="#schritt-2-plugin-aus-einer-.zip-datei-installieren">Schritt 2: Plugin aus einer .zip-Datei installieren</a>
   <ul class="collapse">
   <li><a href="#plugin-testen" id="toc-plugin-testen" class="nav-link" data-scroll-target="#plugin-testen">Plugin testen</a></li>
   </ul></li>
-  <li><a href="#schritt-3-plugin-von-einer-url-installieren" id="toc-schritt-3-plugin-von-einer-url-installieren" class="nav-link" data-scroll-target="#schritt-3-plugin-von-einer-url-installieren">Schritt 3: Plugin von einer URL installieren</a>
-  <ul class="collapse">
-  <li><a href="#methode-a-direkt-von-einer-paket-url" id="toc-methode-a-direkt-von-einer-paket-url" class="nav-link" data-scroll-target="#methode-a-direkt-von-einer-paket-url">Methode A: Direkt von einer Paket-URL</a></li>
-  <li><a href="#methode-b-ein-eigenes-repository-hinzufügen" id="toc-methode-b-ein-eigenes-repository-hinzufügen" class="nav-link" data-scroll-target="#methode-b-ein-eigenes-repository-hinzufügen">Methode B: Ein eigenes Repository hinzufügen</a></li>
-  <li><a href="#fallback-installation-aus-einer-datei" id="toc-fallback-installation-aus-einer-datei" class="nav-link" data-scroll-target="#fallback-installation-aus-einer-datei">Fallback: Installation aus einer Datei</a></li>
-  </ul></li>
-  <li><a href="#schritt-4-pakete-verwalten" id="toc-schritt-4-pakete-verwalten" class="nav-link" data-scroll-target="#schritt-4-pakete-verwalten">Schritt 4: Pakete verwalten</a>
+  <li><a href="#schritt-3-pakete-verwalten" id="toc-schritt-3-pakete-verwalten" class="nav-link" data-scroll-target="#schritt-3-pakete-verwalten">Schritt 3: Pakete verwalten</a>
   <ul class="collapse">
   <li><a href="#aktualisieren" id="toc-aktualisieren" class="nav-link" data-scroll-target="#aktualisieren">Aktualisieren</a></li>
-  <li><a href="#deinstallieren" id="toc-deinstallieren" class="nav-link" data-scroll-target="#deinstallieren">Deinstallieren</a></li>
   </ul></li>
-  <li><a href="#theorieteil-wie-der-pcm-funktioniert" id="toc-theorieteil-wie-der-pcm-funktioniert" class="nav-link" data-scroll-target="#theorieteil-wie-der-pcm-funktioniert">Theorieteil: Wie der PCM funktioniert</a></li>
-  <li><a href="#tipps-und-tricks" id="toc-tipps-und-tricks" class="nav-link" data-scroll-target="#tipps-und-tricks">Tipps und Tricks</a></li>
-  <li><a href="#nächste-schritte" id="toc-nächste-schritte" class="nav-link" data-scroll-target="#nächste-schritte">Nächste Schritte</a></li>
   </ul>
 </nav>
     </div>
@@ -153,7 +143,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">KiCad: Plugins installieren – Schritt-für-Schritt Anleitung</h1>
+<h1 class="title">KiCad: Plugins installieren</h1>
   <div class="quarto-categories">
     <div class="quarto-category">Anleitung</div>
     <div class="quarto-category">Plugins</div>
@@ -164,7 +154,7 @@ ul.task-list li input[type="checkbox"] {
 
 <div>
   <div class="description">
-    Lerne, wie du in KiCad Plugins und Erweiterungen über den Plugin and Content Manager installierst – aus dem offiziellen Repository, aus einer Datei oder direkt von einer URL.
+    Lerne, wie du in KiCad Plugins und Erweiterungen über den Plugin and Content Manager aus einer .zip-Datei installierst – offline und ohne manuelles Kopieren.
   </div>
 </div>
 
@@ -194,13 +184,12 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>KiCad ist von Haus aus ein mächtiges Werkzeug – aber eines der bestgehüteten Geheimnisse ist der <strong>Plugin and Content Manager (PCM)</strong>. Damit erweiterst du KiCad um zusätzliche Werkzeuge, Bibliotheken, 3D-Modelle und Farbthemen – ganz ohne manuelles Kopieren von Dateien. In diesem Beitrag zeigen wir dir, wie du Plugins installierst, woher du sie bekommst und wie du sie wieder loswirst.</p>
+<p>KiCad ist von Haus aus ein mächtiges Werkzeug – aber eines der bestgehüteten Geheimnisse ist der <strong>Plugin and Content Manager (PCM)</strong>. Damit erweiterst du KiCad um zusätzliche Werkzeuge, Bibliotheken, 3D-Modelle und Farbthemen – ganz ohne manuelles Kopieren von Dateien. In diesem Beitrag zeigen wir dir, wie du Plugins aus einer <strong>.zip-Datei</strong> installierst und wie du sie wieder loswirst.</p>
 <section id="was-du-lernst" class="level2">
 <h2 class="anchored" data-anchor-id="was-du-lernst">Was du lernst</h2>
 <ul>
 <li>Was der <strong>Plugin and Content Manager (PCM)</strong> ist und welche Paketarten es gibt</li>
-<li>Plugins aus dem <strong>offiziellen KiCad-Repository</strong> suchen und installieren</li>
-<li>Plugins <strong>direkt von einer URL</strong> installieren</li>
+<li>Plugins <strong>aus einer .zip-Datei</strong> über <strong>Install from File</strong> installieren</li>
 <li>Installierte Pakete <strong>aktualisieren und deinstallieren</strong></li>
 </ul>
 </section>
@@ -208,7 +197,7 @@ ul.task-list li input[type="checkbox"] {
 <h2 class="anchored" data-anchor-id="voraussetzungen">Voraussetzungen</h2>
 <ul>
 <li>KiCad 10 installiert (siehe unseren <a href="../..\posts/2026-09-24-kicad-installation/">Installationsguide</a>)</li>
-<li>Eine Internetverbindung</li>
+<li>Die <strong>.zip-Datei</strong> des Pakets (z. B. vom USB-Stick oder Schulserver)</li>
 <li>Grundlegende Kenntnisse der KiCad-Benutzeroberfläche</li>
 </ul>
 </section>
@@ -245,12 +234,12 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 </tbody>
 </table>
-<p>Die Pakete stammen standardmäßig aus dem <strong>offiziellen KiCad-Repository</strong> (https://plugins.kicad.org). Dort prüft das KiCad-Team die Einträge, bevor sie erscheinen.</p>
+<p>Der PCM kann auch direkt aus dem <strong>offiziellen Repository</strong> (https://plugins.kicad.org) installieren – das ist aber nicht das Thema dieses Beitrags. Hier geht es gezielt um die <strong>.zip-Datei</strong>.</p>
 </section>
 <section id="schritt-1-den-pcm-öffnen" class="level2">
 <h2 class="anchored" data-anchor-id="schritt-1-den-pcm-öffnen">Schritt 1: Den PCM öffnen</h2>
 <ol type="1">
-<li>Starte <strong>KiCad</strong> – der Projektmanager genügt, du brauchst kein offenes Projekt</li>
+<li>Starte <strong>KiCad</strong> – der Projektmanager genügt.</li>
 <li>Gehe zu <strong>Tools → Plugin and Content Manager</strong></li>
 </ol>
 <p>Der PCM ist in drei Reiter unterteilt:</p>
@@ -259,188 +248,54 @@ ul.task-list li input[type="checkbox"] {
 <li><strong>Installed</strong> – deine installierten Pakete</li>
 <li><strong>Updates</strong> – Pakete, für die eine neue Version verfügbar ist</li>
 </ul>
-<p>Über das <strong>Zahnrad-Symbol</strong> oben rechts erreichst du die Einstellungen, dort kannst du später auch eigene Repository-URLs hinterlegen.</p>
 </section>
-<section id="schritt-2-plugin-aus-dem-repository-installieren" class="level2">
-<h2 class="anchored" data-anchor-id="schritt-2-plugin-aus-dem-repository-installieren">Schritt 2: Plugin aus dem Repository installieren</h2>
+<section id="schritt-2-plugin-aus-einer-.zip-datei-installieren" class="level2">
+<h2 class="anchored" data-anchor-id="schritt-2-plugin-aus-einer-.zip-datei-installieren">Schritt 2: Plugin aus einer .zip-Datei installieren</h2>
 <ol type="1">
-<li>Wechsle zum Reiter <strong>Browse</strong></li>
-<li>Nutze das <strong>Suchfeld</strong> oder filtere über die Kategorien links (z. B. <em>Plugins</em>)</li>
-<li>Klicke auf ein Paket, um Details zu sehen: Beschreibung, Version, Homepage und die <strong>kompatible KiCad-Version</strong></li>
-<li>Klicke auf <strong>Install</strong></li>
+<li>Hol dir die <strong>.zip-Datei</strong> des Pakets – vom Schulserver</li>
+<li>Klicke im PCM auf die Schaltfläche <strong>Install from File</strong></li>
+<li>Wähle die <strong>.zip-Datei</strong> des Pakets aus und bestätige</li>
+<li>Der PCM liest die <code>metadata.json</code>, prüft die <strong>kompatible KiCad-Version</strong> und installiert das Paket</li>
 </ol>
+<p><strong>Wichtig bei Plugins:</strong> Action-Plugins werden beim Start von KiCad geladen. Nach der Installation starte KiCad einmal neu und öffne den Board Designer.</p>
+<p>Jetzt stehen dir die Inhalte des Plugins zur Verfügung.</p>
+<section id="plugin-testen" class="level3">
+<h3 class="anchored" data-anchor-id="plugin-testen">Plugin testen</h3>
+<section id="in-house-vorlage" class="level4">
+<h4 class="anchored" data-anchor-id="in-house-vorlage">In House Vorlage</h4>
+<ol type="1">
+<li>Starte KiCad neu</li>
+<li>Erstelle ein neues Projekt und überprüfe, ob die Vorlage für die in House Fertigung (<strong>File → New → Project</strong>)</li>
+</ol>
+<p>Taucht der Eintrag auf, war die Installation erfolgreich.</p>
+</section>
+<section id="in-house-bauteile" class="level4">
+<h4 class="anchored" data-anchor-id="in-house-bauteile">In House Bauteile</h4>
+<p>Nachdem du ein Projekt angelegt hast, öffne den Schematic Editor und platziere ein Bauteil. In der <strong>Symbolauswahl</strong> sollte jetzt die Bibliothek für die in House Bauteile verfügbar sein.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Wo landet der Inhalt?
+Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Der PCM speichert Pakete im KiCad-Benutzerordner, auf Windows typischerweise unter<br>
-<code>C:\Users\&lt;Name&gt;\AppData\Roaming\kicad\10.0\3rdparty\</code><br>
-Plugins liegen dort im Unterordner <code>plugins</code>. Enthaltene Bibliotheken werden automatisch in den globalen Bibliothekstabellen registriert – du musst nichts weiter konfigurieren.</p>
-</div>
-</div>
-<p><strong>Wichtig bei Plugins:</strong> Action-Plugins werden beim Start von KiCad geladen. Nach der Installation starte KiCad einmal neu – danach erscheint das Plugin je nach Art als eigener Menüeintrag oder Toolbar-Button im Schaltplan- oder PCB-Editor.</p>
-<section id="plugin-testen" class="level3">
-<h3 class="anchored" data-anchor-id="plugin-testen">Plugin testen</h3>
-<ol type="1">
-<li>Starte KiCad neu</li>
-<li>Öffne einen Schaltplan- oder PCB-Editor</li>
-<li>Suche im Menü (oder in der Toolbar) nach dem neuen Eintrag</li>
-</ol>
-<p>Taucht der Eintrag auf, war die Installation erfolgreich.</p>
-</section>
-</section>
-<section id="schritt-3-plugin-von-einer-url-installieren" class="level2">
-<h2 class="anchored" data-anchor-id="schritt-3-plugin-von-einer-url-installieren">Schritt 3: Plugin von einer URL installieren</h2>
-<p>Nicht jedes Plugin liegt im offiziellen Repository – manche Entwickler veröffentlichen ihre Pakete direkt auf GitHub oder auf einem eigenen Server. Dafür gibt es zwei Wege.</p>
-<section id="methode-a-direkt-von-einer-paket-url" class="level3">
-<h3 class="anchored" data-anchor-id="methode-a-direkt-von-einer-paket-url">Methode A: Direkt von einer Paket-URL</h3>
-<ol type="1">
-<li><p>Klicke im PCM auf den Pfeil neben <strong>Install from File</strong> und wähle <strong>Install from URL</strong></p></li>
-<li><p>Füge die <strong>direkte URL zu einer Paket-.zip-Datei</strong> ein, z. B. den Download-Link eines GitHub-Releases:</p>
-<pre><code>https://github.com/&lt;Nutzer&gt;/&lt;Projekt&gt;/releases/download/v1.2/plugin-1.2.zip</code></pre></li>
-<li><p>Klicke auf <strong>Install</strong> – der PCM lädt das Archiv herunter, prüft die Kompatibilität und installiert es wie ein Repository-Paket</p></li>
-</ol>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Tipp: Die richtige URL auf GitHub
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Die URL muss <strong>direkt auf die .zip-Datei</strong> zeigen, nicht auf die Projektseite. Auf GitHub findest du sie unter <strong>Releases</strong> – Rechtsklick auf das Asset und <em>Link-Adresse kopieren</em>. URLs, die auf <code>/releases/download/...</code> enden, sind korrekt.</p>
-</div>
-</div>
-</section>
-<section id="methode-b-ein-eigenes-repository-hinzufügen" class="level3">
-<h3 class="anchored" data-anchor-id="methode-b-ein-eigenes-repository-hinzufügen">Methode B: Ein eigenes Repository hinzufügen</h3>
-<p>Hast du regelmäßig Pakete aus derselben Quelle (z. B. dem Schulserver oder einer Firma), lohnt sich ein eigenes Repository:</p>
-<ol type="1">
-<li>Klicke im PCM auf das <strong>Zahnrad-Symbol</strong></li>
-<li>Füge unter <strong>Repositories</strong> die URL der Repository-Indexdatei (JSON) hinzu</li>
-<li>Die Pakete der Quelle erscheinen anschließend im Reiter <strong>Browse</strong> und lassen sich ganz normal installieren und aktualisieren</li>
-</ol>
-</section>
-<section id="fallback-installation-aus-einer-datei" class="level3">
-<h3 class="anchored" data-anchor-id="fallback-installation-aus-einer-datei">Fallback: Installation aus einer Datei</h3>
-<p>Funktioniert keine der URLs (z. B. offline oder hinter einer Firewall), lade die <code>.zip</code>-Datei manuell herunter und nutze im PCM die Schaltfläche <strong>Install from File</strong>. Das Ergebnis ist identisch.</p>
-<div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Sicherheitshinweis
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Plugins sind Programme – sie werden auf deinem Rechner ausgeführt und haben dieselben Rechte wie du. Installiere deshalb nur Pakete aus Quellen, denen du vertraust. Bei GitHub-Projekten: wirf vor der Installation einen Blick in den Quellcode und prüfe, wann zuletzt ein Update erschienen ist.</p>
+<p>Für mehr übersichtlichkeit können die mit KiCAD installierten Bibliotheken in den Einstellungen unter <strong>Preferences → Manage Symbol Libraries</strong> und <strong>Preferences → Manage Footprint Libraries</strong> verwaltet werden. Dort können Bibliotheken aktiviert, deaktiviert oder priorisiert werden.</p>
 </div>
 </div>
 </section>
 </section>
-<section id="schritt-4-pakete-verwalten" class="level2">
-<h2 class="anchored" data-anchor-id="schritt-4-pakete-verwalten">Schritt 4: Pakete verwalten</h2>
+</section>
+<section id="schritt-3-pakete-verwalten" class="level2">
+<h2 class="anchored" data-anchor-id="schritt-3-pakete-verwalten">Schritt 3: Pakete verwalten</h2>
 <section id="aktualisieren" class="level3">
 <h3 class="anchored" data-anchor-id="aktualisieren">Aktualisieren</h3>
-<ol type="1">
-<li>Wechsle zum Reiter <strong>Updates</strong></li>
-<li>Aktualisiere einzelne Pakete per Klick oder alle auf einmal mit <strong>Update All</strong></li>
-</ol>
-</section>
-<section id="deinstallieren" class="level3">
-<h3 class="anchored" data-anchor-id="deinstallieren">Deinstallieren</h3>
-<ol type="1">
-<li>Wechsle zum Reiter <strong>Installed</strong></li>
-<li>Klicke beim betreffenden Paket auf <strong>Uninstall</strong></li>
-<li>Starte KiCad neu – der Menüeintrag bzw. Toolbar-Button verschwindet, die restlichen Konfigurationen deines Projekts bleiben unberührt</li>
-</ol>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Tipp: Versionen festhalten
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>In der Detailansicht eines installierten Pakets siehst du die exakte Version. Notiere sie dir für die Dokumentation (z. B. in der Schule oder im Team) – so wisst ihr später, mit welchem Stand ein Projekt gebaut wurde.</p>
-</div>
-</div>
-</section>
-</section>
-<section id="theorieteil-wie-der-pcm-funktioniert" class="level2">
-<h2 class="anchored" data-anchor-id="theorieteil-wie-der-pcm-funktioniert">Theorieteil: Wie der PCM funktioniert</h2>
-<p>Ein PCM-Paket ist im Kern eine <strong>.zip-Datei mit einer <code>metadata.json</code></strong>. Darin stehen Name, Version, Beschreibung, Homepage und – wichtig – die <strong>kompatible KiCad-Version</strong>. Der PCM vergleicht diese Angabe mit deiner installierten Version und warnt bei Inkompabilität.</p>
-<p>Das Repository selbst ist nur eine <strong>große Index-Datei (JSON)</strong>, die alle verfügbaren Pakete samt Download-URLs listet. Genau deshalb funktioniert Methode B aus Schritt 3: Jede URL, die so eine Index-Datei ausliefert, kann als Repository eingetragen werden – der offizielle Server ist nur der Standardfall.</p>
-<p>Plugins im engeren Sinne sind <strong>Python-Action-Plugins</strong>: Skripte, die beim Start von KiCad geladen werden und eigene Menüeinträge, Buttons und Dialoge registrieren. Ihre Dateien liegen nach der Installation unter <code>3rdparty/plugins/&lt;paketname&gt;</code> – dort kannst du auch nachsehen, was ein Plugin konkret tut.</p>
-</section>
-<section id="tipps-und-tricks" class="level2">
-<h2 class="anchored" data-anchor-id="tipps-und-tricks">Tipps und Tricks</h2>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Eigenes Plugin testen
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Du willst selbst ein Plugin schreiben? Verpacke deinen Code mit einer <code>metadata.json</code> in eine .zip-Datei und installiere sie über <strong>Install from File</strong>. Genau so werden Plugins später auch von anderen installiert – ein guter Rundum-Test vor der Veröffentlichung.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Offline weitergeben
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Kein Internet im Klassenraum? Lade die Paket-.zip-Dateien zu Hause herunter und gib sie auf einem USB-Stick weiter – <strong>Install from File</strong> funktioniert komplett offline.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Häufige Fehler
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<ul>
-<li><strong>Plugin erscheint nicht:</strong> Starte KiCad neu – Plugins werden nur beim Programmstart geladen.</li>
-<li><strong>Inkompatible Version:</strong> Ein Paket für KiCad 9 muss nicht in KiCad 10 funktionieren. Achte auf die Versionsangabe in den Paketdetails.</li>
-<li><strong>Repository nicht erreichbar:</strong> Hinter einer Firewall oder mit Proxy kann der PCM das Repository nicht laden. Nutze in dem Fall <strong>Install from File</strong> mit einer manuell heruntergeladenen .zip.</li>
-</ul>
-</div>
-</div>
-</section>
-<section id="nächste-schritte" class="level2">
-<h2 class="anchored" data-anchor-id="nächste-schritte">Nächste Schritte</h2>
-<p>Jetzt, wo du Plugins installieren kannst, kannst du:</p>
-<ul>
-<li>Im <strong>offiziellen Repository</strong> nach Bibliotheken für deine Bauteile stöbern</li>
-<li>Mit Python dein <strong>eigenes Action-Plugin</strong> schreiben</li>
-<li>Pakete ausprobieren, die dir den Workflow erleichtern – von BOM-Export bis DFM-Prüfung</li>
-</ul>
-<p>Viel Erfolg beim Erweitern von KiCad!</p>
+<p>Einfach eine aktuellere Version des Plugins wie oben beschrieben installieren – der PCM ersetzt die alte Version automatisch.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
