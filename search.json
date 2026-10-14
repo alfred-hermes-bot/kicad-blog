@@ -56,50 +56,50 @@
     "text": "Windows, Git Bash. KiCad 10.0: C:\\Program Files\\KiCad\\10.0\\bin\\kicad.exe (bundled Python: ...\\bin\\python.exe).\nRepo checkout: C:\\Users\\leo\\Documents\\KiCad\\MCP Server\\KiCAD-MCP-Server.\nKiCad config root: %APPDATA%\\kicad (Roaming). User files root: C:\\Users\\leo\\Documents\\KiCad."
   },
   {
-    "objectID": "posts/2026-10-09-kicad-eigene-bibliotheken/index.html",
-    "href": "posts/2026-10-09-kicad-eigene-bibliotheken/index.html",
+    "objectID": "posts/2026-10-09-kicad-eigene-plugins/index.html",
+    "href": "posts/2026-10-09-kicad-eigene-plugins/index.html",
     "title": "KiCad: Plugins installieren",
     "section": "",
     "text": "KiCad ist von Haus aus ein mächtiges Werkzeug – aber eines der bestgehüteten Geheimnisse ist der Plugin and Content Manager (PCM). Damit erweiterst du KiCad um zusätzliche Werkzeuge, Bibliotheken, 3D-Modelle und Farbthemen – ganz ohne manuelles Kopieren von Dateien. In diesem Beitrag zeigen wir dir, wie du Plugins aus einer .zip-Datei installierst und wie du sie wieder loswirst."
   },
   {
-    "objectID": "posts/2026-10-09-kicad-eigene-bibliotheken/index.html#was-du-lernst",
-    "href": "posts/2026-10-09-kicad-eigene-bibliotheken/index.html#was-du-lernst",
+    "objectID": "posts/2026-10-09-kicad-eigene-plugins/index.html#was-du-lernst",
+    "href": "posts/2026-10-09-kicad-eigene-plugins/index.html#was-du-lernst",
     "title": "KiCad: Plugins installieren",
     "section": "Was du lernst",
     "text": "Was du lernst\n\nWas der Plugin and Content Manager (PCM) ist und welche Paketarten es gibt\nPlugins aus einer .zip-Datei über Install from File installieren\nInstallierte Pakete aktualisieren und deinstallieren"
   },
   {
-    "objectID": "posts/2026-10-09-kicad-eigene-bibliotheken/index.html#voraussetzungen",
-    "href": "posts/2026-10-09-kicad-eigene-bibliotheken/index.html#voraussetzungen",
+    "objectID": "posts/2026-10-09-kicad-eigene-plugins/index.html#voraussetzungen",
+    "href": "posts/2026-10-09-kicad-eigene-plugins/index.html#voraussetzungen",
     "title": "KiCad: Plugins installieren",
     "section": "Voraussetzungen",
     "text": "Voraussetzungen\n\nKiCad 10 installiert (siehe unseren Installationsguide)\nDie .zip-Datei des Pakets (z. B. vom USB-Stick oder Schulserver)\nGrundlegende Kenntnisse der KiCad-Benutzeroberfläche"
   },
   {
-    "objectID": "posts/2026-10-09-kicad-eigene-bibliotheken/index.html#was-ist-der-plugin-and-content-manager",
-    "href": "posts/2026-10-09-kicad-eigene-bibliotheken/index.html#was-ist-der-plugin-and-content-manager",
+    "objectID": "posts/2026-10-09-kicad-eigene-plugins/index.html#was-ist-der-plugin-and-content-manager",
+    "href": "posts/2026-10-09-kicad-eigene-plugins/index.html#was-ist-der-plugin-and-content-manager",
     "title": "KiCad: Plugins installieren",
     "section": "Was ist der Plugin and Content Manager?",
     "text": "Was ist der Plugin and Content Manager?\nDer PCM ist KiCads zentrale Anlaufstelle für Erweiterungen. Er verwaltet vier Arten von Paketen:\n\n\n\n\n\n\n\nPaketart\nBeispiele\n\n\n\n\nPlugins\nZusatzwerkzeuge im Schaltplan- und PCB-Editor, z. B. BOM-Exporte, DFM-Prüfungen, Bemaßungs-Helfer\n\n\nBibliotheken\nSymbol- und Footprint-Bibliotheken von Herstellern wie SparkFun oder Adafruit\n\n\n3D-Modelle\nSTEP-/WRL-Modelle für die 3D-Ansicht\n\n\nFarbthemen\nAlternative Farbschemata für die Editoren\n\n\n\nDer PCM kann auch direkt aus dem offiziellen Repository (https://plugins.kicad.org) installieren – das ist aber nicht das Thema dieses Beitrags. Hier geht es gezielt um die .zip-Datei."
   },
   {
-    "objectID": "posts/2026-10-09-kicad-eigene-bibliotheken/index.html#schritt-1-den-pcm-öffnen",
-    "href": "posts/2026-10-09-kicad-eigene-bibliotheken/index.html#schritt-1-den-pcm-öffnen",
+    "objectID": "posts/2026-10-09-kicad-eigene-plugins/index.html#schritt-1-den-pcm-öffnen",
+    "href": "posts/2026-10-09-kicad-eigene-plugins/index.html#schritt-1-den-pcm-öffnen",
     "title": "KiCad: Plugins installieren",
     "section": "Schritt 1: Den PCM öffnen",
     "text": "Schritt 1: Den PCM öffnen\n\nStarte KiCad – der Projektmanager genügt.\nGehe zu Tools → Plugin and Content Manager\n\nDer PCM ist in drei Reiter unterteilt:\n\nBrowse – alle verfügbaren Pakete aus dem Repository\nInstalled – deine installierten Pakete\nUpdates – Pakete, für die eine neue Version verfügbar ist"
   },
   {
-    "objectID": "posts/2026-10-09-kicad-eigene-bibliotheken/index.html#schritt-2-plugin-aus-einer-.zip-datei-installieren",
-    "href": "posts/2026-10-09-kicad-eigene-bibliotheken/index.html#schritt-2-plugin-aus-einer-.zip-datei-installieren",
+    "objectID": "posts/2026-10-09-kicad-eigene-plugins/index.html#schritt-2-plugin-aus-einer-.zip-datei-installieren",
+    "href": "posts/2026-10-09-kicad-eigene-plugins/index.html#schritt-2-plugin-aus-einer-.zip-datei-installieren",
     "title": "KiCad: Plugins installieren",
     "section": "Schritt 2: Plugin aus einer .zip-Datei installieren",
     "text": "Schritt 2: Plugin aus einer .zip-Datei installieren\n\nHol dir die .zip-Datei des Pakets – vom Schulserver\nKlicke im PCM auf die Schaltfläche Install from File\nWähle die .zip-Datei des Pakets aus und bestätige\nDer PCM liest die metadata.json, prüft die kompatible KiCad-Version und installiert das Paket\n\nWichtig bei Plugins: Action-Plugins werden beim Start von KiCad geladen. Nach der Installation starte KiCad einmal neu und öffne den Board Designer.\nJetzt stehen dir die Inhalte des Plugins zur Verfügung.\n\nPlugin testen\n\nIn House Vorlage\n\nStarte KiCad neu\nErstelle ein neues Projekt und überprüfe, ob die Vorlage für die in House Fertigung (File → New → Project)\n\nTaucht der Eintrag auf, war die Installation erfolgreich.\n\n\nIn House Bauteile\nNachdem du ein Projekt angelegt hast, öffne den Schematic Editor und platziere ein Bauteil. In der Symbolauswahl sollte jetzt die Bibliothek für die in House Bauteile verfügbar sein.\n\n\n\n\n\n\nNote\n\n\n\nFür mehr übersichtlichkeit können die mit KiCAD installierten Bibliotheken in den Einstellungen unter Preferences → Manage Symbol Libraries und Preferences → Manage Footprint Libraries verwaltet werden. Dort können Bibliotheken aktiviert, deaktiviert oder priorisiert werden."
   },
   {
-    "objectID": "posts/2026-10-09-kicad-eigene-bibliotheken/index.html#schritt-3-pakete-verwalten",
-    "href": "posts/2026-10-09-kicad-eigene-bibliotheken/index.html#schritt-3-pakete-verwalten",
+    "objectID": "posts/2026-10-09-kicad-eigene-plugins/index.html#schritt-3-pakete-verwalten",
+    "href": "posts/2026-10-09-kicad-eigene-plugins/index.html#schritt-3-pakete-verwalten",
     "title": "KiCad: Plugins installieren",
     "section": "Schritt 3: Pakete verwalten",
     "text": "Schritt 3: Pakete verwalten\n\nAktualisieren\nEinfach eine aktuellere Version des Plugins wie oben beschrieben installieren – der PCM ersetzt die alte Version automatisch."
@@ -158,14 +158,14 @@
     "href": "posts/2026-09-24-kicad-installation/index.html#nächste-schritte",
     "title": "KiCad 10 installieren",
     "section": "Nächste Schritte",
-    "text": "Nächste Schritte\nJetzt, wo KiCad läuft, kannst du direkt loslegen: Installiere die In House Libary! Viel Erfolg beim ersten eigenen Board!"
+    "text": "Nächste Schritte\nJetzt, wo KiCad läuft, kannst du direkt loslegen: Installiere die In House Libary! KiCad: Plugins installieren. Viel Erfolg beim ersten eigenen Board!"
   },
   {
     "objectID": "index.html",
     "href": "index.html",
     "title": "KiCad Blog",
     "section": "",
-    "text": "Willkommen! Dieser Blog beschäftigt sich mit KiCad, der freien Open-Source-Suite für Elektronikdesign.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nKiCad 10 installieren\n\n\n\nAnleitung\n\nInstallation\n\nKiCad\n\n\n\nInstallation von KiCad 10\n\n\n\n\n\nOct 10, 2026\n\n\nHuman , Mistral Vibe (KI Assistent)\n\n\n\n\n\n\n\n\n\n\n\n\nKiCad: Plugins installieren\n\n\n\nAnleitung\n\nPlugins\n\nKiCad\n\nPCM\n\n\n\nLerne, wie du in KiCad Plugins und Erweiterungen über den Plugin and Content Manager aus einer .zip-Datei installierst – offline und ohne manuelles Kopieren.\n\n\n\n\n\nOct 9, 2026\n\n\nHuman , Mistral Vibe (KI Assistent)\n\n\n\n\n\n\n\n\n\n\n\n\nKiCad: Kondensator-Ladung simulieren\n\n\n\nAnleitung\n\nSimulation\n\nKiCad\n\nRC-Schaltung\n\n\n\nLerne, wie du in KiCad eine einfache RC-Schaltung simulierst und die Ladung eines Kondensators analysierst – inklusive Zeitkonstante und Spannungsverlauf.\n\n\n\n\n\nOct 8, 2026\n\n\nHuman , Mistral Vibe (KI Assistent)\n\n\n\n\n\nNo matching items"
+    "text": "Willkommen! Dieser Blog beschäftigt sich mit KiCad, der freien Open-Source-Suite für Elektronikdesign.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nKiCad: Von der Simulation zur Platine\n\n\n\nAnleitung\n\nPCB-Design\n\nKiCad\n\nRC-Schaltung\n\n\n\nVerwandle die simulierte RC-Schaltung in eine echte Leiterplatte: ersetze die Simulationsquelle durch eine Stiftleiste, ergänze eine Stiftleiste am Ausgang, weise Footprints zu, route die Platine und exportiere die Fertigungsdaten.\n\n\n\n\n\nOct 14, 2026\n\n\nHuman , Mistral Vibe (KI Assistent)\n\n\n\n\n\n\n\n\n\n\n\n\nKiCad 10 installieren\n\n\n\nAnleitung\n\nInstallation\n\nKiCad\n\n\n\nInstallation von KiCad 10\n\n\n\n\n\nOct 10, 2026\n\n\nHuman , Mistral Vibe (KI Assistent)\n\n\n\n\n\n\n\n\n\n\n\n\nKiCad: Plugins installieren\n\n\n\nAnleitung\n\nPlugins\n\nKiCad\n\nPCM\n\n\n\nLerne, wie du in KiCad Plugins und Erweiterungen über den Plugin and Content Manager aus einer .zip-Datei installierst – offline und ohne manuelles Kopieren.\n\n\n\n\n\nOct 9, 2026\n\n\nHuman , Mistral Vibe (KI Assistent)\n\n\n\n\n\n\n\n\n\n\n\n\nKiCad: Kondensator-Ladung simulieren\n\n\n\nAnleitung\n\nSimulation\n\nKiCad\n\nRC-Schaltung\n\n\n\nLerne, wie du in KiCad eine einfache RC-Schaltung simulierst und die Ladung eines Kondensators analysierst – inklusive Zeitkonstante und Spannungsverlauf.\n\n\n\n\n\nOct 8, 2026\n\n\nHuman , Mistral Vibe (KI Assistent)\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "about.html",
@@ -257,5 +257,96 @@
     "title": "KiCad: Kondensator-Ladung simulieren",
     "section": "Nächste Schritte",
     "text": "Nächste Schritte\nJetzt, wo du die Grundlagen der RC-Simulation beherrschst, kannst du:\n\nFilter-Schaltungen simulieren (Tiefpass, Hochpass)\nOszillator-Schaltungen analysieren\nKomplexere Schaltungen mit mehreren RC-Gliedern aufbauen\n\nViel Erfolg beim Experimentieren mit KiCad-Simulationen!"
+  },
+  {
+    "objectID": "posts/2026-10-14-kicad-schaltung-zu-platine/index.html",
+    "href": "posts/2026-10-14-kicad-schaltung-zu-platine/index.html",
+    "title": "KiCad: Von der Simulation zur Platine",
+    "section": "",
+    "text": "Im Simulationsbeitrag haben wir eine RC-Schaltung aufgebaut und die Ladung des Kondensators in ngspice beobachtet. Jetzt machen wir daraus eine echte Platine. Dabei ändert sich die Schaltung an einer entscheidenden Stelle: Die Simulationsquelle wird durch eine Stiftleiste ersetzt, denn auf einer realen Platine kommt die Spannung von außen – vom Labornetzteil oder einer Batterie. Und am Ausgang kommt eine zweite Stiftleiste, damit du die reale Ladekurve messen und mit der Simulation vergleichen kannst."
+  },
+  {
+    "objectID": "posts/2026-10-14-kicad-schaltung-zu-platine/index.html#was-du-lernst",
+    "href": "posts/2026-10-14-kicad-schaltung-zu-platine/index.html#was-du-lernst",
+    "title": "KiCad: Von der Simulation zur Platine",
+    "section": "Was du lernst",
+    "text": "Was du lernst\n\nDie simulierte RC-Schaltung in ein PCB-Projekt überführen\nDie Simulationsquelle durch eine Stiftleiste ersetzen\nEine Stiftleiste am Ausgang für Messungen ergänzen\nFootprints zuweisen und den Schaltplan prüfen (ERC)\nDie Platine im Board-Editor layouten und Fertigungsdaten exportieren"
+  },
+  {
+    "objectID": "posts/2026-10-14-kicad-schaltung-zu-platine/index.html#voraussetzungen",
+    "href": "posts/2026-10-14-kicad-schaltung-zu-platine/index.html#voraussetzungen",
+    "title": "KiCad: Von der Simulation zur Platine",
+    "section": "Voraussetzungen",
+    "text": "Voraussetzungen\n\nKiCad 10 installiert (siehe unseren Installationsguide)\nDu hast die Kondensator-Simulation durchgeführt – wir bauen direkt auf deren Schaltung auf"
+  },
+  {
+    "objectID": "posts/2026-10-14-kicad-schaltung-zu-platine/index.html#schritt-1-projekt-vorbereiten",
+    "href": "posts/2026-10-14-kicad-schaltung-zu-platine/index.html#schritt-1-projekt-vorbereiten",
+    "title": "KiCad: Von der Simulation zur Platine",
+    "section": "Schritt 1: Projekt vorbereiten",
+    "text": "Schritt 1: Projekt vorbereiten\n\nStarte KiCad und öffne dein Simulationsprojekt rc-simulation\nSpeichere es unter neuem Namen: File → Save Project As, z. B. rc-platine\nÖffne den Schaltplan-Editor (Eeschema) – die RC-Schaltung mit Spannungsquelle, Widerstand (\\(10\\, \\text{kΩ}\\)), Kondensator (\\(100\\, \\text{µF}\\)) und den SPICE-Direktiven sollte noch offen sein\n\n\n\n\n\nAusgangslage: Schaltplan der RC-Schaltung aus dem Simulationsprojekt"
+  },
+  {
+    "objectID": "posts/2026-10-14-kicad-schaltung-zu-platine/index.html#schritt-2-schaltplan-für-die-platine-anpassen",
+    "href": "posts/2026-10-14-kicad-schaltung-zu-platine/index.html#schritt-2-schaltplan-für-die-platine-anpassen",
+    "title": "KiCad: Von der Simulation zur Platine",
+    "section": "Schritt 2: Schaltplan für die Platine anpassen",
+    "text": "Schritt 2: Schaltplan für die Platine anpassen\nDer Schaltplan enthält jetzt zwei Elemente, die auf einer Platine nichts zu suchen haben – und zwei Anschlusspunkte, die noch fehlen.\n\n1. Simulations-Zubehör entfernen\n\nMarkiere die SPICE-Direktiven und lösche sie mit Entf\nNetzschilder wie \\(U_C\\) und \\(U_{in}\\) darfst du behalten – sie erleichtern später die Fehlersuche\n\n\n\n2. Die Simulationsquelle durch eine Stiftleiste ersetzen\n\nLösche die Spannungsquelle (VDC)\nDrücke A (Add Symbol) und suche nach Conn_01x02_Male aus der Bibliothek Connector – eine zweipolige Stiftleiste\nPlatziere sie dort, wo vorher die Quelle stand, und benenne sie mit Doppelklick J1\nVerbinde Pin 1 mit dem Netz, das vorher der Pluspol der Quelle war (Netzlabel +10V), und Pin 2 mit GND\n\n\n\n\n\nStiftleiste J1 ersetzt die Simulationsquelle\n\n\n\n\n3. Stiftleiste am Ausgang platzieren\n\nPlatziere eine zweite Conn_01x02_Male und benenne sie J2\nVerbinde Pin 1 mit dem Netz \\(U_C\\) (zwischen Widerstand und Kondensator) und Pin 2 mit GND\nJ2 sitzt damit parallel zum Kondensator – hier schließt du später Multimeter oder Oszilloskop an und vergleichst die reale Ladekurve mit der aus der Simulation\n\n\n\n\n\nFertiger Schaltplan: J1 am Eingang, J2 am Ausgang\n\n\n\n\n\n\n\n\nWarningPWR_FLAG nicht vergessen\n\n\n\nOhne Spannungsquelle meldet der ERC den Fehler “Input Power pin not driven by any Output Power pins” – KiCad weiß ja nicht, dass die Spannung jetzt extern über J1 kommt. Platziere mit A ein PWR_FLAG und verbinde es mit dem +10V-Netz (und mit GND). Damit bestätigst du dem ERC: Hier kommt die Spannung wirklich her."
+  },
+  {
+    "objectID": "posts/2026-10-14-kicad-schaltung-zu-platine/index.html#schritt-3-footprints-zuweisen",
+    "href": "posts/2026-10-14-kicad-schaltung-zu-platine/index.html#schritt-3-footprints-zuweisen",
+    "title": "KiCad: Von der Simulation zur Platine",
+    "section": "Schritt 3: Footprints zuweisen",
+    "text": "Schritt 3: Footprints zuweisen\nJedes Symbol braucht jetzt sein Footprint – das physische Bauteilgehäuse mit den Lötpads.\n\nGehe zu Tools → Assign Footprints\nWeise die Footprints zu:\n\n\n\n\n\n\n\n\n\nSymbol\nBauteil\nFootprint (Bibliothek)\n\n\n\n\nR\nWiderstand \\(10\\, \\text{kΩ}\\)\nR_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal (Resistor_THT)\n\n\nC\nElektrolytkondensator \\(100\\, \\text{µF}\\)\nC_Radial_D8.0mm_H11.0mm_P3.50mm (Capacitor_THT)\n\n\nJ1, J2\nStiftleisten 2-polig\nPinHeader_1x02_P2.54mm_Vertical (Connector_PinHeader_2.54mm)\n\n\n\n\nKlicke auf Apply, Save Schematic and Continue\n\n\n\n\n\n\n\nTipTipp: Durchsteckmontage für die Schule\n\n\n\nWir wählen bewusst THT-Bauteile (Through-Hole) statt SMD: Sie sind mit dem normalen Lötkolben gut zu verlöten und Bauteile lassen sich leicht austauschen. SMD lohnt sich erst, wenn die Platine kleiner oder die Stückzahl größer wird.\n\n\n\n\n\n\nAssign-Footprints-Dialog mit den zugewiesenen Footprints"
+  },
+  {
+    "objectID": "posts/2026-10-14-kicad-schaltung-zu-platine/index.html#schritt-4-prüfen-und-ins-board-übernehmen",
+    "href": "posts/2026-10-14-kicad-schaltung-zu-platine/index.html#schritt-4-prüfen-und-ins-board-übernehmen",
+    "title": "KiCad: Von der Simulation zur Platine",
+    "section": "Schritt 4: Prüfen und ins Board übernehmen",
+    "text": "Schritt 4: Prüfen und ins Board übernehmen\n\nAnnotations prüfen: Gehe zu Inspect → Annotate Schematic und klicke auf Annotate, damit alle Symbole eindeutige Referenzen (R1, C1, J1, J2) haben\nERC ausführen: Gehe zu Inspect → Electrical Rules Checker → Perform ERC – das Ergebnis sollte 0 Fehler sein\nSpeichere den Schaltplan\nGehe zu Tools → Update PCB from Schematic (F8) und klicke auf Update PCB\n\n\n\n\n\nERC-Bericht: keine Fehler\n\n\n\n\n\n\nBoard-Editor mit den übernommenen Footprints\n\n\nDer Board-Editor öffnet sich mit allen Footprints in einem Stapel neben dem (noch leeren) Board."
+  },
+  {
+    "objectID": "posts/2026-10-14-kicad-schaltung-zu-platine/index.html#schritt-5-board-umriss-und-platzierung",
+    "href": "posts/2026-10-14-kicad-schaltung-zu-platine/index.html#schritt-5-board-umriss-und-platzierung",
+    "title": "KiCad: Von der Simulation zur Platine",
+    "section": "Schritt 5: Board-Umriss und Platzierung",
+    "text": "Schritt 5: Board-Umriss und Platzierung\n\nWähle oben in der Layer-Leiste den Layer Edge.Cuts\nZeichne mit Place → Add Rectangle eine Platine von z. B. 40 mm × 30 mm\nZiehe die Footprints aus dem Stapel auf die Platine und ordne sie entlang des Signalflusses an:\n\nJ1 an den linken Rand (Eingang)\nR1 in der Mitte\nC1 weiter rechts – Polarität beachten, der Pluspol-Markierungspunkt muss zur Plusseite zeigen\nJ2 an den rechten Rand (Ausgang)\n\nKontrolliere die Beschriftung im Silkscreen (F.Silks): Referenzen wie J1, J2 sollten lesbar und nicht von Bauteilen verdeckt sein\n\n\n\n\n\nPlatine mit Umriss und platzierten Bauteilen"
+  },
+  {
+    "objectID": "posts/2026-10-14-kicad-schaltung-zu-platine/index.html#schritt-6-leiterbahnen-routen",
+    "href": "posts/2026-10-14-kicad-schaltung-zu-platine/index.html#schritt-6-leiterbahnen-routen",
+    "title": "KiCad: Von der Simulation zur Platine",
+    "section": "Schritt 6: Leiterbahnen routen",
+    "text": "Schritt 6: Leiterbahnen routen\n\nWechsle auf den Layer F.Cu und starte mit X (Route Tracks) das Routing. Setze die Leiterbahnbreite auf ca. 0,5 mm – für unsere wenigen Milliampere mehr als ausreichend\nVerbinde die Luftverbindungen (Ratsnest-Linien):\n\nJ1 Pin 1 → R1 → C1 (Pluspol)\nJ1 Pin 2 → GND\nC1 (Minuspol) → GND\nJ2 Pin 1 → \\(U_C\\), J2 Pin 2 → GND\n\nFür GND legen wir eine Kupferfläche an: Place → Add Fill Zone, Layer F.Cu, Netz GND, über die ganze Platine – danach mit B (Edit Zone/Refill) füllen\n\n\n\n\n\n\n\nTipTipp: Warum eine GND-Fläche?\n\n\n\nDie Kupferfläche ersetzt einzelne GND-Leiterbahnen: weniger Routing- Arbeit, bessere mechanische Stabilität beim Löten und ein sauberer Massebezug – auch für deine Messung an J2.\n\n\n\n\n\n\nKomplett geroutete Platine mit GND-Kupferfläche"
+  },
+  {
+    "objectID": "posts/2026-10-14-kicad-schaltung-zu-platine/index.html#schritt-7-prüfen-und-fertigungsdaten-exportieren",
+    "href": "posts/2026-10-14-kicad-schaltung-zu-platine/index.html#schritt-7-prüfen-und-fertigungsdaten-exportieren",
+    "title": "KiCad: Von der Simulation zur Platine",
+    "section": "Schritt 7: Prüfen und Fertigungsdaten exportieren",
+    "text": "Schritt 7: Prüfen und Fertigungsdaten exportieren\n\nDRC ausführen\n\nGehe im Board-Editor zu Inspect → Design Rules Checker → Run DRC\nEs sollten 0 Fehler und höchstens harmlose Warnungen übrig sein\n\n\n\n\n\nDRC: keine Fehler\n\n\n\n\n3D-Vorschau\nMit View → 3D Viewer (Alt+3) kontrollierst du die Platine vor der Fertigung einmal von allen Seiten.\n\n\n\n\n3D-Vorschau der fertigen Platine\n\n\n\n\nGerber- und Bohrdaten\n\nGehe zu File → Fabrication Outputs → Plots\nWähle die empfohlenen Gerber-Layer (oder direkt die Voreinstellung für deinen Hersteller) und klicke auf Plot\nErzeuge anschließend die Bohrdaten über Generate Drill Files\nPacke den Ausgabeordner als ZIP – das ist das Format, das du bei jedem Leiterplatten-Hersteller hochlädst\n\n\n\n\n\nPlot-Dialog für die Gerber-Ausgabe"
+  },
+  {
+    "objectID": "posts/2026-10-14-kicad-schaltung-zu-platine/index.html#theorieteil-warum-stiftleisten-statt-simulationsquelle",
+    "href": "posts/2026-10-14-kicad-schaltung-zu-platine/index.html#theorieteil-warum-stiftleisten-statt-simulationsquelle",
+    "title": "KiCad: Von der Simulation zur Platine",
+    "section": "Theorieteil: Warum Stiftleisten statt Simulationsquelle?",
+    "text": "Theorieteil: Warum Stiftleisten statt Simulationsquelle?\nDie Simulationsquelle war ein Modell: ein ideales Bauteil, das ngspice für die Berechnung braucht. Auf einer realen Platine gibt es sie nicht – Spannung liefert ein Netzteil, eine Batterie oder ein Labornetzteil, das von außen angeschlossen wird. Die Stiftleiste J1 ist genau diese Schnittstelle: Sie macht aus dem Modellanschluss einen physischen Anschluss.\nDie Stiftleiste J2 am Ausgang hat die gleiche Aufgabe in die andere Richtung: Sie führt das Netz \\(U_C\\) heraus, das wir in der Simulation geplottet haben. Mit einem Multimeter an J2 kannst du die reale Ladekurve messen und mit der Tabelle aus dem Simulationsbeitrag vergleichen. Die Physik ändert sich nicht: Mit \\(R = 10\\, \\text{kΩ}\\) und \\(C = 100\\, \\text{µF}\\) gilt weiterhin \\(\\tau = R \\cdot C = 1\\, \\text{s}\\) – nach etwa 5 Sekunden ist der Kondensator praktisch voll geladen.\nDer ERC-Punkt mit dem PWR_FLAG passt ebenfalls in dieses Bild: KiCad prüft, ob jedes Power-Netz auch wirklich von einer Quelle getrieben wird. Da die Quelle jetzt außerhalb der Platine liegt, sagst du es dem ERC mit dem Flag explizit.\nUnd die Footprints sind die Brücke zwischen Symbol und Bauteil: Das Widerstandssymbol R aus der Simulation wird zu einem konkreten Bauteil mit 10,16 mm Rastermaß – nur so weiß der Board-Editor, wie groß die Lötpads sein müssen."
+  },
+  {
+    "objectID": "posts/2026-10-14-kicad-schaltung-zu-platine/index.html#tipps-und-tricks",
+    "href": "posts/2026-10-14-kicad-schaltung-zu-platine/index.html#tipps-und-tricks",
+    "title": "KiCad: Von der Simulation zur Platine",
+    "section": "Tipps und Tricks",
+    "text": "Tipps und Tricks\n\n\n\n\n\n\nTipTipp: Simulation und Realität vergleichen\n\n\n\nSchließe an J1 ein Labornetzteil mit \\(10\\, \\text{V}\\) an und ein Multimeter an J2. Lade den Kondensator (Netzteil kurz trennen und wieder verbinden) und stoppe, wann J2 ca. \\(6{,}3\\, \\text{V}\\) zeigt: Nach einer Sekunde – exakt wie in der Simulation.\n\n\n\n\n\n\n\n\nTipTipp: Bauteilwerte im Silkscreen\n\n\n\nFüge Texte auf dem F.Silks-Layer hinzu, z. B. 10k, 100µ und +10V / GND an den Stiftleisten. So erkennst du die Belegung auch ohne Schaltplan.\n\n\n\n\n\n\n\n\nWarningHäufige Fehler\n\n\n\n\nPWR_FLAG vergessen: Der ERC meldet “Input Power pin not driven” – Flag platzieren und mit +10V sowie GND verbinden.\nElektrolytkondensator verpolen: Der Minuspol-Streifen muss Richtung GND. Verpolte Elkos können beim Laden aufplatzen.\nEdge.Cuts nicht geschlossen: Die Umrisslinie muss ein geschlossener Rahmen sein, sonst akzeptieren Hersteller und DRC die Platine nicht.\nSPICE-Direktiven nicht gelöscht: Sie stören das Board nicht direkt, verwirren aber jeden, der den Schaltplan später liest.\nHeader falsch gepolt: Prüfe an J1 und J2, welcher Pin im Schaltplan Pin 1 ist – im Footprint ist Pin 1 am eckigen Pad markiert."
+  },
+  {
+    "objectID": "posts/2026-10-14-kicad-schaltung-zu-platine/index.html#nächste-schritte",
+    "href": "posts/2026-10-14-kicad-schaltung-zu-platine/index.html#nächste-schritte",
+    "title": "KiCad: Von der Simulation zur Platine",
+    "section": "Nächste Schritte",
+    "text": "Nächste Schritte\nJetzt, wo deine erste Platine aus einer Simulation entstanden ist, kannst du:\n\nDie Gerber-Dateien bei einem Hersteller hochladen und die Platine bestellen\nDie reale Ladekurve messen und mit der ngspice-Simulation vergleichen\nDie Schaltung erweitern: z. B. einen Taster zum Entladen des Kondensators oder eine LED mit Vorwiderstand ergänzen\n\nViel Erfolg beim Ätten, Bestellen und Löten deiner ersten Platine!"
   }
 ]

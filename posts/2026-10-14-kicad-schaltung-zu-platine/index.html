@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.24">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Human">
+<meta name="author" content="Mistral Vibe (KI Assistent)">
+<meta name="dcterms.date" content="2026-10-14">
+<meta name="description" content="Verwandle die simulierte RC-Schaltung in eine echte Leiterplatte: ersetze die Simulationsquelle durch eine Stiftleiste, ergänze eine Stiftleiste am Ausgang, weise Footprints zu, route die Platine und exportiere die Fertigungsdaten.">
+
+<title>KiCad: Von der Simulation zur Platine – KiCad Blog</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-e31584831b205ffbb2d98406f31c2a5b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
+<meta property="og:title" content="KiCad: Von der Simulation zur Platine – KiCad Blog">
+<meta property="og:description" content="Verwandle die simulierte RC-Schaltung in eine echte Leiterplatte: ersetze die Simulationsquelle durch eine Stiftleiste, ergänze eine Stiftleiste am Ausgang, weise Footprints zu, route die Platine und exportiere die Fertigungsdaten.">
+<meta property="og:image" content="https://alfred-hermes-bot.github.io/kicad-blog/posts/2026-10-14-kicad-schaltung-zu-platine/images/01-schaltplan-ausgangslage.png">
+<meta property="og:site_name" content="KiCad Blog">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    </a>
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">KiCad Blog</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Blog</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">Über</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#was-du-lernst" id="toc-was-du-lernst" class="nav-link active" data-scroll-target="#was-du-lernst">Was du lernst</a></li>
+  <li><a href="#voraussetzungen" id="toc-voraussetzungen" class="nav-link" data-scroll-target="#voraussetzungen">Voraussetzungen</a></li>
+  <li><a href="#schritt-1-projekt-vorbereiten" id="toc-schritt-1-projekt-vorbereiten" class="nav-link" data-scroll-target="#schritt-1-projekt-vorbereiten">Schritt 1: Projekt vorbereiten</a></li>
+  <li><a href="#schritt-2-schaltplan-für-die-platine-anpassen" id="toc-schritt-2-schaltplan-für-die-platine-anpassen" class="nav-link" data-scroll-target="#schritt-2-schaltplan-für-die-platine-anpassen">Schritt 2: Schaltplan für die Platine anpassen</a>
+  <ul class="collapse">
+  <li><a href="#simulations-zubehör-entfernen" id="toc-simulations-zubehör-entfernen" class="nav-link" data-scroll-target="#simulations-zubehör-entfernen">1. Simulations-Zubehör entfernen</a></li>
+  <li><a href="#die-simulationsquelle-durch-eine-stiftleiste-ersetzen" id="toc-die-simulationsquelle-durch-eine-stiftleiste-ersetzen" class="nav-link" data-scroll-target="#die-simulationsquelle-durch-eine-stiftleiste-ersetzen">2. Die Simulationsquelle durch eine Stiftleiste ersetzen</a></li>
+  <li><a href="#stiftleiste-am-ausgang-platzieren" id="toc-stiftleiste-am-ausgang-platzieren" class="nav-link" data-scroll-target="#stiftleiste-am-ausgang-platzieren">3. Stiftleiste am Ausgang platzieren</a></li>
+  </ul></li>
+  <li><a href="#schritt-3-footprints-zuweisen" id="toc-schritt-3-footprints-zuweisen" class="nav-link" data-scroll-target="#schritt-3-footprints-zuweisen">Schritt 3: Footprints zuweisen</a></li>
+  <li><a href="#schritt-4-prüfen-und-ins-board-übernehmen" id="toc-schritt-4-prüfen-und-ins-board-übernehmen" class="nav-link" data-scroll-target="#schritt-4-prüfen-und-ins-board-übernehmen">Schritt 4: Prüfen und ins Board übernehmen</a></li>
+  <li><a href="#schritt-5-board-umriss-und-platzierung" id="toc-schritt-5-board-umriss-und-platzierung" class="nav-link" data-scroll-target="#schritt-5-board-umriss-und-platzierung">Schritt 5: Board-Umriss und Platzierung</a></li>
+  <li><a href="#schritt-6-leiterbahnen-routen" id="toc-schritt-6-leiterbahnen-routen" class="nav-link" data-scroll-target="#schritt-6-leiterbahnen-routen">Schritt 6: Leiterbahnen routen</a></li>
+  <li><a href="#schritt-7-prüfen-und-fertigungsdaten-exportieren" id="toc-schritt-7-prüfen-und-fertigungsdaten-exportieren" class="nav-link" data-scroll-target="#schritt-7-prüfen-und-fertigungsdaten-exportieren">Schritt 7: Prüfen und Fertigungsdaten exportieren</a>
+  <ul class="collapse">
+  <li><a href="#drc-ausführen" id="toc-drc-ausführen" class="nav-link" data-scroll-target="#drc-ausführen">DRC ausführen</a></li>
+  <li><a href="#d-vorschau" id="toc-d-vorschau" class="nav-link" data-scroll-target="#d-vorschau">3D-Vorschau</a></li>
+  <li><a href="#gerber--und-bohrdaten" id="toc-gerber--und-bohrdaten" class="nav-link" data-scroll-target="#gerber--und-bohrdaten">Gerber- und Bohrdaten</a></li>
+  </ul></li>
+  <li><a href="#theorieteil-warum-stiftleisten-statt-simulationsquelle" id="toc-theorieteil-warum-stiftleisten-statt-simulationsquelle" class="nav-link" data-scroll-target="#theorieteil-warum-stiftleisten-statt-simulationsquelle">Theorieteil: Warum Stiftleisten statt Simulationsquelle?</a></li>
+  <li><a href="#tipps-und-tricks" id="toc-tipps-und-tricks" class="nav-link" data-scroll-target="#tipps-und-tricks">Tipps und Tricks</a></li>
+  <li><a href="#nächste-schritte" id="toc-nächste-schritte" class="nav-link" data-scroll-target="#nächste-schritte">Nächste Schritte</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">KiCad: Von der Simulation zur Platine</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">Anleitung</div>
+    <div class="quarto-category">PCB-Design</div>
+    <div class="quarto-category">KiCad</div>
+    <div class="quarto-category">RC-Schaltung</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    Verwandle die simulierte RC-Schaltung in eine echte Leiterplatte: ersetze die Simulationsquelle durch eine Stiftleiste, ergänze eine Stiftleiste am Ausgang, weise Footprints zu, route die Platine und exportiere die Fertigungsdaten.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Authors</div>
+    <div class="quarto-title-meta-contents">
+             <p>Human </p>
+             <p>Mistral Vibe (KI Assistent) </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">October 14, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Im <a href="../..\posts/2026-10-08-kicad-kondensator-simulation/">Simulationsbeitrag</a> haben wir eine RC-Schaltung aufgebaut und die Ladung des Kondensators in ngspice beobachtet. Jetzt machen wir daraus eine <strong>echte Platine</strong>. Dabei ändert sich die Schaltung an einer entscheidenden Stelle: Die <strong>Simulationsquelle wird durch eine Stiftleiste ersetzt</strong>, denn auf einer realen Platine kommt die Spannung von außen – vom Labornetzteil oder einer Batterie. Und am Ausgang kommt eine zweite Stiftleiste, damit du die reale Ladekurve messen und mit der Simulation vergleichen kannst.</p>
+<section id="was-du-lernst" class="level2">
+<h2 class="anchored" data-anchor-id="was-du-lernst">Was du lernst</h2>
+<ul>
+<li>Die simulierte RC-Schaltung in ein <strong>PCB-Projekt</strong> überführen</li>
+<li>Die <strong>Simulationsquelle durch eine Stiftleiste</strong> ersetzen</li>
+<li>Eine <strong>Stiftleiste am Ausgang</strong> für Messungen ergänzen</li>
+<li><strong>Footprints</strong> zuweisen und den Schaltplan prüfen (ERC)</li>
+<li>Die Platine im <strong>Board-Editor</strong> layouten und <strong>Fertigungsdaten</strong> exportieren</li>
+</ul>
+</section>
+<section id="voraussetzungen" class="level2">
+<h2 class="anchored" data-anchor-id="voraussetzungen">Voraussetzungen</h2>
+<ul>
+<li>KiCad 10 installiert (siehe unseren <a href="../..\posts/2026-09-24-kicad-installation/">Installationsguide</a>)</li>
+<li>Du hast die <a href="../..\posts/2026-10-08-kicad-kondensator-simulation/">Kondensator-Simulation</a> durchgeführt – wir bauen direkt auf deren Schaltung auf</li>
+</ul>
+</section>
+<section id="schritt-1-projekt-vorbereiten" class="level2">
+<h2 class="anchored" data-anchor-id="schritt-1-projekt-vorbereiten">Schritt 1: Projekt vorbereiten</h2>
+<ol type="1">
+<li>Starte <strong>KiCad</strong> und öffne dein Simulationsprojekt <code>rc-simulation</code></li>
+<li>Speichere es unter neuem Namen: <strong>File → Save Project As</strong>, z. B. <code>rc-platine</code></li>
+<li>Öffne den <strong>Schaltplan-Editor (Eeschema)</strong> – die RC-Schaltung mit Spannungsquelle, Widerstand (<span class="math inline">\(10\, \text{kΩ}\)</span>), Kondensator (<span class="math inline">\(100\, \text{µF}\)</span>) und den SPICE-Direktiven sollte noch offen sein</li>
+</ol>
+<!-- Screenshot-Platzhalter: Ausgangslage – Schaltplan aus dem Simulationsprojekt im Eeschema -->
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/01-schaltplan-ausgangslage.png" class="img-fluid figure-img"></p>
+<figcaption>Ausgangslage: Schaltplan der RC-Schaltung aus dem Simulationsprojekt</figcaption>
+</figure>
+</div>
+</section>
+<section id="schritt-2-schaltplan-für-die-platine-anpassen" class="level2">
+<h2 class="anchored" data-anchor-id="schritt-2-schaltplan-für-die-platine-anpassen">Schritt 2: Schaltplan für die Platine anpassen</h2>
+<p>Der Schaltplan enthält jetzt zwei Elemente, die auf einer Platine nichts zu suchen haben – und zwei Anschlusspunkte, die noch fehlen.</p>
+<section id="simulations-zubehör-entfernen" class="level3">
+<h3 class="anchored" data-anchor-id="simulations-zubehör-entfernen">1. Simulations-Zubehör entfernen</h3>
+<ol type="1">
+<li>Markiere die <strong>SPICE-Direktiven</strong> und lösche sie mit <strong>Entf</strong></li>
+<li>Netzschilder wie <span class="math inline">\(U_C\)</span> und <span class="math inline">\(U_{in}\)</span> darfst du behalten – sie erleichtern später die Fehlersuche</li>
+</ol>
+</section>
+<section id="die-simulationsquelle-durch-eine-stiftleiste-ersetzen" class="level3">
+<h3 class="anchored" data-anchor-id="die-simulationsquelle-durch-eine-stiftleiste-ersetzen">2. Die Simulationsquelle durch eine Stiftleiste ersetzen</h3>
+<ol type="1">
+<li>Lösche die <strong>Spannungsquelle (VDC)</strong></li>
+<li>Drücke <strong>A</strong> (Add Symbol) und suche nach <code>Conn_01x02_Male</code> aus der Bibliothek <em>Connector</em> – eine zweipolige Stiftleiste</li>
+<li>Platziere sie dort, wo vorher die Quelle stand, und benenne sie mit Doppelklick <strong>J1</strong></li>
+<li>Verbinde <strong>Pin 1</strong> mit dem Netz, das vorher der Pluspol der Quelle war (Netzlabel <code>+10V</code>), und <strong>Pin 2</strong> mit <strong>GND</strong></li>
+</ol>
+<!-- Screenshot-Platzhalter: Schaltplan mit entfernter Quelle und neu platzierter Stiftleiste J1 -->
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/02-quelle-ersetzen.png" class="img-fluid figure-img"></p>
+<figcaption>Stiftleiste J1 ersetzt die Simulationsquelle</figcaption>
+</figure>
+</div>
+</section>
+<section id="stiftleiste-am-ausgang-platzieren" class="level3">
+<h3 class="anchored" data-anchor-id="stiftleiste-am-ausgang-platzieren">3. Stiftleiste am Ausgang platzieren</h3>
+<ol type="1">
+<li>Platziere eine zweite <code>Conn_01x02_Male</code> und benenne sie <strong>J2</strong></li>
+<li>Verbinde <strong>Pin 1</strong> mit dem Netz <strong><span class="math inline">\(U_C\)</span></strong> (zwischen Widerstand und Kondensator) und <strong>Pin 2</strong> mit <strong>GND</strong></li>
+<li>J2 sitzt damit <strong>parallel zum Kondensator</strong> – hier schließt du später Multimeter oder Oszilloskop an und vergleichst die reale Ladekurve mit der aus der Simulation</li>
+</ol>
+<!-- Screenshot-Platzhalter: Fertiger Schaltplan mit J1 (Eingang), R, C, J2 (Ausgang), PWR_FLAG und GND -->
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/03-schaltplan-fertig.png" class="img-fluid figure-img"></p>
+<figcaption>Fertiger Schaltplan: J1 am Eingang, J2 am Ausgang</figcaption>
+</figure>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>PWR_FLAG nicht vergessen
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Ohne Spannungsquelle meldet der ERC den Fehler <em>“Input Power pin not driven by any Output Power pins”</em> – KiCad weiß ja nicht, dass die Spannung jetzt extern über J1 kommt. Platziere mit <strong>A</strong> ein <strong>PWR_FLAG</strong> und verbinde es mit dem <code>+10V</code>-Netz (und mit GND). Damit bestätigst du dem ERC: Hier kommt die Spannung wirklich her.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="schritt-3-footprints-zuweisen" class="level2">
+<h2 class="anchored" data-anchor-id="schritt-3-footprints-zuweisen">Schritt 3: Footprints zuweisen</h2>
+<p>Jedes Symbol braucht jetzt sein <strong>Footprint</strong> – das physische Bauteilgehäuse mit den Lötpads.</p>
+<ol type="1">
+<li>Gehe zu <strong>Tools → Assign Footprints</strong></li>
+<li>Weise die Footprints zu:</li>
+</ol>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 19%">
+<col style="width: 21%">
+<col style="width: 58%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Symbol</th>
+<th>Bauteil</th>
+<th>Footprint (Bibliothek)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>R</strong></td>
+<td>Widerstand <span class="math inline">\(10\, \text{kΩ}\)</span></td>
+<td><code>R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal</code> (<em>Resistor_THT</em>)</td>
+</tr>
+<tr class="even">
+<td><strong>C</strong></td>
+<td>Elektrolytkondensator <span class="math inline">\(100\, \text{µF}\)</span></td>
+<td><code>C_Radial_D8.0mm_H11.0mm_P3.50mm</code> (<em>Capacitor_THT</em>)</td>
+</tr>
+<tr class="odd">
+<td><strong>J1, J2</strong></td>
+<td>Stiftleisten 2-polig</td>
+<td><code>PinHeader_1x02_P2.54mm_Vertical</code> (<em>Connector_PinHeader_2.54mm</em>)</td>
+</tr>
+</tbody>
+</table>
+<ol start="3" type="1">
+<li>Klicke auf <strong>Apply, Save Schematic and Continue</strong></li>
+</ol>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Tipp: Durchsteckmontage für die Schule
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Wir wählen bewusst <strong>THT-Bauteile</strong> (Through-Hole) statt SMD: Sie sind mit dem normalen Lötkolben gut zu verlöten und Bauteile lassen sich leicht austauschen. SMD lohnt sich erst, wenn die Platine kleiner oder die Stückzahl größer wird.</p>
+</div>
+</div>
+<!-- Screenshot-Platzhalter: Assign-Footprints-Dialog mit zugewiesenen Footprints für R, C, J1 und J2 -->
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/04-footprints.png" class="img-fluid figure-img"></p>
+<figcaption>Assign-Footprints-Dialog mit den zugewiesenen Footprints</figcaption>
+</figure>
+</div>
+</section>
+<section id="schritt-4-prüfen-und-ins-board-übernehmen" class="level2">
+<h2 class="anchored" data-anchor-id="schritt-4-prüfen-und-ins-board-übernehmen">Schritt 4: Prüfen und ins Board übernehmen</h2>
+<ol type="1">
+<li><strong>Annotations prüfen:</strong> Gehe zu <strong>Inspect → Annotate Schematic</strong> und klicke auf <strong>Annotate</strong>, damit alle Symbole eindeutige Referenzen (R1, C1, J1, J2) haben</li>
+<li><strong>ERC ausführen:</strong> Gehe zu <strong>Inspect → Electrical Rules Checker → Perform ERC</strong> – das Ergebnis sollte <strong>0 Fehler</strong> sein</li>
+<li>Speichere den Schaltplan</li>
+<li>Gehe zu <strong>Tools → Update PCB from Schematic (F8)</strong> und klicke auf <strong>Update PCB</strong></li>
+</ol>
+<!-- Screenshot-Platzhalter: ERC-Bericht ohne Fehler -->
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/05-erc.png" class="img-fluid figure-img"></p>
+<figcaption>ERC-Bericht: keine Fehler</figcaption>
+</figure>
+</div>
+<!-- Screenshot-Platzhalter: Board-Editor nach "Update PCB from Schematic" – Footprint-Stapel neben leerem Boardrahmen -->
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/06-update-pcb.png" class="img-fluid figure-img"></p>
+<figcaption>Board-Editor mit den übernommenen Footprints</figcaption>
+</figure>
+</div>
+<p>Der Board-Editor öffnet sich mit allen Footprints in einem Stapel neben dem (noch leeren) Board.</p>
+</section>
+<section id="schritt-5-board-umriss-und-platzierung" class="level2">
+<h2 class="anchored" data-anchor-id="schritt-5-board-umriss-und-platzierung">Schritt 5: Board-Umriss und Platzierung</h2>
+<ol type="1">
+<li>Wähle oben in der Layer-Leiste den Layer <strong>Edge.Cuts</strong></li>
+<li>Zeichne mit <strong>Place → Add Rectangle</strong> eine Platine von z. B. <strong>40 mm × 30 mm</strong></li>
+<li>Ziehe die Footprints aus dem Stapel auf die Platine und ordne sie entlang des Signalflusses an:
+<ul>
+<li><strong>J1</strong> an den linken Rand (Eingang)</li>
+<li><strong>R1</strong> in der Mitte</li>
+<li><strong>C1</strong> weiter rechts – <strong>Polarität beachten</strong>, der Pluspol-Markierungspunkt muss zur Plusseite zeigen</li>
+<li><strong>J2</strong> an den rechten Rand (Ausgang)</li>
+</ul></li>
+<li>Kontrolliere die Beschriftung im <strong>Silkscreen</strong> (F.Silks): Referenzen wie J1, J2 sollten lesbar und nicht von Bauteilen verdeckt sein</li>
+</ol>
+<!-- Screenshot-Platzhalter: Platine mit Edge.Cuts-Umriss und platzierten Bauteilen -->
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/07-outline-platzierung.png" class="img-fluid figure-img"></p>
+<figcaption>Platine mit Umriss und platzierten Bauteilen</figcaption>
+</figure>
+</div>
+</section>
+<section id="schritt-6-leiterbahnen-routen" class="level2">
+<h2 class="anchored" data-anchor-id="schritt-6-leiterbahnen-routen">Schritt 6: Leiterbahnen routen</h2>
+<ol type="1">
+<li>Wechsle auf den Layer <strong>F.Cu</strong> und starte mit <strong>X</strong> (Route Tracks) das Routing. Setze die <strong>Leiterbahnbreite</strong> auf ca. <strong>0,5 mm</strong> – für unsere wenigen Milliampere mehr als ausreichend</li>
+<li>Verbinde die Luftverbindungen (Ratsnest-Linien):
+<ul>
+<li>J1 Pin 1 → R1 → C1 (Pluspol)</li>
+<li>J1 Pin 2 → GND</li>
+<li>C1 (Minuspol) → GND</li>
+<li>J2 Pin 1 → <span class="math inline">\(U_C\)</span>, J2 Pin 2 → GND</li>
+</ul></li>
+<li>Für GND legen wir eine <strong>Kupferfläche</strong> an: <strong>Place → Add Fill Zone</strong>, Layer F.Cu, Netz GND, über die ganze Platine – danach mit <strong>B</strong> (Edit Zone/Refill) füllen</li>
+</ol>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Tipp: Warum eine GND-Fläche?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Die Kupferfläche ersetzt einzelne GND-Leiterbahnen: weniger Routing- Arbeit, bessere mechanische Stabilität beim Löten und ein sauberer Massebezug – auch für deine Messung an J2.</p>
+</div>
+</div>
+<!-- Screenshot-Platzhalter: Komplett geroutete Platine mit GND-Fläche -->
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/08-routing.png" class="img-fluid figure-img"></p>
+<figcaption>Komplett geroutete Platine mit GND-Kupferfläche</figcaption>
+</figure>
+</div>
+</section>
+<section id="schritt-7-prüfen-und-fertigungsdaten-exportieren" class="level2">
+<h2 class="anchored" data-anchor-id="schritt-7-prüfen-und-fertigungsdaten-exportieren">Schritt 7: Prüfen und Fertigungsdaten exportieren</h2>
+<section id="drc-ausführen" class="level3">
+<h3 class="anchored" data-anchor-id="drc-ausführen">DRC ausführen</h3>
+<ol type="1">
+<li>Gehe im Board-Editor zu <strong>Inspect → Design Rules Checker → Run DRC</strong></li>
+<li>Es sollten <strong>0 Fehler</strong> und höchstens harmlose Warnungen übrig sein</li>
+</ol>
+<!-- Screenshot-Platzhalter: DRC-Dialog mit 0 Fehlern -->
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/09-drc.png" class="img-fluid figure-img"></p>
+<figcaption>DRC: keine Fehler</figcaption>
+</figure>
+</div>
+</section>
+<section id="d-vorschau" class="level3">
+<h3 class="anchored" data-anchor-id="d-vorschau">3D-Vorschau</h3>
+<p>Mit <strong>View → 3D Viewer</strong> (Alt+3) kontrollierst du die Platine vor der Fertigung einmal von allen Seiten.</p>
+<!-- Screenshot-Platzhalter: 3D-Viewer mit der fertigen Platine -->
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/10-3d-ansicht.png" class="img-fluid figure-img"></p>
+<figcaption>3D-Vorschau der fertigen Platine</figcaption>
+</figure>
+</div>
+</section>
+<section id="gerber--und-bohrdaten" class="level3">
+<h3 class="anchored" data-anchor-id="gerber--und-bohrdaten">Gerber- und Bohrdaten</h3>
+<ol type="1">
+<li>Gehe zu <strong>File → Fabrication Outputs → Plots</strong></li>
+<li>Wähle die empfohlenen <strong>Gerber-Layer</strong> (oder direkt die Voreinstellung für deinen Hersteller) und klicke auf <strong>Plot</strong></li>
+<li>Erzeuge anschließend die <strong>Bohrdaten</strong> über <strong>Generate Drill Files</strong></li>
+<li>Packe den Ausgabeordner als <strong>ZIP</strong> – das ist das Format, das du bei jedem Leiterplatten-Hersteller hochlädst</li>
+</ol>
+<!-- Screenshot-Platzhalter: Plot-Dialog (Gerber-Ausgabe) -->
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/11-gerber.png" class="img-fluid figure-img"></p>
+<figcaption>Plot-Dialog für die Gerber-Ausgabe</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="theorieteil-warum-stiftleisten-statt-simulationsquelle" class="level2">
+<h2 class="anchored" data-anchor-id="theorieteil-warum-stiftleisten-statt-simulationsquelle">Theorieteil: Warum Stiftleisten statt Simulationsquelle?</h2>
+<p>Die Simulationsquelle war ein <strong>Modell</strong>: ein ideales Bauteil, das ngspice für die Berechnung braucht. Auf einer realen Platine gibt es sie nicht – Spannung liefert ein Netzteil, eine Batterie oder ein Labornetzteil, das <strong>von außen angeschlossen</strong> wird. Die Stiftleiste J1 ist genau diese Schnittstelle: Sie macht aus dem Modellanschluss einen <strong>physischen Anschluss</strong>.</p>
+<p>Die Stiftleiste <strong>J2 am Ausgang</strong> hat die gleiche Aufgabe in die andere Richtung: Sie führt das Netz <span class="math inline">\(U_C\)</span> heraus, das wir in der Simulation geplottet haben. Mit einem Multimeter an J2 kannst du die <strong>reale Ladekurve</strong> messen und mit der Tabelle aus dem <a href="../..\posts/2026-10-08-kicad-kondensator-simulation/">Simulationsbeitrag</a> vergleichen. Die Physik ändert sich nicht: Mit <span class="math inline">\(R = 10\, \text{kΩ}\)</span> und <span class="math inline">\(C = 100\, \text{µF}\)</span> gilt weiterhin <span class="math inline">\(\tau = R \cdot C = 1\, \text{s}\)</span> – nach etwa 5 Sekunden ist der Kondensator praktisch voll geladen.</p>
+<p>Der ERC-Punkt mit dem <strong>PWR_FLAG</strong> passt ebenfalls in dieses Bild: KiCad prüft, ob jedes Power-Netz auch wirklich von einer Quelle getrieben wird. Da die Quelle jetzt außerhalb der Platine liegt, sagst du es dem ERC mit dem Flag explizit.</p>
+<p>Und die <strong>Footprints</strong> sind die Brücke zwischen Symbol und Bauteil: Das Widerstandssymbol <code>R</code> aus der Simulation wird zu einem konkreten Bauteil mit 10,16 mm Rastermaß – nur so weiß der Board-Editor, wie groß die Lötpads sein müssen.</p>
+</section>
+<section id="tipps-und-tricks" class="level2">
+<h2 class="anchored" data-anchor-id="tipps-und-tricks">Tipps und Tricks</h2>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Tipp: Simulation und Realität vergleichen
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Schließe an J1 ein Labornetzteil mit <span class="math inline">\(10\, \text{V}\)</span> an und ein Multimeter an J2. Lade den Kondensator (Netzteil kurz trennen und wieder verbinden) und stoppe, wann J2 ca. <span class="math inline">\(6{,}3\, \text{V}\)</span> zeigt: Nach einer Sekunde – exakt wie in der Simulation.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Tipp: Bauteilwerte im Silkscreen
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Füge Texte auf dem <strong>F.Silks-Layer</strong> hinzu, z. B. <code>10k</code>, <code>100µ</code> und <code>+10V / GND</code> an den Stiftleisten. So erkennst du die Belegung auch ohne Schaltplan.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Häufige Fehler
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>PWR_FLAG vergessen:</strong> Der ERC meldet <em>“Input Power pin not driven”</em> – Flag platzieren und mit <code>+10V</code> sowie GND verbinden.</li>
+<li><strong>Elektrolytkondensator verpolen:</strong> Der Minuspol-Streifen muss Richtung GND. Verpolte Elkos können beim Laden aufplatzen.</li>
+<li><strong>Edge.Cuts nicht geschlossen:</strong> Die Umrisslinie muss ein geschlossener Rahmen sein, sonst akzeptieren Hersteller und DRC die Platine nicht.</li>
+<li><strong>SPICE-Direktiven nicht gelöscht:</strong> Sie stören das Board nicht direkt, verwirren aber jeden, der den Schaltplan später liest.</li>
+<li><strong>Header falsch gepolt:</strong> Prüfe an J1 und J2, welcher Pin im Schaltplan Pin 1 ist – im Footprint ist Pin 1 am eckigen Pad markiert.</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="nächste-schritte" class="level2">
+<h2 class="anchored" data-anchor-id="nächste-schritte">Nächste Schritte</h2>
+<p>Jetzt, wo deine erste Platine aus einer Simulation entstanden ist, kannst du:</p>
+<ul>
+<li>Die <strong>Gerber-Dateien bei einem Hersteller</strong> hochladen und die Platine bestellen</li>
+<li>Die <strong>reale Ladekurve messen</strong> und mit der ngspice-Simulation vergleichen</li>
+<li>Die Schaltung <strong>erweitern</strong>: z. B. einen Taster zum Entladen des Kondensators oder eine LED mit Vorwiderstand ergänzen</li>
+</ul>
+<p>Viel Erfolg beim Ätten, Bestellen und Löten deiner ersten Platine!</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/alfred-hermes-bot\.github\.io\/kicad-blog\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>© 2026 · <a href="https://www.kicad.org">KiCad</a> ist eine eingetragene Marke der KiCad Developers.</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
