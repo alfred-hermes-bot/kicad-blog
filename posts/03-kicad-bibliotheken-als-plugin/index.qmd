@@ -41,10 +41,8 @@ Die Desktop-App ist auch für das InHouse-Plug-in aus dem Beitrag [KiCad: InHous
 5. Wähle im Dateidialog die heruntergeladene ZIP-Datei aus. Entpacke sie nicht.
 6. Die PCM prüft die Paketmetadaten und die Kompatibilität mit deiner KiCad-Version. Klicke zur Installation auf **Installieren (Install)**, falls ein Bestätigungsdialog angezeigt wird.
 7. Schließe das Plugin- und Content-Verwaltungsfenster (Plugin and Content Manager) nach der Installation.
-8. Öffne einmalig den Leiterplatteneditor (PCB Editor), um die Bibliotheken zu initialisieren. Danach kannst du die Editoren wieder schließen.
-9. Schließe alle geöffneten KiCad-Fenster und starte KiCad neu, um die Installation abzuschließen.
+8. Die Bauteile stehen nun zur Verfügung.
 
-Die PCM speichert das Paket im KiCad-Benutzerordner und trägt die enthaltenen Symbol- und Footprint-Bibliotheken automatisch in die globalen Bibliothekstabellen ein. Du musst nichts weiter konfigurieren.
 
 ## Symbolbibliothek testen
 
@@ -52,19 +50,12 @@ Die PCM speichert das Paket im KiCad-Benutzerordner und trägt die enthaltenen S
 2. Starte den Schaltplaneditor (Schematic Editor).
 3. Wähle die Aktion zum Platzieren eines Symbols (Place Symbol).
 4. Öffne den Dialog **Symbol wählen (Choose Symbol)**.
-5. Prüfe, ob die InHouse-Symbolbibliothek (InHouse Symbol Library) in der Bibliotheksliste verfügbar ist.
-
-## Footprint-Bibliothek testen
-
-1. Öffne den Leiterplatteneditor (PCB Editor).
-2. Wähle die Aktion zum Platzieren eines Footprints (Add Footprint).
-3. Öffne den Dialog **Footprint wählen (Choose Footprint)**.
-4. Prüfe, ob die InHouse-Footprint-Bibliothek (InHouse Footprint Library) in der Bibliotheksliste verfügbar ist.
+5. Prüfe, ob die neue Symbolbibliothek in der Bibliotheksliste verfügbar ist.
 
 ::: callout-important
 ## Dringend empfohlen: Standard-Bibliotheken deaktivieren
 
-KiCad bringt tausende Symbol- und Footprint-Einträge mit, die sofort mitinstalliert und aktiviert sind. Als Einsteiger siehst du im Dialog **Symbol wählen (Choose Symbol)** dadurch hunderte ähnliche Bauteile – und verlierst leicht den Überblick. **Deaktiviere die KiCad-Standard-Bibliotheken und arbeitete ausschließlich mit der InHouse-Bibliothek.** Diese Einstellung ist besonders für Einsteiger dringend empfohlen.
+KiCad bringt tausende Symbol- und Footprint-Einträge mit, die sofort mitinstalliert und aktiviert sind. Als Einsteiger siehst du im Dialog **Symbol wählen (Choose Symbol)** dadurch hunderte ähnliche Bauteile – und verlierst leicht den Überblick. **Deaktiviere die KiCad-Standard-Bibliotheken und arbeitete ausschließlich mit der installierten Bibliothek.** Diese Einstellung ist besonders für Einsteiger dringend empfohlen.
 
 ### Symbol-Bibliotheken deaktivieren
 
@@ -87,4 +78,6 @@ Im Dialog **Symbol wählen (Choose Symbol)** bzw. **Footprint wählen (Choose Fo
 
 ## Nächste Schritte
 
-Nach der Installation stehen dir die InHouse-Symbole (InHouse Symbols) und InHouse-Footprints in allen Projekten zur Verfügung. Im Beitrag [KiCad: InHouse-Plug-in installieren](../02-kicad-inhouse-plugin/) erfährst du, wie du zusätzlich die InHouse-Vorlage (InHouse Template) für neue Projekte nutzt.
+Nach der Installation stehen dir die Symbole (Symbols) und Footprints aus dem installierten Bibliotheks-Paket in allen Projekten zur Verfügung – egal ob es sich um die InHouse-Bibliothek oder um ein anderes Baukasten-Paket handelt, das über dieselbe Quelle verteilt wird. Das Verfahren ist bei jedem Bibliotheks-Paket identisch: ZIP-Datei herunterladen, über **Aus Datei installieren (Install from file…)** installieren, fertig.
+
+Im Beitrag [KiCad: InHouse-Plug-in installieren](../02-kicad-inhouse-plugin/) erfährst du, wie du zusätzlich die InHouse-Vorlage (InHouse Template) für neue Projekte nutzt.
