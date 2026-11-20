@@ -7,18 +7,12 @@ categories: [Anleitung, Simulation, KiCad, RC-Schaltung]
 description: "Lerne, wie du in KiCad eine einfache RC-Schaltung simulierst und die Ladung eines Kondensators analysierst – inklusive Zeitkonstante und Spannungsverlauf."
 ---
 
-Die Simulation von Schaltungen ist einer der stärksten Vorteile von KiCad.  
-Mit dem eingebauten **ngspice**-Simulator kannst du das Verhalten deiner  
-Schaltungen analysieren, bevor du sie baust. In diesem Beitrag zeigen  
-wir dir, wie du eine einfache **RC-Schaltung (Widerstand-Kondensator)**  
-simulierst, um die Ladung eines Kondensators zu untersuchen.  
+In diesem Beitrag simulieren wir eine einfache **RC-Schaltung (Widerstand-Kondensator)**
+mit dem eingebauten **ngspice**-Simulator und untersuchen die Ladung des Kondensators.
 
 ::: callout-important
 ### Wir arbeiten mit dem InHouse-Plug-in
-In dieser Anleitung nutzen wir **ausschließlich die Bauteile (Components) aus dem InHouse-Plug-in** und legen das Projekt mit der **InHouse-Vorlage (InHouse Template)** an. Falls du das Plug-in noch nicht installiert hast, lies zuerst unseren Beitrag
-[KiCad: InHouse-Plug-in installieren](/posts/02-kicad-inhouse-plugin/) – er erklärt außerdem,
-wie du die KiCad-Standard-Bibliotheken deaktivierst, damit im Auswahldialog nur noch
-die übersichtliche InHouse-Bibliothek erscheint.
+Diese Anleitung nutzt **ausschließlich die Bauteile aus dem InHouse-Plug-in** und das Projekt wird mit der **InHouse-Vorlage** angelegt. Falls noch nicht geschehen: [InHouse-Plug-in installieren](/posts/02-kicad-inhouse-plugin/) – dort steht auch, wie du die Standard-Bibliotheken deaktivierst, sodass nur die InHouse-Bauteile erscheinen.
 :::
 
 ## Was du lernst
@@ -28,60 +22,35 @@ die übersichtliche InHouse-Bibliothek erscheint.
 - Den Ladungsverlauf des Kondensators analysieren  
 - Die Zeitkonstante verstehen und berechnen
 
-## Vorraussetzungen
+## Voraussetzungen
 
-- KiCad 10 installiert (siehe unseren [Installationsguide](/posts/01-kicad-installation/))
-- **Das InHouse-Plug-in installiert** – wichtig, denn wir verwenden dessen Bauteile und die InHouse-Vorlage (siehe [InHouse-Plug-in installieren](/posts/02-kicad-inhouse-plugin/))
-- Die InHouse-Bibliotheken eingerichtet (siehe [Eigene Bibliotheken als Plug-in installieren](/posts/03-kicad-bibliotheken-als-plugin/))
-- Grundlegende Kenntnisse der KiCad-Benutzeroberfläche
+- KiCad 10 installiert (siehe [Installationsguide](/posts/01-kicad-installation/))
+- **InHouse-Plug-in** installiert (siehe [InHouse-Plug-in installieren](/posts/02-kicad-inhouse-plugin/))
+- InHouse-Bibliotheken eingerichtet (siehe [Eigene Bibliotheken als Plug-in installieren](/posts/03-kicad-bibliotheken-als-plugin/))
 
 ## Schritt 1: Neues Projekt anlegen
 
-1. Starte **KiCad** und erstelle ein neues Projekt **aus der InHouse-Vorlage**: **File → New Project from Template…**
-2. Wähle im Vorlagendialog die **InHouse Template** – sie bringt die für die InHouse-Fertigung vorbereiteten Projekteinstellungen mit
-3. Vergebe einen Namen, z. B. `rc-simulation` und wähle einen Speicherort  
-4. Öffne den **Schaltplan-Editor (Eeschema)** über den Projektmanager
+1. **File → New Project from Template…**, wähle die **InHouse Template**
+2. Name: `rc-simulation`, Speicherort wählen
+3. Öffne den **Schaltplan-Editor (Eeschema)** über den Projektmanager
 
 ![Neues KiCad-Projekt erstellen](images/01-neues-projekt.png)
 
 ## Schritt 2: RC-Schaltung aufbauen
 
-### Komponenten platzieren
+Alle Symbole kommen aus der **InHouse-Symbolbibliothek** – im Dialog **Symbol wählen (Choose Symbol)** (**A**) erscheinen ohnehin nur noch die InHouse-Bauteile.
 
-::: callout-tip
-### Bauteile aus der InHouse-Symbolbibliothek
-Wähle **alle Bauteile aus der InHouse-Symbolbibliothek (InHouse Symbol Library)**. Im Dialog **Symbol wählen (Choose Symbol)** erscheinen nach der Deaktivierung der Standard-Bibliotheken ohnehin nur noch die InHouse-Bauteile – genau das wollen wir (siehe [InHouse-Plug-in installieren](/posts/02-kicad-inhouse-plugin/)).
-:::
-
-1. **Spannungsquelle (VDC):**
-   - Klicke auf "Place → Add Symbol" (Tastatur: **A**)
-   - Suche nach `VDC` oder `power` und wähle die Gleichspannungsquelle
-   - Platziere sie auf dem Schaltplan
-   - Doppelklick auf das Symbol und setze **Value = $10\, \text{V}$**
-
-2. **Widerstand (R):**
-   - Place → Add Symbol (A)
-   - Suche nach `R` oder `Device` und wähle einen Widerstand
-   - Platziere ihn neben der Spannungsquelle
-   - Doppelklick und setze **Value = $10\, \text{kΩ}$**
-
-3. **Kondensator (C):**
-   - Place → Add Symbol (A)
-   - Suche nach `C` oder `Device` und wähle einen Kondensator
-   - Platziere ihn in Reihe mit dem Widerstand
-   - Doppelklick und setze **Value = $100\, \text{µF}$**
-
-4. **GND (Masse):**
-   - Place → Add Symbol (A)
-   - Suche nach `GND` und platziere ihn am unteren Ende
+1. **Spannungsquelle (VDC):** platzieren, **Value = $10\, \text{V}$**
+2. **Widerstand (R):** in Reihe, **Value = $10\, \text{kΩ}$**
+3. **Kondensator (C):** parallel zu GND, **Value = $100\, \text{µF}$**
+4. **GND (Masse):** ans untere Ende
 
 ### Verbindung herstellen
 
-Verwende das **Wire-Tool (W)** oder klicke auf die Pins und ziehe Verbindungen:  
-- Verbinde die Spannungsquelle (+) mit dem Widerstand
-- Verbinde den Widerstand mit dem Kondensator
-- Verbinde den Kondensator mit GND
-- Verbinde die Spannungsquelle (-) mit GND
+Mit dem **Wire-Tool (W)** verbinden:
+
+- Quelle (+) → Widerstand → Kondensator
+- Kondensator und Quelle (−) → GND
 
 Deine Schaltung sollte so aussehen:
 
@@ -89,64 +58,51 @@ Deine Schaltung sollte so aussehen:
 
 ::: callout-tip
 ### Tipp: Netznamen zuweisen
-Für die Simulation ist es hilfreich, den Netzen sprechende Namen zu geben:  
-- Klicke auf das **Label-Tool (L)**
-- Platziere ein Label am Verbindungspunkt zwischen Widerstand und Kondensator
-- Nenne es **$U_C$** (für die Kondensatorspannung)
-- Benenne das Netz nach der Spannungsquelle **$U_{in}$**  
+Setze mit dem **Label-Tool (L)** die Netznamen **$U_C$** (zwischen Widerstand und Kondensator) und **$U_{in}$** (an der Quelle).  
 :::
 
 ## Schritt 3: Simulation einrichten
 
-Es gibt **zwei Methoden** um die Simulation einzurichten. Wähle die, die dir lieber ist:
+Es gibt zwei Methoden – wähle eine:
 
 ### Methode A: SPICE-Direktiven im Schaltplan
 
-1. Klicke auf **Place → Add SPICE Directive** (oder Tastatur: **S**)
-2. Platziere die Direktiven auf dem Schaltplan und füge folgende Zeilen ein:
-   ```spice
-   .tran 0.01 5 0
-   .ic V(U_C)=0
-   .plot tran V(U_C) V(U_in)
-   ```
-   - `.tran 0.01 5 0` – Transiente Analyse mit $0{,}01\, \text{s}$ Schrittweite für $5\, \text{s}$
-   - `.ic V(U_C)=0` – Anfangsbedingung: $U_C = 0\, \text{V}$ (Kondensator entladen)
-   - `.plot tran V(U_C) V(U_in)` – Plot $U_C$ und $U_{in}$
+**Place → Add SPICE Directive** (**S**), dann einfügen:
+
+```spice
+.tran 0.01 5 0
+.ic V(U_C)=0
+.plot tran V(U_C) V(U_in)
+```
+
+- `.tran 0.01 5 0` – Schrittwerte $0{,}01\, \text{s}$, Dauer $5\, \text{s}$
+- `.ic V(U_C)=0` – Kondensator startet entladen
 
 ![SPICE-Direktiven im Schaltplan](images/03-spice-direktiven.png)
 
 ### Methode B: Simulations-GUI
 
-1. Gehe zu **View → Simulation → Simulation Frame**
-2. Klicke auf **Add Signal** und wähle die Signale:
-   - `V(U_C)` – Spannung $U_C$ am Kondensator
-   - `V(U_in)` – Eingangsspannung $U_{in}$
-   - `I(C1)` – Strom $I$ durch den Kondensator (optional)
-
-3. Unter **Simulation Settings**:
-   - **Analysis Type:** Transient
-   - **Stop Time:** $5\, \text{s}$
-   - **Time Step:** $0{,}01\, \text{s}$
+1. **View → Simulation → Simulation Frame**
+2. **Add Signal:** `V(U_C)`, `V(U_in)`, optional `I(C1)`
+3. **Simulation Settings:** Transient, Stop Time $5\, \text{s}$, Time Step $0{,}01\, \text{s}$
 
 ![Simulations-Einstellungen](images/04-simulationseinstellungen.png)
 
 ## Schritt 4: Simulation durchführen
 
-1. Klicke auf die **Play-Schaltfläche (▶)** oder gehe zu **Simulation → Run Simulation**
-2. KiCad startet ngspice und führt die Simulation durch
-3. Nach einigen Sekunden erscheint das Ergebnis im Simulationsfenster
+▶ klicken (oder **Simulation → Run Simulation**) – das Ergebnis erscheint im Simulationsfenster.
 
 ## Schritt 5: Ergebnisse analysieren
 
 ### Spannungsverlauf am Kondensator
 
-Du solltest eine **exponentielle Kurve** sehen, die von $0\, \text{V}$ auf $10\, \text{V}$ ansteigt.
+Exponentieller Anstieg von $0\, \text{V}$ auf $10\, \text{V}$:
 
 ![Kondensator-Ladespannung über die Zeit](images/05-ladespannung.png)
 
 ### Wichtige Zeitpunkte
 
-| Zeit  in $\text{s}$ | $U_C$ in $\text{V}$ | % der Endspannung |
+| Zeit in $\text{s}$ | $U_C$ in $\text{V}$ | % der Endspannung |
 |----------|-------------------------|-------------------|
 | 0,00     | 0,0000                  | 0,0 %             |
 | 0,50     | 3,9347                  | 39,3 %            |
@@ -156,38 +112,23 @@ Du solltest eine **exponentielle Kurve** sehen, die von $0\, \text{V}$ auf $10\,
 | 3,00     | 9,5021                  | 95,0 %            |
 | **5,00** | **9,9326**              | **99,3 %**        |
 
-### Zeitkonstante ($\tau$) verstehen
+### Zeitkonstante ($\tau$)
 
-Die **Zeitkonstante** eines RC-Glieds berechnet sich nach:
-
-$$\tau = R \cdot C$$
-
-In unserem Beispiel:  
-- $R = 10\, \text{kΩ}$  
-- $C = 100\, \text{µF}$  
-- $\tau = R \cdot C = 1\, \text{s}$  
+$$\tau = R \cdot C = 10\, \text{kΩ} \cdot 100\, \text{µF} = 1\, \text{s}$$
 
 ::: callout-note
 ### Wichtige Regel
-Nach **1 τ (1 Sekunde)** ist der Kondensator zu **63,2 %**geladen. 
-Nach **5 τ (5 Sekunden)** gilt er als **vollständig geladen (99,3 %)**.  
+Nach **1 τ (1 Sekunde)** ist der Kondensator zu **63,2 %** geladen.  
+Nach **5 τ (5 Sekunden)** gilt er als vollständig geladen (**99,3 %**).  
 :::
 
 ### Stromverlauf
 
-Der Ladestrom folgt einer **exponentiellen Abnahme**:
-
-- **Anfangsstrom** ($t = 0$): $I_0 = \frac{U_0}{R} = \frac{10\, \text{V}}{10\, \text{kΩ}} = 1\, \text{mA}$
-- Nach $1\, \text{s}$: ca. $0{,}37\, \text{mA}$
-- Nach $2\, \text{s}$: ca. $0{,}14\, \text{mA}$
+Der Ladestrom nimmt exponentiell ab: $I_0 = \frac{U_0}{R} = 1\, \text{mA}$, nach $1\, \text{s}$ ca. $0{,}37\, \text{mA}$, nach $2\, \text{s}$ ca. $0{,}14\, \text{mA}$.
 
 ![Ladestrom über die Zeit](images/06-ladestrom.png)
 
 ## Schritt 6: Simulation anpassen (optional)
-
-### Andere Werte ausprobieren
-
-Ändere die Werte und beobachte, wie sich die Ladezeit ändert:  
 
 | Widerstand ($R$) | Kapazität ($C$) | Zeitkonstante $\tau$ |
 |------------------|-----------------|-----------------------|
@@ -196,57 +137,34 @@ Der Ladestrom folgt einer **exponentiellen Abnahme**:
 | $100\, \text{kΩ}$ | $100\, \text{µF}$ | $10\, \text{s}$ |
 | $1\, \text{kΩ}$ | $1\, \text{mF}$ | $1\, \text{s}$ |
 
-### Simulationsdauer anpassen
-
-Für schnellere Schaltungen (kleineres $\tau$):  
-- Stop Time: $1\, \text{s}$
-- Time Step: $0{,}001\, \text{s}$
-
-Für langsamere Schaltungen (größeres $\tau$):  
-- Stop Time: $20\, \text{s}$
-- Time Step: $0{,}1\, \text{s}$
+Für schnellere Schaltungen: Stop Time $1\, \text{s}$, Time Step $0{,}001\, \text{s}$. Für langsamere: Stop Time $20\, \text{s}$, Time Step $0{,}1\, \text{s}$.
 
 ## Theorieteil: Mathematische Grundlagen
 
-### Ladespannung
+Ladespannung und Ladestrom:
 
-Die Spannung am Kondensator während des Ladevorgangs folgt der Formel:
+$$U_C(t) = U_0 \cdot \left(1 - e^{-\frac{t}{\tau}}\right) \qquad I(t) = \frac{U_0}{R} \cdot e^{-\frac{t}{\tau}}$$
 
-$$U_C(t) = U_0 \cdot \left(1 - e^{-\frac{t}{\tau}}\right)$$
+mit $U_0 = 10\, \text{V}$, $\tau = R \cdot C$.
 
-- $U_C(t)$ = Spannung am Kondensator zur Zeit $t$
-- $U_0 = 10\, \text{V}$ = Versorgungsspannung
-- $t$ = Zeit in $\text{s}$
-- $\tau$ = Zeitkonstante ($R \cdot C$)
-
-### Ladestrom
-
-Der Strom während des Ladevorgangs:
-
-$$I(t) = \frac{U_0}{R} \cdot e^{-\frac{t}{\tau}}$$
-
-## Tipps und Tricks
+## Tipps
 
 ::: callout-tip
 ### Simulation speichern
-- Die Simulations-Einstellungen werden in einer `.spice`-Datei gespeichert
-- Du kannst diese unter **File → Save** im Simulationsfenster speichern
-- So kannst du die Simulation später schnell wieder laden
+Die Simulationseinstellungen lassen sich im Simulationsfenster als `.spice`-Datei speichern (**File → Save**) und später wieder laden.
 :::
 
 ::: callout-warning
 ### Häufige Fehler
 - **Keine GND-Verbindung:** Jede Schaltung braucht einen Masseanschluss
-- **Falsche Werte:** Achte auf die Einheit (kΩ, µF, mF etc.)
-- **Zu großer Zeitschritt:** Bei schnellen Vorgängen kleinere Schritte wählen
+- **Falsche Einheiten:** auf kΩ, µF, mF achten
+- **Zu großer Zeitschritt:** bei schnellen Vorgängen kleinere Schritte wählen
 :::
 
 ## Nächste Schritte
-
-Jetzt, wo du die Grundlagen der RC-Simulation beherrschst, kannst du:
 
 - **Filter-Schaltungen** simulieren (Tiefpass, Hochpass)
 - **Oszillator-Schaltungen** analysieren
 - **Komplexere Schaltungen** mit mehreren RC-Gliedern aufbauen
 
-Viel Erfolg beim Experimentieren mit KiCad-Simulationen!
+Im nächsten Beitrag wird aus dieser Simulation eine [echte Platine](/posts/05-kicad-schaltung-zu-platine/).
