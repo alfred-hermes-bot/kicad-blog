@@ -63,6 +63,26 @@ Die Vorlage enthält die für die InHouse-Fertigung vorbereiteten Projekteinstel
 
 Falls du die Footprint-Zuweisung prüfen möchtest, öffne anschließend den Leiterplatteneditor (PCB Editor). Die InHouse-Footprint-Bibliothek (InHouse Footprint Library) sollte ebenfalls in der Bibliotheksverwaltung verfügbar sein.
 
-::: callout-note
-Unter **Einstellungen (Preferences) → Symbolbibliotheken verwalten (Manage Symbol Libraries)** und **Einstellungen (Preferences) → Footprint-Bibliotheken verwalten (Manage Footprint Libraries)** kannst du Bibliotheken aktivieren, deaktivieren und priorisieren.
+::: callout-important
+## Dringend empfohlen: Standard-Bibliotheken deaktivieren
+
+KiCad bringt tausende Symbol- und Footprint-Einträge mit, die sofort mitinstalliert und aktiviert sind. Als Einsteiger siehst du im Dialog **Symbol wählen (Choose Symbol)** dadurch hunderte ähnliche Bauteile – und verlierst leicht den Überblick. **Deaktiviere die KiCad-Standard-Bibliotheken und arbeitete ausschließlich mit der InHouse-Bibliothek.** Diese Einstellung ist besonders für Einsteiger dringend empfohlen.
+
+### Symbol-Bibliotheken deaktivieren
+
+1. Öffne den Schaltplaneditor (Schematic Editor).
+2. Wähle **Einstellungen (Preferences) → Symbolbibliotheken verwalten (Manage Symbol Libraries)**.
+3. Entferne in der Spalte **Aktiv (Active)** das Häkchen bei **allen Bibliotheken außer der InHouse-Symbolbibliothek (InHouse Symbol Library)**.
+4. Bestätige mit **OK**.
+
+### Footprint-Bibliotheken deaktivieren
+
+1. Öffne den Leiterplatteneditor (PCB Editor).
+2. Wähle **Einstellungen (Preferences) → Footprint-Bibliotheken verwalten (Manage Footprint Libraries)**.
+3. Entferne in der Spalte **Aktiv (Active)** das Häkchen bei **allen Bibliotheken außer der InHouse-Footprint-Bibliothek (InHouse Footprint Library)**.
+4. Bestätige mit **OK**.
+
+Im Dialog **Symbol wählen (Choose Symbol)** bzw. **Footprint wählen (Choose Footprint)** erscheinen danach nur noch die InHouse-Bauteile – übersichtlich und einheitlich.
+
+**Keine Sorge:** Die Standard-Bibliotheken werden dadurch nicht gelöscht, sie werden nur nicht mehr geladen. Setze das Häkchen in der Spalte **Aktiv (Active)** erneut, bringt du sie jederzeit zurück. Dieselben Dialoge nutzt du auch, um Bibliotheken zu priorisieren.
 :::
