@@ -7,30 +7,13 @@ categories: [Anleitung, Plugins, KiCad, PCM]
 description: "Installiere das InHouse-Plug-in (InHouse Plug-in) mit seinen Bauteilen (Components) und Vorlagen (Templates) über die Plugin- und Content-Verwaltung (Plugin and Content Manager)."
 ---
 
-Diese Anleitung erklärt, wie du die InHouse-Bauteile (InHouse Components) und die InHouse-Vorlage (InHouse Template) in KiCad installierst. Die Dateien werden über die Plugin- und Content-Verwaltung (Plugin and Content Manager, PCM) installiert.
-
-Die allgemeine Bedienung der PCM wird im Beitrag [KiCad: Plugin- und Content-Verwaltung](../06-kicad-pcm/) erklärt.
+Installiere das InHouse-Plug-in (InHouse Plug-in) mit seinen Bauteilen (InHouse Components) und der InHouse-Vorlage (InHouse Template) über die Plugin- und Content-Verwaltung (Plugin and Content Manager, PCM). Die Pakete stammen aus der HTLinn Cloud.
 
 ## Voraussetzungen
 
 - KiCad 10 ist installiert.
-- Du hast die ZIP-Datei des InHouse-Pakets von [HTLinn Cloud](https://cloud.htlinn.ac.at/f/3643189) auf deinen Computer heruntergeladen.
+- Du hast die ZIP-Datei des InHouse-Pakets von [HTLinn Cloud](https://cloud.htlinn.ac.at/f/3643189) heruntergeladen.
 - Die ZIP-Datei wurde nicht entpackt.
-
-Öffne [https://cloud.htlinn.ac.at/f/3643189](https://cloud.htlinn.ac.at/f/3643189) und lade die dort bereitgestellte ZIP-Datei herunter. Speichere sie beispielsweise in deinem Ordner **Downloads**. Verwende ausschließlich diese Datei des InHouse-Pakets.
-
-::: callout-tip
-### Noch einfacher: Nextcloud-Desktop-App
-
-Statt die ZIP-Datei jedes Mal im Browser herunterzuladen, installiere dir einmalig die Nextcloud-Desktop-App (Nextcloud Desktop Client). Sie synchronisiert die HTLinn Cloud automatisch mit einem Ordner auf deinem Computer – die Pakete liegen dann bereits lokal vor und sind immer auf dem neuesten Stand.
-
-1. Lade die Nextcloud-Desktop-App von [nextcloud.com/install](https://nextcloud.com/install/#install-clients) herunter und installiere sie.
-2. Melde dich in der App mit deinem HTLinn-Konto bei `https://cloud.htlinn.ac.at` an.
-3. Die Dateien der HTLinn Cloud erscheinen automatisch in deinem Nextcloud-Ordner, auf Windows typischerweise über **Windows-Explorer → Nextcloud** erreichbar.
-4. Wähle bei der Paketinstallation im Schritt **Aus Datei installieren (Install from file…)** die ZIP-Datei direkt aus diesem Ordner aus – ein separater Browser-Download entfällt.
-
-Die Desktop-App ist auch für die Bibliotheken aus dem Beitrag [KiCad: Bibliotheken als Plug-in installieren](../03-kicad-bibliotheken-als-plugin/) nützlich.
-:::
 
 ## Paket installieren
 
@@ -41,7 +24,7 @@ Die Desktop-App ist auch für die Bibliotheken aus dem Beitrag [KiCad: Bibliothe
 5. Wähle im Dateidialog die heruntergeladene ZIP-Datei aus. Entpacke sie nicht.
 6. Die PCM prüft die Paketmetadaten und die Kompatibilität mit deiner KiCad-Version. Klicke zur Installation auf **Installieren (Install)**, falls ein Bestätigungsdialog angezeigt wird.
 7. Schließe das Plugin- und Content-Verwaltungsfenster (Plugin and Content Manager) nach der Installation.
-8. Öffne einmalig den Leiterplatteneditor (PCB Editor) um die Bibliotheken und Vorlagenzu initialisieren. Danach kannst du die Editoren wieder schließen.
+8. Öffne einmalig den Leiterplatteneditor (PCB Editor), um die Bibliotheken und Vorlagen zu initialisieren. Danach kannst du die Editoren wieder schließen.
 9. Schließe alle geöffneten KiCad-Fenster und starte KiCad neu, um die Installation abzuschließen.
 
 ## InHouse-Vorlage testen
@@ -86,3 +69,19 @@ Im Dialog **Symbol wählen (Choose Symbol)** bzw. **Footprint wählen (Choose Fo
 
 **Keine Sorge:** Die Standard-Bibliotheken werden dadurch nicht gelöscht, sie werden nur nicht mehr geladen. Setze das Häkchen in der Spalte **Aktiv (Active)** erneut, bringt du sie jederzeit zurück. Dieselben Dialoge nutzt du auch, um Bibliotheken zu priorisieren.
 :::
+
+## Hintergrund und Tipps
+
+::: callout-tip
+### Download vereinfachen: Nextcloud-Desktop-App
+
+Statt die ZIP-Datei jedes Mal im Browser herunterzuladen, installiere dir einmalig die [Nextcloud-Desktop-App](https://nextcloud.com/install/#install-clients) (Nextcloud Desktop Client) und melde dich mit deinem HTLinn-Konto bei `https://cloud.htlinn.ac.at` an. Die Dateien der HTLinn Cloud werden dann automatisch mit deinem Nextcloud-Ordner synchronisiert – immer auf dem neuesten Stand. Wähle die ZIP-Datei bei der Installation direkt aus diesem Ordner aus, ein separater Browser-Download entfällt.
+
+Die App ist auch für die Bibliotheken aus dem Beitrag [KiCad: Eigene Bibliotheken als Plug-in installieren](../03-kicad-bibliotheken-als-plugin/) nützlich.
+:::
+
+## Nächste Schritte
+
+- Nach der Installation stehen dir die InHouse-Bauteile und die InHouse-Vorlage in allen Projekten zur Verfügung.
+- Die grundlegende Bedienung der PCM wird im Beitrag [KiCad: Plugin- und Content-Verwaltung](../06-kicad-pcm/) erklärt.
+- Die dazu passenden Symbol- und Footprint-Bibliotheken installierst du wie im Beitrag [KiCad: Eigene Bibliotheken als Plug-in installieren](../03-kicad-bibliotheken-als-plugin/) beschrieben.
