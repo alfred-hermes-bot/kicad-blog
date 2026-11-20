@@ -13,6 +13,14 @@ Schaltungen analysieren, bevor du sie baust. In diesem Beitrag zeigen
 wir dir, wie du eine einfache **RC-Schaltung (Widerstand-Kondensator)**  
 simulierst, um die Ladung eines Kondensators zu untersuchen.  
 
+::: callout-important
+### Wir arbeiten mit dem InHouse-Plug-in
+In dieser Anleitung nutzen wir **ausschließlich die Bauteile (Components) aus dem InHouse-Plug-in** und legen das Projekt mit der **InHouse-Vorlage (InHouse Template)** an. Falls du das Plug-in noch nicht installiert hast, lies zuerst unseren Beitrag
+[KiCad: InHouse-Plug-in installieren](/posts/02-kicad-inhouse-plugin/) – er erklärt außerdem,
+wie du die KiCad-Standard-Bibliotheken deaktivierst, damit im Auswahldialog nur noch
+die übersichtliche InHouse-Bibliothek erscheint.
+:::
+
 ## Was du lernst
 
 - Eine RC-Schaltung in KiCad erstellen  
@@ -23,19 +31,27 @@ simulierst, um die Ladung eines Kondensators zu untersuchen.
 ## Vorraussetzungen
 
 - KiCad 10 installiert (siehe unseren [Installationsguide](/posts/01-kicad-installation/))
+- **Das InHouse-Plug-in installiert** – wichtig, denn wir verwenden dessen Bauteile und die InHouse-Vorlage (siehe [InHouse-Plug-in installieren](/posts/02-kicad-inhouse-plugin/))
+- Die InHouse-Bibliotheken eingerichtet (siehe [Eigene Bibliotheken als Plug-in installieren](/posts/03-kicad-bibliotheken-als-plugin/))
 - Grundlegende Kenntnisse der KiCad-Benutzeroberfläche
 
 ## Schritt 1: Neues Projekt anlegen
 
-1. Starte **KiCad** und erstelle ein neues Projekt: **File → New Project**  
-2. Vergebe einen Namen, z. B. `rc-simulation` und wähle einen Speicherort  
-3. Öffne den **Schaltplan-Editor (Eeschema)** über den Projektmanager
+1. Starte **KiCad** und erstelle ein neues Projekt **aus der InHouse-Vorlage**: **File → New Project from Template…**
+2. Wähle im Vorlagendialog die **InHouse Template** – sie bringt die für die InHouse-Fertigung vorbereiteten Projekteinstellungen mit
+3. Vergebe einen Namen, z. B. `rc-simulation` und wähle einen Speicherort  
+4. Öffne den **Schaltplan-Editor (Eeschema)** über den Projektmanager
 
 ![Neues KiCad-Projekt erstellen](images/01-neues-projekt.png)
 
 ## Schritt 2: RC-Schaltung aufbauen
 
 ### Komponenten platzieren
+
+::: callout-tip
+### Bauteile aus der InHouse-Symbolbibliothek
+Wähle **alle Bauteile aus der InHouse-Symbolbibliothek (InHouse Symbol Library)**. Im Dialog **Symbol wählen (Choose Symbol)** erscheinen nach der Deaktivierung der Standard-Bibliotheken ohnehin nur noch die InHouse-Bauteile – genau das wollen wir (siehe [InHouse-Plug-in installieren](/posts/02-kicad-inhouse-plugin/)).
+:::
 
 1. **Spannungsquelle (VDC):**
    - Klicke auf "Place → Add Symbol" (Tastatur: **A**)
