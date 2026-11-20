@@ -1,13 +1,13 @@
 ---
-title: "KiCad: Bibliotheken als Plug-in installieren"
+title: "KiCad: Eigene Bibliotheken als Plug-in installieren"
 author: ["Human", "Mistral Vibe (KI Assistent)"]
 order: 3
 date: 2026-11-25
 categories: [Anleitung, Bibliotheken, KiCad, PCM]
-description: "Importiere die InHouse-Bibliotheken (InHouse Libraries) mit Symbolen (Symbols) und Footprints als Plug-in-Paket über die Plugin- und Content-Verwaltung (Plugin and Content Manager)."
+description: "Importiere eigene Symbol- und Footprint-Bibliotheken (Libraries) als Plug-in-Paket von der HTLinn Cloud über die Plugin- und Content-Verwaltung (Plugin and Content Manager)."
 ---
 
-Diese Anleitung erklärt, wie du die InHouse-Bibliotheken (InHouse Libraries) mit ihren Symbolen (Symbols) und Footprints in KiCad installierst. Die Bibliotheken werden als Plug-in-Paket von derselben Quelle wie das InHouse-Plug-in bereitgestellt: der HTLinn Cloud.
+Diese Anleitung erklärt, wie du eigene Bibliotheken (Libraries) mit Symbolen (Symbols) und Footprints als Plug-in-Paket in KiCad installierst. Die Bauteile werden von derselben Quelle wie das InHouse-Plug-in bereitgestellt: der HTLinn Cloud – das Verfahren gilt aber für jedes Bibliotheks-Paket dieser Quelle.
 
 Die Installation läuft genauso ab wie beim InHouse-Plug-in mit seinen Bauteilen (Components) und Vorlagen (Templates), siehe dazu den Beitrag [KiCad: InHouse-Plug-in installieren](../02-kicad-inhouse-plugin/). Die allgemeine Bedienung der PCM wird im Beitrag [KiCad: Plugin- und Content-Verwaltung](../06-kicad-pcm/) erklärt.
 
@@ -61,17 +61,17 @@ KiCad bringt tausende Symbol- und Footprint-Einträge mit, die sofort mitinstall
 
 1. Öffne den Schaltplaneditor (Schematic Editor).
 2. Wähle **Einstellungen (Preferences) → Symbolbibliotheken verwalten (Manage Symbol Libraries)**.
-3. Entferne in der Spalte **Aktiv (Active)** das Häkchen bei **allen Bibliotheken außer der InHouse-Symbolbibliothek (InHouse Symbol Library)**.
+3. Entferne in der Spalte **Aktiv (Active)** das Häkchen bei **allen Bibliotheken außer den selbst installierten Bibliotheken** aus dem Bibliotheks-Paket.
 4. Bestätige mit **OK**.
 
 ### Footprint-Bibliotheken deaktivieren
 
 1. Öffne den Leiterplatteneditor (PCB Editor).
 2. Wähle **Einstellungen (Preferences) → Footprint-Bibliotheken verwalten (Manage Footprint Libraries)**.
-3. Entferne in der Spalte **Aktiv (Active)** das Häkchen bei **allen Bibliotheken außer der InHouse-Footprint-Bibliothek (InHouse Footprint Library)**.
+3. Entferne in der Spalte **Aktiv (Active)** das Häkchen bei **allen Bibliotheken außer den selbst installierten Bibliotheken** aus dem Bibliotheks-Paket.
 4. Bestätige mit **OK**.
 
-Im Dialog **Symbol wählen (Choose Symbol)** bzw. **Footprint wählen (Choose Footprint)** erscheinen danach nur noch die InHouse-Bauteile – übersichtlich und einheitlich.
+Im Dialog **Symbol wählen (Choose Symbol)** bzw. **Footprint wählen (Choose Footprint)** erscheinen danach nur noch die Bauteile deiner installierten Bibliotheken – übersichtlich und einheitlich.
 
 **Keine Sorge:** Die Standard-Bibliotheken werden dadurch nicht gelöscht, sie werden nur nicht mehr geladen. Setze das Häkchen in der Spalte **Aktiv (Active)** erneut, bringt du sie jederzeit zurück. Dieselben Dialoge nutzt du auch, um Bibliotheken zu priorisieren.
 :::
