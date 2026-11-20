@@ -19,6 +19,19 @@ Die allgemeine Bedienung der PCM wird im Beitrag [KiCad: Plugin- und Content-Ver
 
 Öffne [https://cloud.htlinn.ac.at/f/3643189](https://cloud.htlinn.ac.at/f/3643189) und lade die dort bereitgestellte ZIP-Datei herunter. Speichere sie beispielsweise in deinem Ordner **Downloads**. Verwende ausschließlich diese Datei des InHouse-Pakets.
 
+::: callout-tip
+### Noch einfacher: Nextcloud-Desktop-App
+
+Statt die ZIP-Datei jedes Mal im Browser herunterzuladen, installiere dir einmalig die Nextcloud-Desktop-App (Nextcloud Desktop Client). Sie synchronisiert die HTLinn Cloud automatisch mit einem Ordner auf deinem Computer – die Pakete liegen dann bereits lokal vor und sind immer auf dem neuesten Stand.
+
+1. Lade die Nextcloud-Desktop-App von [nextcloud.com/install](https://nextcloud.com/install/#install-clients) herunter und installiere sie.
+2. Melde dich in der App mit deinem HTLinn-Konto bei `https://cloud.htlinn.ac.at` an.
+3. Die Dateien der HTLinn Cloud erscheinen automatisch in deinem Nextcloud-Ordner, auf Windows typischerweise über **Windows-Explorer → Nextcloud** erreichbar.
+4. Wähle bei der Paketinstallation im Schritt **Aus Datei installieren (Install from file…)** die ZIP-Datei direkt aus diesem Ordner aus – ein separater Browser-Download entfällt.
+
+Die Desktop-App ist auch für die Bibliotheken aus dem Beitrag [KiCad: Bibliotheken als Plug-in installieren](../03-kicad-bibliotheken-als-plugin/) nützlich.
+:::
+
 ## Paket installieren
 
 1. Lade die ZIP-Datei über den oben genannten HTLinn-Cloud-Link herunter.
