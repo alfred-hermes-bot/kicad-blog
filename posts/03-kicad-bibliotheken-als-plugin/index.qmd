@@ -7,30 +7,13 @@ categories: [Anleitung, Bibliotheken, KiCad, PCM]
 description: "Importiere eigene Bibliotheken (Libraries) mit Symbolen (Symbols), Footprints, SPICE-Modellen und 3D-Modellen als Plug-in-Paket von der HTLinn Cloud über die Plugin- und Content-Verwaltung (Plugin and Content Manager)."
 ---
 
-Diese Anleitung erklärt, wie du eigene Bibliotheken (Libraries) als Plug-in-Paket in KiCad installierst. Ein solches Paket kann neben Symbolen (Symbols) und Footprints auch **SPICE-Modelle für die Simulation** und **3D-Modelle** der Bauteile enthalten. Die Bauteile werden von derselben Quelle wie das InHouse-Plug-in bereitgestellt: der HTLinn Cloud – das Verfahren gilt aber für jedes Bibliotheks-Paket dieser Quelle.
-
-Die Installation läuft genauso ab wie beim InHouse-Plug-in mit seinen Bauteilen (Components) und Vorlagen (Templates), siehe dazu den Beitrag [KiCad: InHouse-Plug-in installieren](../02-kicad-inhouse-plugin/). Die allgemeine Bedienung der PCM wird im Beitrag [KiCad: Plugin- und Content-Verwaltung](../06-kicad-pcm/) erklärt.
+Installiere eigene Bibliotheken (Libraries) mit Symbolen (Symbols), Footprints, SPICE-Modellen und 3D-Modellen als Plug-in-Paket über die Plugin- und Content-Verwaltung (Plugin and Content Manager, PCM). Die Pakete stammen aus der HTLinn Cloud – derselben Quelle wie das InHouse-Plug-in.
 
 ## Voraussetzungen
 
 - KiCad 10 ist installiert.
-- Du hast die ZIP-Datei des Bibliotheks-Pakets (Libraries) von [HTLinn Cloud](https://cloud.htlinn.ac.at/f/3643189) auf deinen Computer heruntergeladen.
+- Du hast die ZIP-Datei des Bibliotheks-Pakets (Libraries) von [HTLinn Cloud](https://cloud.htlinn.ac.at/f/3643189) heruntergeladen.
 - Die ZIP-Datei wurde nicht entpackt.
-
-Öffne [https://cloud.htlinn.ac.at/f/3643189](https://cloud.htlinn.ac.at/f/3643189) und lade die dort bereitgestellte ZIP-Datei des Bibliotheks-Pakets herunter. Speichere sie beispielsweise in deinem Ordner **Downloads**. Verwende ausschließlich diese Datei des Bibliotheks-Pakets.
-
-::: callout-tip
-### Noch einfacher: Nextcloud-Desktop-App
-
-Statt die ZIP-Datei jedes Mal im Browser herunterzuladen, installiere dir einmalig die Nextcloud-Desktop-App (Nextcloud Desktop Client). Sie synchronisiert die HTLinn Cloud automatisch mit einem Ordner auf deinem Computer – die Pakete liegen dann bereits lokal vor und sind immer auf dem neuesten Stand.
-
-1. Lade die Nextcloud-Desktop-App von [nextcloud.com/install](https://nextcloud.com/install/#install-clients) herunter und installiere sie.
-2. Melde dich in der App mit deinem HTLinn-Konto bei `https://cloud.htlinn.ac.at` an.
-3. Die Dateien der HTLinn Cloud erscheinen automatisch in deinem Nextcloud-Ordner, auf Windows typischerweise über **Windows-Explorer → Nextcloud** erreichbar.
-4. Wähle bei der Paketinstallation im Schritt **Aus Datei installieren (Install from file…)** die ZIP-Datei direkt aus diesem Ordner aus – ein separater Browser-Download entfällt.
-
-Die Desktop-App ist auch für das InHouse-Plug-in aus dem Beitrag [KiCad: InHouse-Plug-in installieren](../02-kicad-inhouse-plugin/) nützlich.
-:::
 
 ## Paket installieren
 
@@ -42,17 +25,6 @@ Die Desktop-App ist auch für das InHouse-Plug-in aus dem Beitrag [KiCad: InHous
 6. Die PCM prüft die Paketmetadaten und die Kompatibilität mit deiner KiCad-Version. Klicke zur Installation auf **Installieren (Install)**, falls ein Bestätigungsdialog angezeigt wird.
 7. Schließe das Plugin- und Content-Verwaltungsfenster (Plugin and Content Manager) nach der Installation.
 8. Die Bauteile stehen nun zur Verfügung.
-
-::: callout-note
-### Was ist im Paket enthalten?
-
-Ein Bibliotheks-Paket kann mehr als nur Symbole (Symbols) und Footprints enthalten:
-
-- **SPICE-Modelle** – erlauben die Simulation der Bauteile direkt im Schaltplaneditor (Schematic Editor)
-- **3D-Modelle** (`.step`/`.wrl`) – sind den Footprints bereits zugeordnet und erscheinen automatisch in der 3D-Ansicht (3D Viewer) des Leiterplatteneditors (PCB Editor)
-
-All diese Dateien werden gemeinsam vom Paket installiert – du musst sie nicht einzeln einbinden oder konfigurieren.
-:::
 
 ## Symbolbibliothek testen
 
@@ -86,8 +58,29 @@ Im Dialog **Symbol wählen (Choose Symbol)** bzw. **Footprint wählen (Choose Fo
 **Keine Sorge:** Die Standard-Bibliotheken werden dadurch nicht gelöscht, sie werden nur nicht mehr geladen. Setze das Häkchen in der Spalte **Aktiv (Active)** erneut, bringt du sie jederzeit zurück. Dieselben Dialoge nutzt du auch, um Bibliotheken zu priorisieren.
 :::
 
+## Hintergrund und Tipps
+
+::: callout-note
+### Was ist im Paket enthalten?
+
+Ein Bibliotheks-Paket kann mehr als nur Symbole (Symbols) und Footprints enthalten:
+
+- **SPICE-Modelle** – erlauben die Simulation der Bauteile direkt im Schaltplaneditor (Schematic Editor)
+- **3D-Modelle** (`.step`/`.wrl`) – sind den Footprints bereits zugeordnet und erscheinen automatisch in der 3D-Ansicht (3D Viewer) des Leiterplatteneditors (PCB Editor)
+
+All diese Dateien werden gemeinsam vom Paket installiert – du musst sie nicht einzeln einbinden oder konfigurieren.
+:::
+
+::: callout-tip
+### Download vereinfachen: Nextcloud-Desktop-App
+
+Statt die ZIP-Datei jedes Mal im Browser herunterzuladen, installiere dir einmalig die [Nextcloud-Desktop-App](https://nextcloud.com/install/#install-clients) (Nextcloud Desktop Client) und melde dich mit deinem HTLinn-Konto bei `https://cloud.htlinn.ac.at` an. Die Dateien der HTLinn Cloud werden dann automatisch mit deinem Nextcloud-Ordner synchronisiert – immer auf dem neuesten Stand. Wähle die ZIP-Datei bei der Installation direkt aus diesem Ordner aus, ein separater Browser-Download entfällt.
+
+Die App ist auch für das InHouse-Plug-in aus dem Beitrag [KiCad: InHouse-Plug-in installieren](../02-kicad-inhouse-plugin/) nützlich.
+:::
+
 ## Nächste Schritte
 
-Nach der Installation stehen dir die Inhalte des Bibliotheks-Pakets in allen Projekten zur Verfügung – Symbole (Symbols), Footprints, SPICE-Modelle und 3D-Modelle – egal ob es sich um die InHouse-Bibliothek oder um ein anderes Baukasten-Paket handelt, das über dieselbe Quelle verteilt wird. Das Verfahren ist bei jedem Bibliotheks-Paket identisch: ZIP-Datei herunterladen, über **Aus Datei installieren (Install from file…)** installieren, fertig.
-
-Im Beitrag [KiCad: InHouse-Plug-in installieren](../02-kicad-inhouse-plugin/) erfährst du, wie du zusätzlich die InHouse-Vorlage (InHouse Template) für neue Projekte nutzt.
+- Nach der Installation stehen dir die Inhalte des Bibliotheks-Pakets in allen Projekten zur Verfügung – Symbole, Footprints, SPICE- und 3D-Modelle, egal ob InHouse-Bibliothek oder ein anderes Baukasten-Paket.
+- Die grundlegende Bedienung der PCM wird im Beitrag [KiCad: Plugin- und Content-Verwaltung](../06-kicad-pcm/) erklärt.
+- Im Beitrag [KiCad: InHouse-Plug-in installieren](../02-kicad-inhouse-plugin/) erfährst du, wie du zusätzlich die InHouse-Vorlage (InHouse Template) für neue Projekte nutzt.
