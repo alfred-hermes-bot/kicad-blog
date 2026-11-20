@@ -1,0 +1,69 @@
+---
+title: "KiCad: Die Plugin- und Content-Verwaltung"
+author: ["Human", "Mistral Vibe (KI Assistent)"]
+order: 6
+date: 2026-11-27
+categories: [Anleitung, Plugins, KiCad, PCM]
+description: "Verwalte Erweiterungen, Bibliotheken, 3D-Modelle und Farbschemas mit der Plugin- und Content-Verwaltung (Plugin and Content Manager)."
+draft: true
+---
+
+Die Plugin- und Content-Verwaltung (Plugin and Content Manager, PCM) ist die zentrale Verwaltung für Erweiterungen in KiCad. Damit kannst du Pakete aus dem offiziellen Repository (Repository) installieren oder eine heruntergeladene ZIP-Datei ohne manuelles Kopieren verwenden.
+
+## Was du lernst
+
+- Die PCM öffnen und Pakete suchen
+- Ein Paket aus einer ZIP-Datei installieren
+- Installierte Pakete aktualisieren oder deinstallieren
+
+## Voraussetzungen
+
+- KiCad 10 ist installiert.
+- Die ZIP-Datei des Pakets liegt lokal auf deinem Computer.
+
+## PCM öffnen
+
+1. Starte die KiCad-Projektverwaltung (KiCad Project Manager).
+2. Wähle **Werkzeuge (Tools) → Plugin- und Content-Verwaltung (Plugin and Content Manager)**.
+
+Die PCM enthält die Registerkarten:
+
+- **Durchsuchen (Browse)** für verfügbare Pakete aus dem Repository (Repository)
+- **Installiert (Installed)** für bereits installierte Pakete
+- **Ausstehend (Pending)** für geplante Installationen, Aktualisierungen und Deinstallationen
+- **Aktualisierungen (Updates)** für Pakete mit einer neuen Version
+
+## Paket aus einer ZIP-Datei installieren
+
+1. Wähle in der PCM **Aus Datei installieren (Install from file…)**.
+2. Wähle die ZIP-Datei des Pakets aus.
+3. Prüfe die angezeigte Information zur KiCad-Kompatibilität.
+4. Aktiviere die Installation in der Registerkarte **Ausstehend (Pending)**.
+5. Klicke auf **Änderungen anwenden (Apply Pending Changes)**.
+
+Die PCM liest die Paketmetadaten und installiert den Inhalt an den dafür vorgesehenen KiCad-Orten. Danach wird KiCad gegebenenfalls neu gestartet.
+
+## Paketarten
+
+| Paketart | Beispiel |
+|----------|----------|
+| Plug-ins (Plugins) | Zusatzwerkzeuge für den Schaltplaneditor (Schematic Editor) und Leiterplatteneditor (PCB Editor) |
+| Bibliotheken (Libraries) | Symbolbibliotheken (Symbol Libraries) und Footprint-Bibliotheken (Footprint Libraries) |
+| 3D-Modelle (3D Models) | 3D-Darstellungen für Bauteile |
+| Farbschemas (Color Schemes) | Alternative Darstellungen der Editoren |
+
+## Installierte Pakete verwalten
+
+Öffne die Registerkarte **Installiert (Installed)**. Dort kannst du ein Paket aktualisieren oder deinstallieren.
+
+### Aktualisieren
+
+Wähle das Paket in **Aktualisierungen (Updates)** oder installiere eine neuere Paketversion über **Aus Datei installieren (Install from file…)**.
+
+### Deinstallieren
+
+Wähle **Deinstallieren (Uninstall)** beim gewünschten Paket und bestätige die Änderung mit **Änderungen anwenden (Apply Pending Changes)**.
+
+::: callout-note
+Für das InHouse-Plug-in mit seinen Bauteilen und Vorlagen verwende die [gesonderte Installationsanleitung](../02-kicad-inhouse-plugin/).
+:::

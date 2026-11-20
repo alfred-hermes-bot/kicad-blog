@@ -1,0 +1,10 @@
+---
+title: "KiCad und KI"
+order: 8
+date: 2026-11-29
+categories: [KiCad, KI]
+description: "Ein Überblick über die gemeinsame Nutzung von KiCad und KI-Werkzeugen."
+draft: true
+---
+
+[KiCad und KI: PCB mit Claude Code entwerfen](https://jlcpcb.com/blog/kicad-mcp-how-to-design-a-pcb-with-claude-code)

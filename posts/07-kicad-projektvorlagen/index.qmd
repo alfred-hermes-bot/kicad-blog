@@ -1,9 +1,11 @@
 ---
 title: "KiCad: Projektvorlagen importieren und nutzen – Schritt-für-Schritt Anleitung"
 author: ["Human", "Mistral Vibe (KI Assistent)"]
+order: 7
 date: 2026-10-09
 categories: [Anleitung, Vorlagen, KiCad, Workflow]
 description: "Lerne, wie du in KiCad eine Projektvorlage importierst – z. B. die Schul-Vorlage von deinem Lehrer – und daraus in Sekunden ein neues Projekt startest."
+draft: true
 ---
 
 Jedes neue Projekt beginnt eigentlich immer gleich: Titelblock
@@ -24,7 +26,7 @@ wie du daraus neue Projekte startest.
 
 ## Voraussetzungen
 
-- KiCad 10 installiert (siehe unseren [Installationsguide](/posts/2026-09-24-kicad-installation/))
+- KiCad 10 installiert (siehe unseren [Installationsguide](/posts/01-kicad-installation/))
 - Grundlegende Kenntnisse der KiCad-Benutzeroberfläche
 - Eine Vorlage als ZIP-Ordner oder Ordner, z. B. von deinem Lehrer oder
   aus dem Netz
@@ -186,6 +188,6 @@ Jetzt, wo du Vorlagen importieren und nutzen kannst, kannst du:
 
 - Weitere Vorlagen sammeln – z. B. **vordefinierte Regeln verschiedener Fertiger**
 - Dir überlegen, welche fünf Handgriffe **du** bei jedem Projekt wiederholst – und daraus irgendwann eine eigene Vorlage bauen
-- Die Vorlagen-Bibliothek aus unserem [Bibliotheken-Beitrag](/posts/2026-10-09-kicad-eigene-bibliotheken/) direkt mit in ein Schul-Template einbauen lassen
+- Die Vorlagen-Bibliothek aus unserem [Bibliotheken-Beitrag](/posts/03-kicad-bibliotheken-als-plugin/) direkt mit in ein Schul-Template einbauen lassen
 
 Viel Erfolg beim Start deiner Projekte aus Vorlagen!

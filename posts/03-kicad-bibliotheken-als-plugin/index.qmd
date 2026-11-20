@@ -1,0 +1,57 @@
+---
+title: "KiCad: Bibliotheken als Plug-in installieren"
+author: ["Human", "Mistral Vibe (KI Assistent)"]
+order: 3
+date: 2026-10-09
+categories: [Anleitung, Bibliotheken, KiCad, PCM]
+description: "Importiere die InHouse-Bibliotheken (InHouse Libraries) mit Symbolen (Symbols) und Footprints als Plug-in-Paket über die Plugin- und Content-Verwaltung (Plugin and Content Manager)."
+---
+
+Diese Anleitung erklärt, wie du die InHouse-Bibliotheken (InHouse Libraries) mit ihren Symbolen (Symbols) und Footprints in KiCad installierst. Die Bibliotheken werden als Plug-in-Paket von derselben Quelle wie das InHouse-Plug-in bereitgestellt: der HTLinn Cloud.
+
+Die Installation läuft genauso ab wie beim InHouse-Plug-in mit seinen Bauteilen (Components) und Vorlagen (Templates), siehe dazu den Beitrag [KiCad: InHouse-Plug-in installieren](../02-kicad-inhouse-plugin/). Die allgemeine Bedienung der PCM wird im Beitrag [KiCad: Plugin- und Content-Verwaltung](../06-kicad-pcm/) erklärt.
+
+## Voraussetzungen
+
+- KiCad 10 ist installiert.
+- Du hast die ZIP-Datei des Bibliotheks-Pakets (Libraries) von [HTLinn Cloud](https://cloud.htlinn.ac.at/f/3643189) auf deinen Computer heruntergeladen.
+- Die ZIP-Datei wurde nicht entpackt.
+
+Öffne [https://cloud.htlinn.ac.at/f/3643189](https://cloud.htlinn.ac.at/f/3643189) und lade die dort bereitgestellte ZIP-Datei des Bibliotheks-Pakets herunter. Speichere sie beispielsweise in deinem Ordner **Downloads**. Verwende ausschließlich diese Datei des Bibliotheks-Pakets.
+
+## Paket installieren
+
+1. Lade die ZIP-Datei über den oben genannten HTLinn-Cloud-Link herunter.
+2. Starte die KiCad-Projektverwaltung (KiCad Project Manager).
+3. Öffne über **Werkzeuge (Tools) → Plugin- und Content-Verwaltung (Plugin and Content Manager)** die PCM.
+4. Wähle oben rechts **Aus Datei installieren (Install from file…)**.
+5. Wähle im Dateidialog die heruntergeladene ZIP-Datei aus. Entpacke sie nicht.
+6. Die PCM prüft die Paketmetadaten und die Kompatibilität mit deiner KiCad-Version. Klicke zur Installation auf **Installieren (Install)**, falls ein Bestätigungsdialog angezeigt wird.
+7. Schließe das Plugin- und Content-Verwaltungsfenster (Plugin and Content Manager) nach der Installation.
+8. Öffne einmalig den Leiterplatteneditor (PCB Editor), um die Bibliotheken zu initialisieren. Danach kannst du die Editoren wieder schließen.
+9. Schließe alle geöffneten KiCad-Fenster und starte KiCad neu, um die Installation abzuschließen.
+
+Die PCM speichert das Paket im KiCad-Benutzerordner und trägt die enthaltenen Symbol- und Footprint-Bibliotheken automatisch in die globalen Bibliothekstabellen ein. Du musst nichts weiter konfigurieren.
+
+## Symbolbibliothek testen
+
+1. Öffne ein neues oder bestehendes Projekt.
+2. Starte den Schaltplaneditor (Schematic Editor).
+3. Wähle die Aktion zum Platzieren eines Symbols (Place Symbol).
+4. Öffne den Dialog **Symbol wählen (Choose Symbol)**.
+5. Prüfe, ob die InHouse-Symbolbibliothek (InHouse Symbol Library) in der Bibliotheksliste verfügbar ist.
+
+## Footprint-Bibliothek testen
+
+1. Öffne den Leiterplatteneditor (PCB Editor).
+2. Wähle die Aktion zum Platzieren eines Footprints (Add Footprint).
+3. Öffne den Dialog **Footprint wählen (Choose Footprint)**.
+4. Prüfe, ob die InHouse-Footprint-Bibliothek (InHouse Footprint Library) in der Bibliotheksliste verfügbar ist.
+
+::: callout-note
+Unter **Einstellungen (Preferences) → Symbolbibliotheken verwalten (Manage Symbol Libraries)** und **Einstellungen (Preferences) → Footprint-Bibliotheken verwalten (Manage Footprint Libraries)** kannst du Bibliotheken aktivieren, deaktivieren und priorisieren.
+:::
+
+## Nächste Schritte
+
+Nach der Installation stehen dir die InHouse-Symbole (InHouse Symbols) und InHouse-Footprints in allen Projekten zur Verfügung. Im Beitrag [KiCad: InHouse-Plug-in installieren](../02-kicad-inhouse-plugin/) erfährst du, wie du zusätzlich die InHouse-Vorlage (InHouse Template) für neue Projekte nutzt.

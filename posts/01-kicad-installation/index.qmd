@@ -1,6 +1,7 @@
 ---
 title: "KiCad 10 installieren – Schritt für Schritt"
 author: ["Human", "Mistral Vibe (KI Assistent)"]
+order: 1
 date: 2026-09-24
 categories: [Anleitung, Installation, KiCad]
 description: "Von null zum Schaltplan in 15 Minuten: Die komplette Installation von KiCad 10 auf Windows, macOS und Linux."

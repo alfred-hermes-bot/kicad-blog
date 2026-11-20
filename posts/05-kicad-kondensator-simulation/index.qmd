@@ -1,6 +1,7 @@
 ---
 title: "KiCad: Kondensator-Ladung simulieren – Schritt-für-Schritt Anleitung"
 author: ["Human", "Mistral Vibe (KI Assistent)"]
+order: 5
 date: 2026-10-08
 categories: [Anleitung, Simulation, KiCad, RC-Schaltung]
 description: "Lerne, wie du in KiCad eine einfache RC-Schaltung simulierst und die Ladung eines Kondensators analysierst – inklusive Zeitkonstante und Spannungsverlauf."
@@ -21,7 +22,7 @@ simulierst, um die Ladung eines Kondensators zu untersuchen.
 
 ## Vorraussetzungen
 
-- KiCad 10 installiert (siehe unseren [Installationsguide](/posts/2026-09-24-kicad-installation/))
+- KiCad 10 installiert (siehe unseren [Installationsguide](/posts/01-kicad-installation/))
 - Grundlegende Kenntnisse der KiCad-Benutzeroberfläche
 
 ## Schritt 1: Neues Projekt anlegen
@@ -68,7 +69,7 @@ Verwende das **Wire-Tool (W)** oder klicke auf die Pins und ziehe Verbindungen:
 
 Deine Schaltung sollte so aussehen:
 
-![RC-Schaltung im KiCad Schaltplan-Editor](images/C__lade_schaltung.png)
+![RC-Schaltung im KiCad Schaltplan-Editor](images/02-rc-schaltung.png)
 
 ::: callout-tip
 ### Tipp: Netznamen zuweisen

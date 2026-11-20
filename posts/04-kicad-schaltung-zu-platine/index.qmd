@@ -1,0 +1,269 @@
+---
+title: "KiCad: Von der Simulation zur Platine"
+author: ["Human", "Mistral Vibe (KI Assistent)"]
+order: 4
+date: 2026-11-28
+categories: [Anleitung, PCB-Design, KiCad, RC-Schaltung]
+description: "Verwandle die simulierte RC-Schaltung in eine echte Leiterplatte: ersetze die Simulationsquelle durch eine Stiftleiste, ergänze eine Stiftleiste am Ausgang, weise Footprints zu, route die Platine und exportiere die Fertigungsdaten."
+
+---
+
+Im [Simulationsbeitrag](/posts/05-kicad-kondensator-simulation/)
+haben wir eine RC-Schaltung aufgebaut und die Ladung des Kondensators in
+ngspice beobachtet. Jetzt machen wir daraus eine **echte Platine**. Dabei
+ändert sich die Schaltung an einer entscheidenden Stelle: Die
+**Simulationsquelle wird durch eine Stiftleiste ersetzt**, denn auf einer
+realen Platine kommt die Spannung von außen – vom Labornetzteil oder
+einer Batterie. Und am Ausgang kommt eine zweite Stiftleiste, damit du
+die reale Ladekurve messen und mit der Simulation vergleichen kannst.
+
+## Was du lernst
+
+- Die simulierte RC-Schaltung in ein **PCB-Projekt** überführen
+- Die **Simulationsquelle durch eine Stiftleiste** ersetzen
+- Eine **Stiftleiste am Ausgang** für Messungen ergänzen
+- **Footprints** zuweisen und den Schaltplan prüfen (ERC)
+- Die Platine im **Board-Editor** layouten und **Fertigungsdaten** exportieren
+
+## Voraussetzungen
+
+- KiCad 10 installiert (siehe unseren [Installationsguide](/posts/01-kicad-installation/))
+- Du hast die [Kondensator-Simulation](/posts/05-kicad-kondensator-simulation/) durchgeführt – wir bauen direkt auf deren Schaltung auf
+
+## Schritt 1: Projekt vorbereiten
+
+1. Starte **KiCad** und öffne dein Simulationsprojekt `rc-simulation`
+2. Speichere es unter neuem Namen: **File → Save Project As**, z. B. `rc-platine`
+3. Öffne den **Schaltplan-Editor (Eeschema)** – die RC-Schaltung mit
+   Spannungsquelle, Widerstand ($10\, \text{kΩ}$), Kondensator
+   ($100\, \text{µF}$) und den SPICE-Direktiven sollte noch offen sein
+
+<!-- Screenshot-Platzhalter: Ausgangslage – Schaltplan aus dem Simulationsprojekt im Eeschema -->
+![Ausgangslage: Schaltplan der RC-Schaltung aus dem Simulationsprojekt](images/01-schaltplan-ausgangslage.png)
+
+## Schritt 2: Schaltplan für die Platine anpassen
+
+Der Schaltplan enthält jetzt zwei Elemente, die auf einer Platine nichts
+zu suchen haben – und zwei Anschlusspunkte, die noch fehlen.
+
+### 1. Simulations-Zubehör entfernen
+
+1. Markiere die **SPICE-Direktiven** und lösche sie mit **Entf**
+2. Netzschilder wie $U_C$ und $U_{in}$ darfst du behalten – sie
+   erleichtern später die Fehlersuche
+
+### 2. Die Simulationsquelle durch eine Stiftleiste ersetzen
+
+1. Lösche die **Spannungsquelle (VDC)**
+2. Drücke **A** (Add Symbol) und suche nach `Conn_01x02_Male` aus der
+   Bibliothek *Connector* – eine zweipolige Stiftleiste
+3. Platziere sie dort, wo vorher die Quelle stand, und benenne sie
+   mit Doppelklick **J1**
+4. Verbinde **Pin 1** mit dem Netz, das vorher der Pluspol der Quelle
+   war (Netzlabel `+10V`), und **Pin 2** mit **GND**
+
+<!-- Screenshot-Platzhalter: Schaltplan mit entfernter Quelle und neu platzierter Stiftleiste J1 -->
+![Stiftleiste J1 ersetzt die Simulationsquelle](images/02-quelle-ersetzen.png)
+
+### 3. Stiftleiste am Ausgang platzieren
+
+1. Platziere eine zweite `Conn_01x02_Male` und benenne sie **J2**
+2. Verbinde **Pin 1** mit dem Netz **$U_C$** (zwischen Widerstand und
+   Kondensator) und **Pin 2** mit **GND**
+3. J2 sitzt damit **parallel zum Kondensator** – hier schließt du
+   später Multimeter oder Oszilloskop an und vergleichst die reale
+   Ladekurve mit der aus der Simulation
+
+<!-- Screenshot-Platzhalter: Fertiger Schaltplan mit J1 (Eingang), R, C, J2 (Ausgang), PWR_FLAG und GND -->
+![Fertiger Schaltplan: J1 am Eingang, J2 am Ausgang](images/03-schaltplan-fertig.png)
+
+::: callout-warning
+### PWR_FLAG nicht vergessen
+Ohne Spannungsquelle meldet der ERC den Fehler *"Input Power pin not
+driven by any Output Power pins"* – KiCad weiß ja nicht, dass die
+Spannung jetzt extern über J1 kommt. Platziere mit **A** ein
+**PWR_FLAG** und verbinde es mit dem `+10V`-Netz (und mit GND). Damit
+bestätigst du dem ERC: Hier kommt die Spannung wirklich her.
+:::
+
+## Schritt 3: Footprints zuweisen
+
+Jedes Symbol braucht jetzt sein **Footprint** – das physische
+Bauteilgehäuse mit den Lötpads.
+
+1. Gehe zu **Tools → Assign Footprints**
+2. Weise die Footprints zu:
+
+| Symbol | Bauteil | Footprint (Bibliothek) |
+|--------|---------|------------------------|
+| **R** | Widerstand $10\, \text{kΩ}$ | `R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal` (*Resistor_THT*) |
+| **C** | Elektrolytkondensator $100\, \text{µF}$ | `C_Radial_D8.0mm_H11.0mm_P3.50mm` (*Capacitor_THT*) |
+| **J1, J2** | Stiftleisten 2-polig | `PinHeader_1x02_P2.54mm_Vertical` (*Connector_PinHeader_2.54mm*) |
+
+3. Klicke auf **Apply, Save Schematic and Continue**
+
+::: callout-tip
+### Tipp: Durchsteckmontage für die Schule
+Wir wählen bewusst **THT-Bauteile** (Through-Hole) statt SMD: Sie sind
+mit dem normalen Lötkolben gut zu verlöten und Bauteile lassen sich
+leicht austauschen. SMD lohnt sich erst, wenn die Platine kleiner oder
+die Stückzahl größer wird.
+:::
+
+<!-- Screenshot-Platzhalter: Assign-Footprints-Dialog mit zugewiesenen Footprints für R, C, J1 und J2 -->
+![Assign-Footprints-Dialog mit den zugewiesenen Footprints](images/04-footprints.png)
+
+## Schritt 4: Prüfen und ins Board übernehmen
+
+1. **Annotations prüfen:** Gehe zu **Inspect → Annotate Schematic** und
+   klicke auf **Annotate**, damit alle Symbole eindeutige Referenzen
+   (R1, C1, J1, J2) haben
+2. **ERC ausführen:** Gehe zu **Inspect → Electrical Rules Checker →
+   Perform ERC** – das Ergebnis sollte **0 Fehler** sein
+3. Speichere den Schaltplan
+4. Gehe zu **Tools → Update PCB from Schematic (F8)** und klicke auf
+   **Update PCB**
+
+<!-- Screenshot-Platzhalter: ERC-Bericht ohne Fehler -->
+![ERC-Bericht: keine Fehler](images/05-erc.png)
+
+<!-- Screenshot-Platzhalter: Board-Editor nach "Update PCB from Schematic" – Footprint-Stapel neben leerem Boardrahmen -->
+![Board-Editor mit den übernommenen Footprints](images/06-update-pcb.png)
+
+Der Board-Editor öffnet sich mit allen Footprints in einem Stapel
+neben dem (noch leeren) Board.
+
+## Schritt 5: Board-Umriss und Platzierung
+
+1. Wähle oben in der Layer-Leiste den Layer **Edge.Cuts**
+2. Zeichne mit **Place → Add Rectangle** eine Platine von z. B.
+   **40 mm × 30 mm**
+3. Ziehe die Footprints aus dem Stapel auf die Platine und ordne sie
+   entlang des Signalflusses an:
+   - **J1** an den linken Rand (Eingang)
+   - **R1** in der Mitte
+   - **C1** weiter rechts – **Polarität beachten**, der Pluspol-Markierungspunkt muss zur Plusseite zeigen
+   - **J2** an den rechten Rand (Ausgang)
+4. Kontrolliere die Beschriftung im **Silkscreen** (F.Silks): Referenzen
+   wie J1, J2 sollten lesbar und nicht von Bauteilen verdeckt sein
+
+<!-- Screenshot-Platzhalter: Platine mit Edge.Cuts-Umriss und platzierten Bauteilen -->
+![Platine mit Umriss und platzierten Bauteilen](images/07-outline-platzierung.png)
+
+## Schritt 6: Leiterbahnen routen
+
+1. Wechsle auf den Layer **F.Cu** und starte mit **X** (Route Tracks)
+   das Routing. Setze die **Leiterbahnbreite** auf ca. **0,5 mm** –
+   für unsere wenigen Milliampere mehr als ausreichend
+2. Verbinde die Luftverbindungen (Ratsnest-Linien):
+   - J1 Pin 1 → R1 → C1 (Pluspol)
+   - J1 Pin 2 → GND
+   - C1 (Minuspol) → GND
+   - J2 Pin 1 → $U_C$, J2 Pin 2 → GND
+3. Für GND legen wir eine **Kupferfläche** an: **Place → Add Fill
+   Zone**, Layer F.Cu, Netz GND, über die ganze Platine – danach mit
+   **B** (Edit Zone/Refill) füllen
+
+::: callout-tip
+### Tipp: Warum eine GND-Fläche?
+Die Kupferfläche ersetzt einzelne GND-Leiterbahnen: weniger Routing-
+Arbeit, bessere mechanische Stabilität beim Löten und ein sauberer
+Massebezug – auch für deine Messung an J2.
+:::
+
+<!-- Screenshot-Platzhalter: Komplett geroutete Platine mit GND-Fläche -->
+![Komplett geroutete Platine mit GND-Kupferfläche](images/08-routing.png)
+
+## Schritt 7: Prüfen und Fertigungsdaten exportieren
+
+### DRC ausführen
+
+1. Gehe im Board-Editor zu **Inspect → Design Rules Checker → Run DRC**
+2. Es sollten **0 Fehler** und höchstens harmlose Warnungen übrig sein
+
+<!-- Screenshot-Platzhalter: DRC-Dialog mit 0 Fehlern -->
+![DRC: keine Fehler](images/09-drc.png)
+
+### 3D-Vorschau
+
+Mit **View → 3D Viewer** (Alt+3) kontrollierst du die Platine vor der
+Fertigung einmal von allen Seiten.
+
+<!-- Screenshot-Platzhalter: 3D-Viewer mit der fertigen Platine -->
+![3D-Vorschau der fertigen Platine](images/10-3d-ansicht.png)
+
+### Gerber- und Bohrdaten
+
+1. Gehe zu **File → Fabrication Outputs → Plots**
+2. Wähle die empfohlenen **Gerber-Layer** (oder direkt die Voreinstellung
+   für deinen Hersteller) und klicke auf **Plot**
+3. Erzeuge anschließend die **Bohrdaten** über **Generate Drill Files**
+4. Packe den Ausgabeordner als **ZIP** – das ist das Format, das du bei
+   jedem Leiterplatten-Hersteller hochlädst
+
+<!-- Screenshot-Platzhalter: Plot-Dialog (Gerber-Ausgabe) -->
+![Plot-Dialog für die Gerber-Ausgabe](images/11-gerber.png)
+
+## Theorieteil: Warum Stiftleisten statt Simulationsquelle?
+
+Die Simulationsquelle war ein **Modell**: ein ideales Bauteil, das
+ngspice für die Berechnung braucht. Auf einer realen Platine gibt es
+sie nicht – Spannung liefert ein Netzteil, eine Batterie oder ein
+Labornetzteil, das **von außen angeschlossen** wird. Die Stiftleiste
+J1 ist genau diese Schnittstelle: Sie macht aus dem Modellanschluss
+einen **physischen Anschluss**.
+
+Die Stiftleiste **J2 am Ausgang** hat die gleiche Aufgabe in die andere
+Richtung: Sie führt das Netz $U_C$ heraus, das wir in der Simulation
+geplottet haben. Mit einem Multimeter an J2 kannst du die **reale
+Ladekurve** messen und mit der Tabelle aus dem
+[Simulationsbeitrag](/posts/05-kicad-kondensator-simulation/)
+vergleichen. Die Physik ändert sich nicht: Mit $R = 10\, \text{kΩ}$ und
+$C = 100\, \text{µF}$ gilt weiterhin $\tau = R \cdot C = 1\, \text{s}$ –
+nach etwa 5 Sekunden ist der Kondensator praktisch voll geladen.
+
+Der ERC-Punkt mit dem **PWR_FLAG** passt ebenfalls in dieses Bild:
+KiCad prüft, ob jedes Power-Netz auch wirklich von einer Quelle getrieben
+wird. Da die Quelle jetzt außerhalb der Platine liegt, sagst du es dem
+ERC mit dem Flag explizit.
+
+Und die **Footprints** sind die Brücke zwischen Symbol und Bauteil: Das
+Widerstandssymbol `R` aus der Simulation wird zu einem konkreten
+Bauteil mit 10,16 mm Rastermaß – nur so weiß der Board-Editor, wie
+groß die Lötpads sein müssen.
+
+## Tipps und Tricks
+
+::: callout-tip
+### Tipp: Simulation und Realität vergleichen
+Schließe an J1 ein Labornetzteil mit $10\, \text{V}$ an und ein
+Multimeter an J2. Lade den Kondensator (Netzteil kurz trennen und
+wieder verbinden) und stoppe, wann J2 ca. $6{,}3\, \text{V}$ zeigt:
+Nach einer Sekunde – exakt wie in der Simulation.
+:::
+
+::: callout-tip
+### Tipp: Bauteilwerte im Silkscreen
+Füge Texte auf dem **F.Silks-Layer** hinzu, z. B. `10k`, `100µ` und
+`+10V / GND` an den Stiftleisten. So erkennst du die Belegung auch
+ohne Schaltplan.
+:::
+
+::: callout-warning
+### Häufige Fehler
+- **PWR_FLAG vergessen:** Der ERC meldet *"Input Power pin not driven"* – Flag platzieren und mit `+10V` sowie GND verbinden.
+- **Elektrolytkondensator verpolen:** Der Minuspol-Streifen muss Richtung GND. Verpolte Elkos können beim Laden aufplatzen.
+- **Edge.Cuts nicht geschlossen:** Die Umrisslinie muss ein geschlossener Rahmen sein, sonst akzeptieren Hersteller und DRC die Platine nicht.
+- **SPICE-Direktiven nicht gelöscht:** Sie stören das Board nicht direkt, verwirren aber jeden, der den Schaltplan später liest.
+- **Header falsch gepolt:** Prüfe an J1 und J2, welcher Pin im Schaltplan Pin 1 ist – im Footprint ist Pin 1 am eckigen Pad markiert.
+:::
+
+## Nächste Schritte
+
+Jetzt, wo deine erste Platine aus einer Simulation entstanden ist, kannst du:
+
+- Die **Gerber-Dateien bei einem Hersteller** hochladen und die Platine bestellen
+- Die **reale Ladekurve messen** und mit der ngspice-Simulation vergleichen
+- Die Schaltung **erweitern**: z. B. einen Taster zum Entladen des Kondensators oder eine LED mit Vorwiderstand ergänzen
+
+Viel Erfolg beim Ätten, Bestellen und Löten deiner ersten Platine!

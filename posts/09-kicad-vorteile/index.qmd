@@ -1,9 +1,11 @@
 ---
 title: "Warum KiCad? Open Source schlägt Lizenz"
 author: ["Human", "Mistral Vibe (KI Assistent)"]
+order: 9
 date: 2026-09-20
 categories: [EDA, KiCad, OpenSource]
 description: "KiCad bietet Profi-Funktionen ohne Lizenzkosten – ein Vergleich, der kommerzielle EDA-Suiten unangenehm treffen kann."
+draft: true
 ---
 
 Wer im Elektronikdesign arbeitet, kennt die Diskussion: "Nur
