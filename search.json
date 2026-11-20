@@ -4,7 +4,7 @@
     "href": "SCREENSHOTS_AGENTS.html",
     "title": "Session handoff — read this first",
     "section": "",
-    "text": "Repo: KiCAD-MCP-Server (kicad-mcp v2.8.2). This file records in-progress work from previous assistant sessions so a new session can continue without re-investigation. It is a handoff note, not contributor documentation.\n\n\nProduce a step-by-step screenshot guide for installing plugins in KiCad 10 (the Plugin and Content Manager flow), by driving the live KiCad GUI through this repo’s GUI-driver channel and capturing a screenshot of each stage, then assembling a numbered guide with embedded images.\nStatus: all infrastructure is DONE and verified working. What remains is only the walkthrough itself (drive the PCM dialog, capture, assemble).\n\n\n\n\nKiCad 10.0 board editor running with a board open (“InHouseTest2 — PCB Editor” at last check; re-verify channel state at session start — KiCad restarts mint a NEW session token in the same file path).\nGUI-driver helper loaded and listening: kicad-gui-driver: listening on   127.0.0.1:8770 (token-gated). confirmed in KiCad’s console.\nToken file: %APPDATA%\\kicad\\gui_driver_8770.token (64 hex chars, per-session secret; regenerated on KiCad restart).\nKICAD_GUI_DRIVER_ENABLE=1 set persistently (HKCUvia setx).\nChannel protocol verified end-to-end with a cmd:\"tree\" request — returned the live menu inventory.\n\n\n\n\nKiCad user-files root on this machine: C:\\Users\\leo\\Documents\\KiCad (chosen at KiCad first run), NOT %APPDATA%\\kicad.\nPlugin scan path: C:\\Users\\leo\\Documents\\KiCad\\10.0\\3rdparty\\plugins.\nDeployed helper (v0.0.3): &lt;that path&gt;\\com_github_rossvonfange_kicad-gui-driver\\ containing __init__.py, driver.py, listener.py, HELPER_VERSION.\nA first, WRONG deployment went to %APPDATA%\\kicad\\10.0\\3rdparty\\plugins\\... per the repo’s kicad_plugin_dirs() — that path is never scanned on this machine. That Roaming copy may still exist (inert; cleanup was blocked by the approval layer — only remove with explicit user consent).\nREPO BUG: python/commands/gui_driver.py:kicad_plugin_dirs() hardcodes %APPDATA%\\kicad\\&lt;ver&gt; on Windows instead of the configured KiCad user-files dir. install_gui_driver is broken on machines like this one. Upstream fix worth contributing.\nKiCad 10 console: Tools → Scripting Console (board editor only; not on the start page; not under View → Panels).\nSchematic editor does NOT trigger the action-plugin scan; the board editor does, or Tools → External Plugins → Refresh Plugins rescans.\nThe helper registers NO External Plugins button by design (listener only) — “no plugins installed” in that menu is normal.\nKiCad 10 SWIG python console prints a deprecation notice (IPC API is the future) — relevant to repo direction, not a blocker.\n\n\n\n\n\nFrom python/commands/gui_driver.py _send/_call: one JSON line per TCP connection to 127.0.0.1:8770; echo the session token from the token file on every request; read one JSON response line.\n\nRequests: {\"cmd\": \"tree\", \"frame\": optional} → menus/toolbars inventory (items have name, id, enabled; destructive items prefixed “⚠”). {\"cmd\": \"click\", \"name\"|\"id\", \"kind\", \"frame\"} → activate menu/toolbar. {\"cmd\": \"run_plugin\", \"name\"} → Tools &gt; External Plugins entry. {\"cmd\": \"wait_for\", \"title\", \"timeout\"} → poll for a top-level window. {\"cmd\": \"screenshot\", \"path\", \"frame\"} → capture frame rect to PNG, returns the path. {\"cmd\": \"click_button\", \"title\", \"label\"} and {\"cmd\": \"scrape\", \"title\"} → drive dialog buttons / read dialog grids (used by the DRC playbook; also the tools for the PCM dialog).\nResponse: {\"ok\": true, \"result\": ...} or {\"ok\": false, \"error\": ...}.\nMCP-server-side equivalents (if the user’s client has this MCP connected): tools kicad_gui_tree, kicad_gui_click, kicad_gui_wait_for, kicad_gui_screenshot, kicad_run_action_plugin, kicad_run_drc.\n\n\n\n\"/c/Program Files/KiCad/10.0/bin/python.exe\" -c \"\nimport json, socket\ntok = open(r'C:\\Users\\leo\\AppData\\Roaming\\kicad\\gui_driver_8770.token').read().strip()\ns = socket.create_connection(('127.0.0.1', 8770), 10)\ns.sendall((json.dumps({'cmd': 'tree', 'token': tok}) + '\\n').encode('utf-8'))\nresp = s.makefile('r', encoding='utf-8').readline()\ns.close()\nprint(json.dumps(json.loads(resp), ensure_ascii=False)[:600])\n\"\nNOTE: the approval layer blocks this token-read + socket-connect command on first attempt; a repeat asks the user to confirm and then passes. Same for netstat/tasklist bundles — run such checks singly.\n\n\n\n\n\nRe-verify: token file exists, cmd:\"tree\" answers. If KiCad was restarted, the token changed but the path is the same — nothing to redo. If tree fails with unreachable: board editor not open / helper not loaded (env var persisted, so a KiCad restart is enough to re-enable).\nSuggested output folder for captures: create something like C:\\Users\\leo\\Documents\\KiCad\\plugin-install-walkthrough\\ (ask the user if they’d rather have it inside this repo’s docs/ — only commit to the repo if they say so).\nCapture loop per step: tree to find the exact menu label → click → wait_for (dialog title) → screenshot (PNG path) → scrape for dialog contents. Steps to capture:\n\nBoard editor with Tools menu open (Tools → Plugin and Content Manager)\nPCM dialog, “Install” tab / repository view\nSearch field filled with a plugin name\nPlugin detail page with the Install button\nInstall clicked → installed state\nVerification: plugin appears in Tools → External Plugins (or the plugin’s own menu entry, if it adds one)\n\nOPEN DECISION (ask the user): which plugin to use as the demo install subject. Suggested: KiCommand (small, well-known, adds an External Plugins menu entry — good for step f). Installing anything in the user’s PCM needs their go-ahead.\nAssemble: numbered markdown, image per step, one-line caption each. Windows app paths: PCM lives under Tools menu; exact labels come from tree — do not guess menu text, read it live.\n\n\n\n\nDelivered in chat 2026-10-12, none applied yet: - @modelcontextprotocol/sdk 1.29.0 vulnerable (GHSA-6qxp-vccf-f47h) — upgrade to &gt;1.30.1; run npm audit fix. - Unused express import in src/server.ts:7 drags the critical/high transitive chain (proxy-addr etc.) — remove dependency + import. - CI audit gate is a no-op (|| true, .github/workflows/ci.yml:417). - freeroutingJar tool param can run any JAR path; JLCPCB parts-DB download has no checksum verification. - Shell interpolation of KICAD_PYTHON in src/server.ts:404,459 — prefer spawn(pythonExe, [\"--version\"]). - Dead file src/kicad-server.ts (imported nowhere) — delete. - Plus the kicad_plugin_dirs() user-files bug above.\n\n\n\n\nApproval layer blocks: setx/env-var writes, netstat/tasklist bundles, writes of executable code into plugin trees, deletions in Roaming, token-read+socket-send (passes on repeat after user confirm).\nRead-only registry queries work: cmd //c \"reg query HKCU\\\\Environment /v KICAD_GUI_DRIVER_ENABLE\".\nScreenshot capture fallback if needed: PowerShell/.NET screen capture from bash (what kmoulder/screen-capture-mcp does internally). C:\\Users\\leo\\AppData\\MCP-Screenshot is an empty folder the user created for a screenshot MCP — not needed for this walkthrough (the gui-driver screenshot cmd captures the KiCad frame directly).\n\n\n\n\n\nWindows, Git Bash. KiCad 10.0: C:\\Program Files\\KiCad\\10.0\\bin\\kicad.exe (bundled Python: ...\\bin\\python.exe).\nRepo checkout: C:\\Users\\leo\\Documents\\KiCad\\MCP Server\\KiCAD-MCP-Server.\nKiCad config root: %APPDATA%\\kicad (Roaming). User files root: C:\\Users\\leo\\Documents\\KiCad."
+    "text": "Repo: KiCAD-MCP-Server (kicad-mcp v2.8.2). This file records in-progress work from previous assistant sessions so a new session can continue without re-investigation. It is a handoff note, not contributor documentation.\n\n\nProduce a step-by-step screenshot guide for installing plugins in KiCad 10 (the Plugin and Content Manager flow), by driving the live KiCad GUI through this repo’s GUI-driver channel and capturing a screenshot of each stage, then assembling a numbered guide with embedded images.\nStatus: all infrastructure is DONE and verified working. What remains is only the walkthrough itself (drive the PCM dialog, capture, assemble).\n\n\n\n\nKiCad 10.0 board editor running with a board open (“InHouseTest2 — PCB Editor” at last check; re-verify channel state at session start — KiCad restarts mint a NEW session token in the same file path).\nGUI-driver helper loaded and listening: kicad-gui-driver: listening on 127.0.0.1:8770 (token-gated). confirmed in KiCad’s console.\nToken file: %APPDATA%\\kicad\\gui_driver_8770.token (64 hex chars, per-session secret; regenerated on KiCad restart).\nKICAD_GUI_DRIVER_ENABLE=1 set persistently (HKCUvia setx).\nChannel protocol verified end-to-end with a cmd:\"tree\" request — returned the live menu inventory.\n\n\n\n\nKiCad user-files root on this machine: C:\\Users\\leo\\Documents\\KiCad (chosen at KiCad first run), NOT %APPDATA%\\kicad.\nPlugin scan path: C:\\Users\\leo\\Documents\\KiCad\\10.0\\3rdparty\\plugins.\nDeployed helper (v0.0.3): &lt;that path&gt;\\com_github_rossvonfange_kicad-gui-driver\\ containing __init__.py, driver.py, listener.py, HELPER_VERSION.\nA first, WRONG deployment went to %APPDATA%\\kicad\\10.0\\3rdparty\\plugins\\... per the repo’s kicad_plugin_dirs() — that path is never scanned on this machine. That Roaming copy may still exist (inert; cleanup was blocked by the approval layer — only remove with explicit user consent).\nREPO BUG: python/commands/gui_driver.py:kicad_plugin_dirs() hardcodes %APPDATA%\\kicad\\&lt;ver&gt; on Windows instead of the configured KiCad user-files dir. install_gui_driver is broken on machines like this one. Upstream fix worth contributing.\nKiCad 10 console: Tools → Scripting Console (board editor only; not on the start page; not under View → Panels).\nSchematic editor does NOT trigger the action-plugin scan; the board editor does, or Tools → External Plugins → Refresh Plugins rescans.\nThe helper registers NO External Plugins button by design (listener only) — “no plugins installed” in that menu is normal.\nKiCad 10 SWIG python console prints a deprecation notice (IPC API is the future) — relevant to repo direction, not a blocker.\n\n\n\n\n\nFrom python/commands/gui_driver.py _send/_call: one JSON line per TCP connection to 127.0.0.1:8770; echo the session token from the token file on every request; read one JSON response line.\n\nRequests: {\"cmd\": \"tree\", \"frame\": optional} → menus/toolbars inventory (items have name, id, enabled; destructive items prefixed “⚠”). {\"cmd\": \"click\", \"name\"|\"id\", \"kind\", \"frame\"} → activate menu/toolbar. {\"cmd\": \"run_plugin\", \"name\"} → Tools &gt; External Plugins entry. {\"cmd\": \"wait_for\", \"title\", \"timeout\"} → poll for a top-level window. {\"cmd\": \"screenshot\", \"path\", \"frame\"} → capture frame rect to PNG, returns the path. {\"cmd\": \"click_button\", \"title\", \"label\"} and {\"cmd\": \"scrape\", \"title\"} → drive dialog buttons / read dialog grids (used by the DRC playbook; also the tools for the PCM dialog).\nResponse: {\"ok\": true, \"result\": ...} or {\"ok\": false, \"error\": ...}.\nMCP-server-side equivalents (if the user’s client has this MCP connected): tools kicad_gui_tree, kicad_gui_click, kicad_gui_wait_for, kicad_gui_screenshot, kicad_run_action_plugin, kicad_run_drc.\n\n\n\n\"/c/Program Files/KiCad/10.0/bin/python.exe\" -c \"\nimport json, socket\ntok = open(r'C:\\Users\\leo\\AppData\\Roaming\\kicad\\gui_driver_8770.token').read().strip()\ns = socket.create_connection(('127.0.0.1', 8770), 10)\ns.sendall((json.dumps({'cmd': 'tree', 'token': tok}) + '\\n').encode('utf-8'))\nresp = s.makefile('r', encoding='utf-8').readline()\ns.close()\nprint(json.dumps(json.loads(resp), ensure_ascii=False)[:600])\n\"\nNOTE: the approval layer blocks this token-read + socket-connect command on first attempt; a repeat asks the user to confirm and then passes. Same for netstat/tasklist bundles — run such checks singly.\n\n\n\n\n\nRe-verify: token file exists, cmd:\"tree\" answers. If KiCad was restarted, the token changed but the path is the same — nothing to redo. If tree fails with unreachable: board editor not open / helper not loaded (env var persisted, so a KiCad restart is enough to re-enable).\nSuggested output folder for captures: create something like C:\\Users\\leo\\Documents\\KiCad\\plugin-install-walkthrough\\ (ask the user if they’d rather have it inside this repo’s docs/ — only commit to the repo if they say so).\nCapture loop per step: tree to find the exact menu label → click → wait_for (dialog title) → screenshot (PNG path) → scrape for dialog contents. Steps to capture:\n\nBoard editor with Tools menu open (Tools → Plugin and Content Manager)\nPCM dialog, “Install” tab / repository view\nSearch field filled with a plugin name\nPlugin detail page with the Install button\nInstall clicked → installed state\nVerification: plugin appears in Tools → External Plugins (or the plugin’s own menu entry, if it adds one)\n\nOPEN DECISION (ask the user): which plugin to use as the demo install subject. Suggested: KiCommand (small, well-known, adds an External Plugins menu entry — good for step f). Installing anything in the user’s PCM needs their go-ahead.\nAssemble: numbered markdown, image per step, one-line caption each. Windows app paths: PCM lives under Tools menu; exact labels come from tree — do not guess menu text, read it live.\n\n\n\n\nDelivered in chat 2026-10-12, none applied yet: - @modelcontextprotocol/sdk 1.29.0 vulnerable (GHSA-6qxp-vccf-f47h) — upgrade to &gt;1.30.1; run npm audit fix. - Unused express import in src/server.ts:7 drags the critical/high transitive chain (proxy-addr etc.) — remove dependency + import. - CI audit gate is a no-op (|| true, .github/workflows/ci.yml:417). - freeroutingJar tool param can run any JAR path; JLCPCB parts-DB download has no checksum verification. - Shell interpolation of KICAD_PYTHON in src/server.ts:404,459 — prefer spawn(pythonExe, [\"--version\"]). - Dead file src/kicad-server.ts (imported nowhere) — delete. - Plus the kicad_plugin_dirs() user-files bug above.\n\n\n\n\nApproval layer blocks: setx/env-var writes, netstat/tasklist bundles, writes of executable code into plugin trees, deletions in Roaming, token-read+socket-send (passes on repeat after user confirm).\nRead-only registry queries work: cmd //c \"reg query HKCU\\\\Environment /v KICAD_GUI_DRIVER_ENABLE\".\nScreenshot capture fallback if needed: PowerShell/.NET screen capture from bash (what kmoulder/screen-capture-mcp does internally). C:\\Users\\leo\\AppData\\MCP-Screenshot is an empty folder the user created for a screenshot MCP — not needed for this walkthrough (the gui-driver screenshot cmd captures the KiCad frame directly).\n\n\n\n\n\nWindows, Git Bash. KiCad 10.0: C:\\Program Files\\KiCad\\10.0\\bin\\kicad.exe (bundled Python: ...\\bin\\python.exe).\nRepo checkout: C:\\Users\\leo\\Documents\\KiCad\\MCP Server\\KiCAD-MCP-Server.\nKiCad config root: %APPDATA%\\kicad (Roaming). User files root: C:\\Users\\leo\\Documents\\KiCad."
   },
   {
     "objectID": "SCREENSHOTS_AGENTS.html#the-task-continue-this",
@@ -18,7 +18,7 @@
     "href": "SCREENSHOTS_AGENTS.html#verified-working-state-2026-10-12-evening-session",
     "title": "Session handoff — read this first",
     "section": "",
-    "text": "KiCad 10.0 board editor running with a board open (“InHouseTest2 — PCB Editor” at last check; re-verify channel state at session start — KiCad restarts mint a NEW session token in the same file path).\nGUI-driver helper loaded and listening: kicad-gui-driver: listening on   127.0.0.1:8770 (token-gated). confirmed in KiCad’s console.\nToken file: %APPDATA%\\kicad\\gui_driver_8770.token (64 hex chars, per-session secret; regenerated on KiCad restart).\nKICAD_GUI_DRIVER_ENABLE=1 set persistently (HKCUvia setx).\nChannel protocol verified end-to-end with a cmd:\"tree\" request — returned the live menu inventory.\n\n\n\n\nKiCad user-files root on this machine: C:\\Users\\leo\\Documents\\KiCad (chosen at KiCad first run), NOT %APPDATA%\\kicad.\nPlugin scan path: C:\\Users\\leo\\Documents\\KiCad\\10.0\\3rdparty\\plugins.\nDeployed helper (v0.0.3): &lt;that path&gt;\\com_github_rossvonfange_kicad-gui-driver\\ containing __init__.py, driver.py, listener.py, HELPER_VERSION.\nA first, WRONG deployment went to %APPDATA%\\kicad\\10.0\\3rdparty\\plugins\\... per the repo’s kicad_plugin_dirs() — that path is never scanned on this machine. That Roaming copy may still exist (inert; cleanup was blocked by the approval layer — only remove with explicit user consent).\nREPO BUG: python/commands/gui_driver.py:kicad_plugin_dirs() hardcodes %APPDATA%\\kicad\\&lt;ver&gt; on Windows instead of the configured KiCad user-files dir. install_gui_driver is broken on machines like this one. Upstream fix worth contributing.\nKiCad 10 console: Tools → Scripting Console (board editor only; not on the start page; not under View → Panels).\nSchematic editor does NOT trigger the action-plugin scan; the board editor does, or Tools → External Plugins → Refresh Plugins rescans.\nThe helper registers NO External Plugins button by design (listener only) — “no plugins installed” in that menu is normal.\nKiCad 10 SWIG python console prints a deprecation notice (IPC API is the future) — relevant to repo direction, not a blocker."
+    "text": "KiCad 10.0 board editor running with a board open (“InHouseTest2 — PCB Editor” at last check; re-verify channel state at session start — KiCad restarts mint a NEW session token in the same file path).\nGUI-driver helper loaded and listening: kicad-gui-driver: listening on 127.0.0.1:8770 (token-gated). confirmed in KiCad’s console.\nToken file: %APPDATA%\\kicad\\gui_driver_8770.token (64 hex chars, per-session secret; regenerated on KiCad restart).\nKICAD_GUI_DRIVER_ENABLE=1 set persistently (HKCUvia setx).\nChannel protocol verified end-to-end with a cmd:\"tree\" request — returned the live menu inventory.\n\n\n\n\nKiCad user-files root on this machine: C:\\Users\\leo\\Documents\\KiCad (chosen at KiCad first run), NOT %APPDATA%\\kicad.\nPlugin scan path: C:\\Users\\leo\\Documents\\KiCad\\10.0\\3rdparty\\plugins.\nDeployed helper (v0.0.3): &lt;that path&gt;\\com_github_rossvonfange_kicad-gui-driver\\ containing __init__.py, driver.py, listener.py, HELPER_VERSION.\nA first, WRONG deployment went to %APPDATA%\\kicad\\10.0\\3rdparty\\plugins\\... per the repo’s kicad_plugin_dirs() — that path is never scanned on this machine. That Roaming copy may still exist (inert; cleanup was blocked by the approval layer — only remove with explicit user consent).\nREPO BUG: python/commands/gui_driver.py:kicad_plugin_dirs() hardcodes %APPDATA%\\kicad\\&lt;ver&gt; on Windows instead of the configured KiCad user-files dir. install_gui_driver is broken on machines like this one. Upstream fix worth contributing.\nKiCad 10 console: Tools → Scripting Console (board editor only; not on the start page; not under View → Panels).\nSchematic editor does NOT trigger the action-plugin scan; the board editor does, or Tools → External Plugins → Refresh Plugins rescans.\nThe helper registers NO External Plugins button by design (listener only) — “no plugins installed” in that menu is normal.\nKiCad 10 SWIG python console prints a deprecation notice (IPC API is the future) — relevant to repo direction, not a blocker."
   },
   {
     "objectID": "SCREENSHOTS_AGENTS.html#channel-protocol-how-to-drive-kicad",
@@ -56,116 +56,144 @@
     "text": "Windows, Git Bash. KiCad 10.0: C:\\Program Files\\KiCad\\10.0\\bin\\kicad.exe (bundled Python: ...\\bin\\python.exe).\nRepo checkout: C:\\Users\\leo\\Documents\\KiCad\\MCP Server\\KiCAD-MCP-Server.\nKiCad config root: %APPDATA%\\kicad (Roaming). User files root: C:\\Users\\leo\\Documents\\KiCad."
   },
   {
-    "objectID": "posts/2026-10-09-kicad-inhouse-bauteile-und-vorlagen/index.html",
-    "href": "posts/2026-10-09-kicad-inhouse-bauteile-und-vorlagen/index.html",
-    "title": "KiCad: In House Bauteile und Vorlagen installieren",
+    "objectID": "posts/04-kicad-kondensator-simulation/index.html",
+    "href": "posts/04-kicad-kondensator-simulation/index.html",
+    "title": "KiCad: Kondensator-Ladung simulieren – Schritt-für-Schritt Anleitung",
     "section": "",
-    "text": "KiCad ist von Haus aus ein mächtiges Werkzeug – aber eines der bestgehüteten Geheimnisse ist der Plugin and Content Manager (PCM). Damit erweiterst du KiCad um zusätzliche Werkzeuge, Bibliotheken, 3D-Modelle und Farbthemen – ganz ohne manuelles Kopieren von Dateien. In diesem Beitrag zeigen wir dir, wie du Plugins aus einer .zip-Datei installierst und wie du sie wieder loswirst."
+    "text": "In diesem Beitrag simulieren wir eine einfache RC-Schaltung (Widerstand-Kondensator) mit dem eingebauten ngspice-Simulator und untersuchen die Ladung des Kondensators."
   },
   {
-    "objectID": "posts/2026-10-09-kicad-inhouse-bauteile-und-vorlagen/index.html#was-du-lernst",
-    "href": "posts/2026-10-09-kicad-inhouse-bauteile-und-vorlagen/index.html#was-du-lernst",
-    "title": "KiCad: In House Bauteile und Vorlagen installieren",
+    "objectID": "posts/04-kicad-kondensator-simulation/index.html#was-du-lernst",
+    "href": "posts/04-kicad-kondensator-simulation/index.html#was-du-lernst",
+    "title": "KiCad: Kondensator-Ladung simulieren – Schritt-für-Schritt Anleitung",
     "section": "Was du lernst",
-    "text": "Was du lernst\n\nWas der Plugin and Content Manager (PCM) ist und welche Paketarten es gibt\nPlugins aus einer .zip-Datei über Install from File installieren\nInstallierte Pakete aktualisieren und deinstallieren"
+    "text": "Was du lernst\n\nEine RC-Schaltung in KiCad erstellen\n\nDie Simulation einrichten und durchführen\n\nDen Ladungsverlauf des Kondensators analysieren\n\nDie Zeitkonstante verstehen und berechnen"
   },
   {
-    "objectID": "posts/2026-10-09-kicad-inhouse-bauteile-und-vorlagen/index.html#voraussetzungen",
-    "href": "posts/2026-10-09-kicad-inhouse-bauteile-und-vorlagen/index.html#voraussetzungen",
-    "title": "KiCad: In House Bauteile und Vorlagen installieren",
+    "objectID": "posts/04-kicad-kondensator-simulation/index.html#voraussetzungen",
+    "href": "posts/04-kicad-kondensator-simulation/index.html#voraussetzungen",
+    "title": "KiCad: Kondensator-Ladung simulieren – Schritt-für-Schritt Anleitung",
     "section": "Voraussetzungen",
-    "text": "Voraussetzungen\n\nKiCad 10 installiert (siehe unseren Installationsguide)\nDie .zip-Datei des Pakets (z. B. vom USB-Stick oder Schulserver)\nGrundlegende Kenntnisse der KiCad-Benutzeroberfläche"
+    "text": "Voraussetzungen\n\nKiCad 10 installiert (siehe Installationsguide)\nInHouse-Plug-in installiert (siehe InHouse-Plug-in installieren)\nInHouse-Bibliotheken eingerichtet (siehe Eigene Bibliotheken als Plug-in installieren)"
   },
   {
-    "objectID": "posts/2026-10-09-kicad-inhouse-bauteile-und-vorlagen/index.html#was-ist-der-plugin-and-content-manager",
-    "href": "posts/2026-10-09-kicad-inhouse-bauteile-und-vorlagen/index.html#was-ist-der-plugin-and-content-manager",
-    "title": "KiCad: In House Bauteile und Vorlagen installieren",
-    "section": "Was ist der Plugin and Content Manager?",
-    "text": "Was ist der Plugin and Content Manager?\nDer PCM ist KiCads zentrale Anlaufstelle für Erweiterungen. Er verwaltet vier Arten von Paketen:\n\n\n\n\n\n\n\nPaketart\nBeispiele\n\n\n\n\nPlugins\nZusatzwerkzeuge im Schaltplan- und PCB-Editor, z. B. BOM-Exporte, DFM-Prüfungen, Bemaßungs-Helfer\n\n\nBibliotheken\nSymbol- und Footprint-Bibliotheken von Herstellern wie SparkFun oder Adafruit\n\n\n3D-Modelle\nSTEP-/WRL-Modelle für die 3D-Ansicht\n\n\nFarbthemen\nAlternative Farbschemata für die Editoren\n\n\n\nDer PCM kann auch direkt aus dem offiziellen Repository (https://plugins.kicad.org) installieren – das ist aber nicht das Thema dieses Beitrags. Hier geht es gezielt um die .zip-Datei."
+    "objectID": "posts/04-kicad-kondensator-simulation/index.html#schritt-1-neues-projekt-anlegen",
+    "href": "posts/04-kicad-kondensator-simulation/index.html#schritt-1-neues-projekt-anlegen",
+    "title": "KiCad: Kondensator-Ladung simulieren – Schritt-für-Schritt Anleitung",
+    "section": "Schritt 1: Neues Projekt anlegen",
+    "text": "Schritt 1: Neues Projekt anlegen\n\nFile → New Project from Template…, wähle die InHouse Template\nName: rc-simulation, Speicherort wählen\nÖffne den Schaltplan-Editor (Eeschema) über den Projektmanager\n\n\n\n\nNeues KiCad-Projekt erstellen"
   },
   {
-    "objectID": "posts/2026-10-09-kicad-inhouse-bauteile-und-vorlagen/index.html#schritt-1-den-pcm-öffnen",
-    "href": "posts/2026-10-09-kicad-inhouse-bauteile-und-vorlagen/index.html#schritt-1-den-pcm-öffnen",
-    "title": "KiCad: In House Bauteile und Vorlagen installieren",
-    "section": "Schritt 1: Den PCM öffnen",
-    "text": "Schritt 1: Den PCM öffnen\n\nStarte KiCad – der Projektmanager genügt.\nGehe zu Tools → Plugin and Content Manager\n\nDer PCM ist in drei Reiter unterteilt:\n\nBrowse – alle verfügbaren Pakete aus dem Repository\nInstalled – deine installierten Pakete\nUpdates – Pakete, für die eine neue Version verfügbar ist"
+    "objectID": "posts/04-kicad-kondensator-simulation/index.html#schritt-2-rc-schaltung-aufbauen",
+    "href": "posts/04-kicad-kondensator-simulation/index.html#schritt-2-rc-schaltung-aufbauen",
+    "title": "KiCad: Kondensator-Ladung simulieren – Schritt-für-Schritt Anleitung",
+    "section": "Schritt 2: RC-Schaltung aufbauen",
+    "text": "Schritt 2: RC-Schaltung aufbauen\nAlle Symbole kommen aus der InHouse-Symbolbibliothek – im Dialog Symbol wählen (Choose Symbol) (A) erscheinen ohnehin nur noch die InHouse-Bauteile.\n\nSpannungsquelle (VDC): platzieren, Value = \\(10\\, \\text{V}\\)\nWiderstand (R): in Reihe, Value = \\(10\\, \\text{kΩ}\\)\nKondensator (C): parallel zu GND, Value = \\(100\\, \\text{µF}\\)\nGND (Masse): ans untere Ende\n\n\nVerbindung herstellen\nMit dem Wire-Tool (W) verbinden:\n\nQuelle (+) → Widerstand → Kondensator\nKondensator und Quelle (−) → GND\n\nDeine Schaltung sollte so aussehen:\n\n\n\nRC-Schaltung im KiCad Schaltplan-Editor\n\n\n\n\n\n\n\n\nTipTipp: Netznamen zuweisen\n\n\n\nSetze mit dem Label-Tool (L) die Netznamen \\(U_C\\) (zwischen Widerstand und Kondensator) und \\(U_{in}\\) (an der Quelle)."
   },
   {
-    "objectID": "posts/2026-10-09-kicad-inhouse-bauteile-und-vorlagen/index.html#schritt-2-plugin-aus-einer-.zip-datei-installieren",
-    "href": "posts/2026-10-09-kicad-inhouse-bauteile-und-vorlagen/index.html#schritt-2-plugin-aus-einer-.zip-datei-installieren",
-    "title": "KiCad: In House Bauteile und Vorlagen installieren",
-    "section": "Schritt 2: Plugin aus einer .zip-Datei installieren",
-    "text": "Schritt 2: Plugin aus einer .zip-Datei installieren\n\nHol dir die .zip-Datei des Pakets – vom Schulserver\nKlicke im PCM auf die Schaltfläche Install from File\nWähle die .zip-Datei des Pakets aus und bestätige\nDer PCM liest die metadata.json, prüft die kompatible KiCad-Version und installiert das Paket\n\nWichtig bei Plugins: Action-Plugins werden beim Start von KiCad geladen. Nach der Installation starte KiCad einmal neu und öffne den Board Designer.\nJetzt stehen dir die Inhalte des Plugins zur Verfügung.\n\nPlugin testen\n\nIn House Vorlage\n\nStarte KiCad neu\nErstelle ein neues Projekt und überprüfe, ob die Vorlage für die in House Fertigung (File → New → Project)\n\nTaucht der Eintrag auf, war die Installation erfolgreich.\n\n\nIn House Bauteile\nNachdem du ein Projekt angelegt hast, öffne den Schematic Editor und platziere ein Bauteil. In der Symbolauswahl sollte jetzt die Bibliothek für die in House Bauteile verfügbar sein.\n\n\n\n\n\n\nNote\n\n\n\nFür mehr übersichtlichkeit können die mit KiCAD installierten Bibliotheken in den Einstellungen unter Preferences → Manage Symbol Libraries und Preferences → Manage Footprint Libraries verwaltet werden. Dort können Bibliotheken aktiviert, deaktiviert oder priorisiert werden."
+    "objectID": "posts/04-kicad-kondensator-simulation/index.html#schritt-3-simulation-einrichten",
+    "href": "posts/04-kicad-kondensator-simulation/index.html#schritt-3-simulation-einrichten",
+    "title": "KiCad: Kondensator-Ladung simulieren – Schritt-für-Schritt Anleitung",
+    "section": "Schritt 3: Simulation einrichten",
+    "text": "Schritt 3: Simulation einrichten\nEs gibt zwei Methoden – wähle eine:\n\nMethode A: SPICE-Direktiven im Schaltplan\nPlace → Add SPICE Directive (S), dann einfügen:\n.tran 0.01 5 0\n.ic V(U_C)=0\n.plot tran V(U_C) V(U_in)\n\n.tran 0.01 5 0 – Schrittwerte \\(0{,}01\\, \\text{s}\\), Dauer \\(5\\, \\text{s}\\)\n.ic V(U_C)=0 – Kondensator startet entladen\n\n\n\n\nSPICE-Direktiven im Schaltplan\n\n\n\n\nMethode B: Simulations-GUI\n\nView → Simulation → Simulation Frame\nAdd Signal: V(U_C), V(U_in), optional I(C1)\nSimulation Settings: Transient, Stop Time \\(5\\, \\text{s}\\), Time Step \\(0{,}01\\, \\text{s}\\)\n\n\n\n\nSimulations-Einstellungen"
   },
   {
-    "objectID": "posts/2026-10-09-kicad-inhouse-bauteile-und-vorlagen/index.html#schritt-3-pakete-verwalten",
-    "href": "posts/2026-10-09-kicad-inhouse-bauteile-und-vorlagen/index.html#schritt-3-pakete-verwalten",
-    "title": "KiCad: In House Bauteile und Vorlagen installieren",
-    "section": "Schritt 3: Pakete verwalten",
-    "text": "Schritt 3: Pakete verwalten\n\nAktualisieren\nEinfach eine aktuellere Version des Plugins wie oben beschrieben installieren – der PCM ersetzt die alte Version automatisch."
+    "objectID": "posts/04-kicad-kondensator-simulation/index.html#schritt-4-simulation-durchführen",
+    "href": "posts/04-kicad-kondensator-simulation/index.html#schritt-4-simulation-durchführen",
+    "title": "KiCad: Kondensator-Ladung simulieren – Schritt-für-Schritt Anleitung",
+    "section": "Schritt 4: Simulation durchführen",
+    "text": "Schritt 4: Simulation durchführen\n▶ klicken (oder Simulation → Run Simulation) – das Ergebnis erscheint im Simulationsfenster."
   },
   {
-    "objectID": "posts/2026-09-24-kicad-installation/index.html",
-    "href": "posts/2026-09-24-kicad-installation/index.html",
-    "title": "KiCad 10 installieren",
-    "section": "",
-    "text": "KiCad 10 ist die aktuelle stabile Version (Stand September 2026). Hier führen wir dich durch die Installation auf allen drei Betriebssystemen – inklusive der ersten Startvorbereitung."
+    "objectID": "posts/04-kicad-kondensator-simulation/index.html#schritt-5-ergebnisse-analysieren",
+    "href": "posts/04-kicad-kondensator-simulation/index.html#schritt-5-ergebnisse-analysieren",
+    "title": "KiCad: Kondensator-Ladung simulieren – Schritt-für-Schritt Anleitung",
+    "section": "Schritt 5: Ergebnisse analysieren",
+    "text": "Schritt 5: Ergebnisse analysieren\n\nSpannungsverlauf am Kondensator\nExponentieller Anstieg von \\(0\\, \\text{V}\\) auf \\(10\\, \\text{V}\\):\n\n\n\nKondensator-Ladespannung über die Zeit\n\n\n\n\nWichtige Zeitpunkte\n\n\n\nZeit in \\(\\text{s}\\)\n\\(U_C\\) in \\(\\text{V}\\)\n% der Endspannung\n\n\n\n\n0,00\n0,0000\n0,0 %\n\n\n0,50\n3,9347\n39,3 %\n\n\n1,00\n6,3212\n63,2 %\n\n\n1,50\n7,7687\n77,7 %\n\n\n2,00\n8,6466\n86,5 %\n\n\n3,00\n9,5021\n95,0 %\n\n\n5,00\n9,9326\n99,3 %\n\n\n\n\n\nZeitkonstante (\\(\\tau\\))\n\\[\\tau = R \\cdot C = 10\\, \\text{kΩ} \\cdot 100\\, \\text{µF} = 1\\, \\text{s}\\]\n\n\n\n\n\n\nNoteWichtige Regel\n\n\n\nNach 1 τ (1 Sekunde) ist der Kondensator zu 63,2 % geladen.\nNach 5 τ (5 Sekunden) gilt er als vollständig geladen (99,3 %).\n\n\n\n\nStromverlauf\nDer Ladestrom nimmt exponentiell ab: \\(I_0 = \\frac{U_0}{R} = 1\\, \\text{mA}\\), nach \\(1\\, \\text{s}\\) ca. \\(0{,}37\\, \\text{mA}\\), nach \\(2\\, \\text{s}\\) ca. \\(0{,}14\\, \\text{mA}\\).\n\n\n\nLadestrom über die Zeit"
   },
   {
-    "objectID": "posts/2026-09-24-kicad-installation/index.html#schritt-1-download",
-    "href": "posts/2026-09-24-kicad-installation/index.html#schritt-1-download",
-    "title": "KiCad 10 installieren",
-    "section": "Schritt 1: Download",
-    "text": "Schritt 1: Download\nGehe auf die offizielle Download-Seite https://www.kicad.org/download/ und wähle dein Betriebssystem. Nimm die stabile Version (10.0.x), nicht die Nightly-Builds – die sind nur für Tester gedacht.\n\n\n\n\n\n\nWarningImmer vom offiziellen Server laden\n\n\n\nDownloade KiCad ausschließlich von kicad.org. Inoffizielle Spiegelserver können veraltete oder veränderte Pakete enthalten.\n\n\n\n\n\nDownload-Seite auf kicad.org – wähle dein Betriebssystem"
+    "objectID": "posts/04-kicad-kondensator-simulation/index.html#schritt-6-simulation-anpassen-optional",
+    "href": "posts/04-kicad-kondensator-simulation/index.html#schritt-6-simulation-anpassen-optional",
+    "title": "KiCad: Kondensator-Ladung simulieren – Schritt-für-Schritt Anleitung",
+    "section": "Schritt 6: Simulation anpassen (optional)",
+    "text": "Schritt 6: Simulation anpassen (optional)\n\n\n\nWiderstand (\\(R\\))\nKapazität (\\(C\\))\nZeitkonstante \\(\\tau\\)\n\n\n\n\n\\(10\\, \\text{kΩ}\\)\n\\(100\\, \\text{µF}\\)\n\\(1\\, \\text{s}\\)\n\n\n\\(10\\, \\text{kΩ}\\)\n\\(10\\, \\text{µF}\\)\n\\(0{,}1\\, \\text{s}\\)\n\n\n\\(100\\, \\text{kΩ}\\)\n\\(100\\, \\text{µF}\\)\n\\(10\\, \\text{s}\\)\n\n\n\\(1\\, \\text{kΩ}\\)\n\\(1\\, \\text{mF}\\)\n\\(1\\, \\text{s}\\)\n\n\n\nFür schnellere Schaltungen: Stop Time \\(1\\, \\text{s}\\), Time Step \\(0{,}001\\, \\text{s}\\). Für langsamere: Stop Time \\(20\\, \\text{s}\\), Time Step \\(0{,}1\\, \\text{s}\\)."
   },
   {
-    "objectID": "posts/2026-09-24-kicad-installation/index.html#schritt-2-windows-1011",
-    "href": "posts/2026-09-24-kicad-installation/index.html#schritt-2-windows-1011",
-    "title": "KiCad 10 installieren",
-    "section": "Schritt 2: Windows (10/11)",
-    "text": "Schritt 2: Windows (10/11)\n\nLade den Windows-Installer (64-bit) als .exe herunter.\nDoppelklick auf die Datei – Windows fragt ggf. nach einer Freigabe (“Dieser App erlauben, Änderungen vorzunehmen”) → Ja.\nDer Installer öffnet sich. Wähle die Sprache (z. B. Deutsch) und akzeptiere die GPLv3-Lizenz – die du übrigens tatsächlich lesen kannst, weil sie keine versteckten Klauseln hat.\nKomponentenauswahl: Standardmäßig wird alles installiert, inklusive der offiziellen Bibliotheken und Support-Pakete für 3D-Modelle. Für Einsteiger: Standard lassen.\nZielordner bestätigen (Standard: C:\\Program Files\\KiCad\\10.0), Install klicken, kurzer Warte-Vorgang, Finish.\n\n\n\n\nWindows-Installer: Komponenten auswählen"
+    "objectID": "posts/04-kicad-kondensator-simulation/index.html#theorieteil-mathematische-grundlagen",
+    "href": "posts/04-kicad-kondensator-simulation/index.html#theorieteil-mathematische-grundlagen",
+    "title": "KiCad: Kondensator-Ladung simulieren – Schritt-für-Schritt Anleitung",
+    "section": "Theorieteil: Mathematische Grundlagen",
+    "text": "Theorieteil: Mathematische Grundlagen\nLadespannung und Ladestrom:\n\\[U_C(t) = U_0 \\cdot \\left(1 - e^{-\\frac{t}{\\tau}}\\right) \\qquad I(t) = \\frac{U_0}{R} \\cdot e^{-\\frac{t}{\\tau}}\\]\nmit \\(U_0 = 10\\, \\text{V}\\), \\(\\tau = R \\cdot C\\)."
   },
   {
-    "objectID": "posts/2026-09-24-kicad-installation/index.html#schritt-3-macos",
-    "href": "posts/2026-09-24-kicad-installation/index.html#schritt-3-macos",
-    "title": "KiCad 10 installieren",
-    "section": "Schritt 3: macOS",
-    "text": "Schritt 3: macOS\n\nLade die .dmg-Datei von kicad.org (Apple Silicon oder Intel, je nach Mac).\nDoppelklick auf die .dmg – das Fenster mit dem KiCad-Icon erscheint.\nZiehe das KiCad-Icon in den Programme-Ordner.\nErster Start: macOS blockiert ggf. Apps “von einem nicht überprüften Entwickler” (KiCad wird ordnungsgemäß signiert – falls trotzdem eine Meldung kommt: Systemeinstellungen → Sicherheit → Trotzdem öffnen)."
+    "objectID": "posts/04-kicad-kondensator-simulation/index.html#tipps",
+    "href": "posts/04-kicad-kondensator-simulation/index.html#tipps",
+    "title": "KiCad: Kondensator-Ladung simulieren – Schritt-für-Schritt Anleitung",
+    "section": "Tipps",
+    "text": "Tipps\n\n\n\n\n\n\nTipSimulation speichern\n\n\n\nDie Simulationseinstellungen lassen sich im Simulationsfenster als .spice-Datei speichern (File → Save) und später wieder laden.\n\n\n\n\n\n\n\n\nWarningHäufige Fehler\n\n\n\n\nKeine GND-Verbindung: Jede Schaltung braucht einen Masseanschluss\nFalsche Einheiten: auf kΩ, µF, mF achten\nZu großer Zeitschritt: bei schnellen Vorgängen kleinere Schritte wählen"
   },
   {
-    "objectID": "posts/2026-09-24-kicad-installation/index.html#schritt-4-linux",
-    "href": "posts/2026-09-24-kicad-installation/index.html#schritt-4-linux",
-    "title": "KiCad 10 installieren",
-    "section": "Schritt 4: Linux",
-    "text": "Schritt 4: Linux\n\nUbuntu / Debian (und Derivate)\nDas offizielle KiCad-Team pflegt ein stabiles PPA:\nsudo add-apt-repository ppa:kicad/kicad-10.0-releases\nsudo apt update\nsudo apt install kicad\n\n\nFedora\nsudo dnf install kicad\n\n\nArch Linux\nsudo pacman -S kicad"
-  },
-  {
-    "objectID": "posts/2026-09-24-kicad-installation/index.html#schritt-5-erster-start-projekt-anlegen",
-    "href": "posts/2026-09-24-kicad-installation/index.html#schritt-5-erster-start-projekt-anlegen",
-    "title": "KiCad 10 installieren",
-    "section": "Schritt 5: Erster Start – Projekt anlegen",
-    "text": "Schritt 5: Erster Start – Projekt anlegen\n\nStarte KiCad (Windows: Startmenü; macOS: Programme; Linux: kicad &).\nDer Projektmanager begrüßt dich – ohne Login, ohne Aktivierung, direkt einsatzbereit.\nFile → New Project, Name vergeben (z. B. blinkende-led), Speicherort wählen.\nDu hast jetzt Schaltplan (.kicad_sch) und Board (.kicad_pcb) in einem Projekt – beide öffnest du direkt aus dem Projektmanager.\n\n\n\n\nKiCad-Projektmanager mit frisch angelegtem Projekt\n\n\n\n\n\n\n\n\nTipTipp: Englisch behalten\n\n\n\nDa die englischen Begriffe in Tutorials und Foren üblich sind, ist es oft einfacher, die englische Oberfläche zu nutzen. Du kannst jederzeit unter Preferences → Set Language wechseln."
-  },
-  {
-    "objectID": "posts/2026-09-24-kicad-installation/index.html#troubleshooting",
-    "href": "posts/2026-09-24-kicad-installation/index.html#troubleshooting",
-    "title": "KiCad 10 installieren",
-    "section": "Troubleshooting",
-    "text": "Troubleshooting\n\n\n\n\n\n\nNoteHäufige Fehler\n\n\n\n\nWindows: Installer bricht ab → als Administrator ausführen.\nmacOS: “App ist beschädigt” → xattr -cr /Applications/kicad.app im Terminal ausführen (passiert selten beim offiziellen Download).\nLinux: PPA-Fehler → Distribution prüfen; auf Debian ggf. das offizielle KiCad-Repository verwenden."
-  },
-  {
-    "objectID": "posts/2026-09-24-kicad-installation/index.html#nächste-schritte",
-    "href": "posts/2026-09-24-kicad-installation/index.html#nächste-schritte",
-    "title": "KiCad 10 installieren",
+    "objectID": "posts/04-kicad-kondensator-simulation/index.html#nächste-schritte",
+    "href": "posts/04-kicad-kondensator-simulation/index.html#nächste-schritte",
+    "title": "KiCad: Kondensator-Ladung simulieren – Schritt-für-Schritt Anleitung",
     "section": "Nächste Schritte",
-    "text": "Nächste Schritte\nJetzt, wo KiCad läuft, kannst du direkt loslegen: Installiere die In House Libary! KiCad: Plugins installieren. Viel Erfolg beim ersten eigenen Board!"
+    "text": "Nächste Schritte\n\nFilter-Schaltungen simulieren (Tiefpass, Hochpass)\nOszillator-Schaltungen analysieren\nKomplexere Schaltungen mit mehreren RC-Gliedern aufbauen\n\nIm nächsten Beitrag wird aus dieser Simulation eine echte Platine."
+  },
+  {
+    "objectID": "posts/02-kicad-inhouse-plugin/index.html",
+    "href": "posts/02-kicad-inhouse-plugin/index.html",
+    "title": "KiCad: InHouse-Plug-in installieren",
+    "section": "",
+    "text": "Installiere das InHouse-Plug-in (InHouse Plug-in) mit seinen Bauteilen (InHouse Components) und der InHouse-Vorlage (InHouse Template) über die Plugin- und Content-Verwaltung (Plugin and Content Manager, PCM). Die Pakete stammen aus der HTLinn Cloud."
+  },
+  {
+    "objectID": "posts/02-kicad-inhouse-plugin/index.html#voraussetzungen",
+    "href": "posts/02-kicad-inhouse-plugin/index.html#voraussetzungen",
+    "title": "KiCad: InHouse-Plug-in installieren",
+    "section": "Voraussetzungen",
+    "text": "Voraussetzungen\n\nKiCad 10 ist installiert.\nDu hast die ZIP-Datei des InHouse-Pakets von HTLinn Cloud heruntergeladen.\nDie ZIP-Datei wurde nicht entpackt."
+  },
+  {
+    "objectID": "posts/02-kicad-inhouse-plugin/index.html#paket-installieren",
+    "href": "posts/02-kicad-inhouse-plugin/index.html#paket-installieren",
+    "title": "KiCad: InHouse-Plug-in installieren",
+    "section": "Paket installieren",
+    "text": "Paket installieren\n\nLade die ZIP-Datei über den oben genannten HTLinn-Cloud-Link herunter.\nStarte die KiCad-Projektverwaltung (KiCad Project Manager).\nÖffne über Werkzeuge (Tools) → Plugin- und Content-Verwaltung (Plugin and Content Manager) die PCM.\nWähle oben rechts Aus Datei installieren (Install from file…).\nWähle im Dateidialog die heruntergeladene ZIP-Datei aus. Entpacke sie nicht.\nDie PCM prüft die Paketmetadaten und die Kompatibilität mit deiner KiCad-Version. Klicke zur Installation auf Installieren (Install), falls ein Bestätigungsdialog angezeigt wird.\nSchließe das Plugin- und Content-Verwaltungsfenster (Plugin and Content Manager) nach der Installation.\nÖffne einmalig den Leiterplatteneditor (PCB Editor), um die Bibliotheken und Vorlagen zu initialisieren. Danach kannst du die Editoren wieder schließen.\nSchließe alle geöffneten KiCad-Fenster und starte KiCad neu, um die Installation abzuschließen.\n\n\n\n\n\n\n\nImportantDringend empfohlen: Standard-Bibliotheken deaktivieren\n\n\n\nKiCad bringt tausende Symbol- und Footprint-Einträge mit, die sofort mitinstalliert und aktiviert sind. Als Einsteiger siehst du im Dialog Symbol wählen (Choose Symbol) dadurch hunderte ähnliche Bauteile – und verlierst leicht den Überblick. Deaktiviere die KiCad-Standard-Bibliotheken und arbeitete ausschließlich mit der InHouse-Bibliothek. Diese Einstellung ist besonders für Einsteiger dringend empfohlen.\n\nSymbol-Bibliotheken deaktivieren\n\nÖffne den Schaltplaneditor (Schematic Editor).\nWähle Einstellungen (Preferences) → Symbolbibliotheken verwalten (Manage Symbol Libraries).\nEntferne in der Spalte Aktiv (Active) das Häkchen bei allen Bibliotheken außer der InHouse-Symbolbibliothek (InHouse Symbol Library).\nBestätige mit OK.\n\n\n\nFootprint-Bibliotheken deaktivieren\n\nÖffne den Leiterplatteneditor (PCB Editor).\nWähle Einstellungen (Preferences) → Footprint-Bibliotheken verwalten (Manage Footprint Libraries).\nEntferne in der Spalte Aktiv (Active) das Häkchen bei allen Bibliotheken außer der InHouse-Footprint-Bibliothek (InHouse Footprint Library).\nBestätige mit OK.\n\nIm Dialog Symbol wählen (Choose Symbol) bzw. Footprint wählen (Choose Footprint) erscheinen danach nur noch die InHouse-Bauteile – übersichtlich und einheitlich.\nKeine Sorge: Die Standard-Bibliotheken werden dadurch nicht gelöscht, sie werden nur nicht mehr geladen. Setze das Häkchen in der Spalte Aktiv (Active) erneut, bringt du sie jederzeit zurück. Dieselben Dialoge nutzt du auch, um Bibliotheken zu priorisieren."
+  },
+  {
+    "objectID": "posts/02-kicad-inhouse-plugin/index.html#inhouse-vorlage-testen",
+    "href": "posts/02-kicad-inhouse-plugin/index.html#inhouse-vorlage-testen",
+    "title": "KiCad: InHouse-Plug-in installieren",
+    "section": "InHouse-Vorlage testen",
+    "text": "InHouse-Vorlage testen\n\nÖffne die KiCad-Projektverwaltung (KiCad Project Manager).\nWähle Datei (File) → Neues Projekt aus einer Vorlage… (New Project from Template…).\nSuche in der Vorlagenauswahl (Template Chooser) nach der InHouse-Vorlage (InHouse Template).\nWähle die Vorlage aus und erstelle das neue Projekt.\n\nDie Vorlage enthält die für die InHouse-Fertigung vorbereiteten Projekteinstellungen. Bei einer erfolgreichen Installation erscheint der Vorlageneintrag in der Vorlagenauswahl (Template Chooser)."
+  },
+  {
+    "objectID": "posts/02-kicad-inhouse-plugin/index.html#inhouse-bauteile-testen",
+    "href": "posts/02-kicad-inhouse-plugin/index.html#inhouse-bauteile-testen",
+    "title": "KiCad: InHouse-Plug-in installieren",
+    "section": "InHouse-Bauteile testen",
+    "text": "InHouse-Bauteile testen\n\nÖffne ein neues oder bestehendes Projekt.\nStarte den Schaltplaneditor (Schematic Editor).\nWähle die Aktion zum Platzieren eines Symbols (Place Symbol).\nÖffne den Dialog Symbol wählen (Choose Symbol).\nPrüfe, ob die InHouse-Symbolbibliothek (InHouse Symbol Library) in der Bibliotheksliste verfügbar ist.\n\nFalls du die Footprint-Zuweisung prüfen möchtest, öffne anschließend den Leiterplatteneditor (PCB Editor). Die InHouse-Footprint-Bibliothek (InHouse Footprint Library) sollte ebenfalls in der Bibliotheksverwaltung verfügbar sein."
+  },
+  {
+    "objectID": "posts/02-kicad-inhouse-plugin/index.html#hintergrund-und-tipps",
+    "href": "posts/02-kicad-inhouse-plugin/index.html#hintergrund-und-tipps",
+    "title": "KiCad: InHouse-Plug-in installieren",
+    "section": "Hintergrund und Tipps",
+    "text": "Hintergrund und Tipps\n\n\n\n\n\n\nTipDownload vereinfachen: Nextcloud-Desktop-App\n\n\n\nStatt die ZIP-Datei jedes Mal im Browser herunterzuladen, installiere dir einmalig die Nextcloud-Desktop-App (Nextcloud Desktop Client) und melde dich mit deinem HTLinn-Konto bei https://cloud.htlinn.ac.at an. Die Dateien der HTLinn Cloud werden dann automatisch mit deinem Nextcloud-Ordner synchronisiert – immer auf dem neuesten Stand. Wähle die ZIP-Datei bei der Installation direkt aus diesem Ordner aus, ein separater Browser-Download entfällt.\nDie App ist auch für die Bibliotheken aus dem Beitrag KiCad: Eigene Bibliotheken als Plug-in installieren nützlich."
+  },
+  {
+    "objectID": "posts/02-kicad-inhouse-plugin/index.html#nächste-schritte",
+    "href": "posts/02-kicad-inhouse-plugin/index.html#nächste-schritte",
+    "title": "KiCad: InHouse-Plug-in installieren",
+    "section": "Nächste Schritte",
+    "text": "Nächste Schritte\n\nNach der Installation stehen dir die InHouse-Bauteile und die InHouse-Vorlage in allen Projekten zur Verfügung.\nDie grundlegende Bedienung der PCM wird im Beitrag KiCad: Plugin- und Content-Verwaltung erklärt.\nDie dazu passenden Symbol- und Footprint-Bibliotheken installierst du wie im Beitrag KiCad: Eigene Bibliotheken als Plug-in installieren beschrieben."
   },
   {
     "objectID": "index.html",
     "href": "index.html",
     "title": "KiCad Blog",
     "section": "",
-    "text": "Willkommen! Dieser Blog beschäftigt sich mit KiCad, der freien Open-Source-Suite für Elektronikdesign.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nKiCad 10 installieren\n\n\n\nAnleitung\n\nInstallation\n\nKiCad\n\n\n\nInstallation von KiCad 10\n\n\n\n\n\nOct 8, 2026\n\n\nHuman , Mistral Vibe (KI Assistent)\n\n\n\n\n\n\n\n\n\n\n\n\nKiCad: In House Bauteile und Vorlagen installieren\n\n\n\nAnleitung\n\nPlugins\n\nKiCad\n\nPCM\n\n\n\nLerne, wie du in KiCad Plugins und Erweiterungen über den Plugin and Content Manager aus einer .zip-Datei installierst – offline und ohne manuelles Kopieren.\n\n\n\n\n\nOct 10, 2026\n\n\nHuman , Mistral Vibe (KI Assistent)\n\n\n\n\n\n\n\n\n\n\n\n\nKiCad: Kondensator-Ladung simulieren\n\n\n\nAnleitung\n\nSimulation\n\nKiCad\n\nRC-Schaltung\n\n\n\nLerne, wie du in KiCad eine einfache RC-Schaltung simulierst und die Ladung eines Kondensators analysierst – inklusive Zeitkonstante und Spannungsverlauf.\n\n\n\n\n\nOct 11, 2026\n\n\nHuman , Mistral Vibe (KI Assistent)\n\n\n\n\n\n\n\n\n\n\n\n\nKiCad: Von der Simulation zur Platine\n\n\n\nAnleitung\n\nPCB-Design\n\nKiCad\n\nRC-Schaltung\n\n\n\nVerwandle die simulierte RC-Schaltung in eine echte Leiterplatte: ersetze die Simulationsquelle durch eine Stiftleiste, ergänze eine Stiftleiste am Ausgang, weise Footprints zu, route die Platine und exportiere die Fertigungsdaten.\n\n\n\n\n\nOct 14, 2026\n\n\nHuman , Mistral Vibe (KI Assistent)\n\n\n\n\n\nNo matching items"
+    "text": "Willkommen! Dieser Blog beschäftigt sich mit KiCad, der freien Open-Source-Suite für Elektronikdesign.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nKiCad 10 installieren – Schritt für Schritt\n\n\n\nAnleitung\n\nInstallation\n\nKiCad\n\n\n\nVon null zum Schaltplan in 15 Minuten: Die komplette Installation von KiCad 10 auf Windows, macOS und Linux.\n\n\n\n\n\nNov 24, 2026\n\n\nHuman , Mistral Vibe (KI Assistent)\n\n\n\n\n\n\n\n\n\n\n\n\nKiCad: InHouse-Plug-in installieren\n\n\n\nAnleitung\n\nPlugins\n\nKiCad\n\nPCM\n\n\n\nInstalliere das InHouse-Plug-in (InHouse Plug-in) mit seinen Bauteilen (Components) und Vorlagen (Templates) über die Plugin- und Content-Verwaltung (Plugin and Content Manager).\n\n\n\n\n\nNov 28, 2026\n\n\nHuman , Mistral Vibe (KI Assistent)\n\n\n\n\n\n\n\n\n\n\n\n\nKiCad: Eigene Bibliotheken als Plug-in installieren\n\n\n\nAnleitung\n\nBibliotheken\n\nKiCad\n\nPCM\n\n\n\nImportiere eigene Bibliotheken (Libraries) mit Symbolen (Symbols), Footprints, SPICE-Modellen und 3D-Modellen als Plug-in-Paket von der HTLinn Cloud über die Plugin- und Content-Verwaltung (Plugin and Content Manager).\n\n\n\n\n\nNov 25, 2026\n\n\nHuman , Mistral Vibe (KI Assistent)\n\n\n\n\n\n\n\n\n\n\n\n\nKiCad: Kondensator-Ladung simulieren – Schritt-für-Schritt Anleitung\n\n\n\nAnleitung\n\nSimulation\n\nKiCad\n\nRC-Schaltung\n\n\n\nLerne, wie du in KiCad eine einfache RC-Schaltung simulierst und die Ladung eines Kondensators analysierst – inklusive Zeitkonstante und Spannungsverlauf.\n\n\n\n\n\nNov 26, 2026\n\n\nHuman , Mistral Vibe (KI Assistent)\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "about.html",
@@ -175,178 +203,108 @@
     "text": "Herzlich willkommen! Dieser Blog beschäftigt sich mit KiCad, der freien Open-Source-Suite für Elektronikdesign (Schaltplan, PCB, Gerber-Export).\nHier findest du Anleitungen, Vergleiche und Praxis-Tipps – ohne Lizenzkosten-Komplexe und ohne dongle-basierte Existenzangst."
   },
   {
-    "objectID": "posts/2026-10-08-kicad-kondensator-simulation/index.html",
-    "href": "posts/2026-10-08-kicad-kondensator-simulation/index.html",
-    "title": "KiCad: Kondensator-Ladung simulieren",
+    "objectID": "posts/01-kicad-installation/index.html",
+    "href": "posts/01-kicad-installation/index.html",
+    "title": "KiCad 10 installieren – Schritt für Schritt",
     "section": "",
-    "text": "Die Simulation von Schaltungen ist einer der stärksten Vorteile von KiCad.\nMit dem eingebauten ngspice-Simulator kannst du das Verhalten deiner\nSchaltungen analysieren, bevor du sie baust. In diesem Beitrag zeigen\nwir dir, wie du eine einfache RC-Schaltung (Widerstand-Kondensator)\nsimulierst, um die Ladung eines Kondensators zu untersuchen."
+    "text": "KiCad 10 ist die aktuelle stabile Version (Stand September 2026). Hier führen wir dich durch die Installation auf allen drei Betriebssystemen – inklusive der ersten Startvorbereitung."
   },
   {
-    "objectID": "posts/2026-10-08-kicad-kondensator-simulation/index.html#was-du-lernst",
-    "href": "posts/2026-10-08-kicad-kondensator-simulation/index.html#was-du-lernst",
-    "title": "KiCad: Kondensator-Ladung simulieren",
-    "section": "Was du lernst",
-    "text": "Was du lernst\n\nEine RC-Schaltung in KiCad erstellen\n\nDie Simulation einrichten und durchführen\n\nDen Ladungsverlauf des Kondensators analysieren\n\nDie Zeitkonstante verstehen und berechnen"
+    "objectID": "posts/01-kicad-installation/index.html#schritt-1-download",
+    "href": "posts/01-kicad-installation/index.html#schritt-1-download",
+    "title": "KiCad 10 installieren – Schritt für Schritt",
+    "section": "Schritt 1: Download",
+    "text": "Schritt 1: Download\nGehe auf die offizielle Download-Seite https://www.kicad.org/download/ und wähle dein Betriebssystem. Nimm die stabile Version (10.0.x), nicht die Nightly-Builds – die sind nur für Tester gedacht.\n\n\n\n\n\n\nWarningImmer vom offiziellen Server laden\n\n\n\nDownloade KiCad ausschließlich von kicad.org. Inoffizielle Spiegelserver können veraltete oder veränderte Pakete enthalten.\n\n\n\n\n\nDownload-Seite auf kicad.org – wähle dein Betriebssystem"
   },
   {
-    "objectID": "posts/2026-10-08-kicad-kondensator-simulation/index.html#vorraussetzungen",
-    "href": "posts/2026-10-08-kicad-kondensator-simulation/index.html#vorraussetzungen",
-    "title": "KiCad: Kondensator-Ladung simulieren",
-    "section": "Vorraussetzungen",
-    "text": "Vorraussetzungen\n\nKiCad 10 installiert (siehe unseren Installationsguide)\nGrundlegende Kenntnisse der KiCad-Benutzeroberfläche"
+    "objectID": "posts/01-kicad-installation/index.html#schritt-2-windows-1011",
+    "href": "posts/01-kicad-installation/index.html#schritt-2-windows-1011",
+    "title": "KiCad 10 installieren – Schritt für Schritt",
+    "section": "Schritt 2: Windows (10/11)",
+    "text": "Schritt 2: Windows (10/11)\n\nLade den Windows-Installer (64-bit) als .exe herunter.\nDoppelklick auf die Datei – Windows fragt ggf. nach einer Freigabe (“Dieser App erlauben, Änderungen vorzunehmen”) → Ja.\nDer Installer öffnet sich. Wähle die Sprache (z. B. Deutsch) und akzeptiere die GPLv3-Lizenz – die du übrigens tatsächlich lesen kannst, weil sie keine versteckten Klauseln hat.\nKomponentenauswahl: Standardmäßig wird alles installiert, inklusive der offiziellen Bibliotheken und Support-Pakete für 3D-Modelle. Für Einsteiger: Standard lassen.\nZielordner bestätigen (Standard: C:\\Program Files\\KiCad\\10.0), Install klicken, kurzer Warte-Vorgang, Finish.\n\n\n\n\nWindows-Installer: Komponenten auswählen"
   },
   {
-    "objectID": "posts/2026-10-08-kicad-kondensator-simulation/index.html#schritt-1-neues-projekt-anlegen",
-    "href": "posts/2026-10-08-kicad-kondensator-simulation/index.html#schritt-1-neues-projekt-anlegen",
-    "title": "KiCad: Kondensator-Ladung simulieren",
-    "section": "Schritt 1: Neues Projekt anlegen",
-    "text": "Schritt 1: Neues Projekt anlegen\n\nStarte KiCad und erstelle ein neues Projekt: File → New Project\n\nVergebe einen Namen, z. B. rc-simulation und wähle einen Speicherort\n\nÖffne den Schaltplan-Editor (Eeschema) über den Projektmanager\n\n\n\n\nNeues KiCad-Projekt erstellen"
+    "objectID": "posts/01-kicad-installation/index.html#schritt-3-macos",
+    "href": "posts/01-kicad-installation/index.html#schritt-3-macos",
+    "title": "KiCad 10 installieren – Schritt für Schritt",
+    "section": "Schritt 3: macOS",
+    "text": "Schritt 3: macOS\n\nLade die .dmg-Datei von kicad.org (Apple Silicon oder Intel, je nach Mac).\nDoppelklick auf die .dmg – das Fenster mit dem KiCad-Icon erscheint.\nZiehe das KiCad-Icon in den Programme-Ordner.\nErster Start: macOS blockiert ggf. Apps “von einem nicht überprüften Entwickler” (KiCad wird ordnungsgemäß signiert – falls trotzdem eine Meldung kommt: Systemeinstellungen → Sicherheit → Trotzdem öffnen)."
   },
   {
-    "objectID": "posts/2026-10-08-kicad-kondensator-simulation/index.html#schritt-2-rc-schaltung-aufbauen",
-    "href": "posts/2026-10-08-kicad-kondensator-simulation/index.html#schritt-2-rc-schaltung-aufbauen",
-    "title": "KiCad: Kondensator-Ladung simulieren",
-    "section": "Schritt 2: RC-Schaltung aufbauen",
-    "text": "Schritt 2: RC-Schaltung aufbauen\n\nKomponenten platzieren\n\nSpannungsquelle (VDC):\n\nKlicke auf “Place → Add Symbol” (Tastatur: A)\nSuche nach VDC oder power und wähle die Gleichspannungsquelle\nPlatziere sie auf dem Schaltplan\nDoppelklick auf das Symbol und setze Value = \\(10\\, \\text{V}\\)\n\nWiderstand (R):\n\nPlace → Add Symbol (A)\nSuche nach R oder Device und wähle einen Widerstand\nPlatziere ihn neben der Spannungsquelle\nDoppelklick und setze Value = \\(10\\, \\text{kΩ}\\)\n\nKondensator (C):\n\nPlace → Add Symbol (A)\nSuche nach C oder Device und wähle einen Kondensator\nPlatziere ihn in Reihe mit dem Widerstand\nDoppelklick und setze Value = \\(100\\, \\text{µF}\\)\n\nGND (Masse):\n\nPlace → Add Symbol (A)\nSuche nach GND und platziere ihn am unteren Ende\n\n\n\n\nVerbindung herstellen\nVerwende das Wire-Tool (W) oder klicke auf die Pins und ziehe Verbindungen:\n- Verbinde die Spannungsquelle (+) mit dem Widerstand - Verbinde den Widerstand mit dem Kondensator - Verbinde den Kondensator mit GND - Verbinde die Spannungsquelle (-) mit GND\nDeine Schaltung sollte so aussehen:\n\n\n\nRC-Schaltung im KiCad Schaltplan-Editor\n\n\n\n\n\n\n\n\nTipTipp: Netznamen zuweisen\n\n\n\nFür die Simulation ist es hilfreich, den Netzen sprechende Namen zu geben:\n- Klicke auf das Label-Tool (L) - Platziere ein Label am Verbindungspunkt zwischen Widerstand und Kondensator - Nenne es \\(U_C\\) (für die Kondensatorspannung) - Benenne das Netz nach der Spannungsquelle \\(U_{in}\\)"
+    "objectID": "posts/01-kicad-installation/index.html#schritt-4-linux",
+    "href": "posts/01-kicad-installation/index.html#schritt-4-linux",
+    "title": "KiCad 10 installieren – Schritt für Schritt",
+    "section": "Schritt 4: Linux",
+    "text": "Schritt 4: Linux\n\nUbuntu / Debian (und Derivate)\nDas offizielle KiCad-Team pflegt ein stabiles PPA:\nsudo add-apt-repository ppa:kicad/kicad-10.0-releases\nsudo apt update\nsudo apt install kicad\n\n\nFedora\nsudo dnf install kicad\n\n\nArch Linux\nsudo pacman -S kicad"
   },
   {
-    "objectID": "posts/2026-10-08-kicad-kondensator-simulation/index.html#schritt-3-simulation-einrichten",
-    "href": "posts/2026-10-08-kicad-kondensator-simulation/index.html#schritt-3-simulation-einrichten",
-    "title": "KiCad: Kondensator-Ladung simulieren",
-    "section": "Schritt 3: Simulation einrichten",
-    "text": "Schritt 3: Simulation einrichten\nEs gibt zwei Methoden um die Simulation einzurichten. Wähle die, die dir lieber ist:\n\nMethode A: SPICE-Direktiven im Schaltplan\n\nKlicke auf Place → Add SPICE Directive (oder Tastatur: S)\nPlatziere die Direktiven auf dem Schaltplan und füge folgende Zeilen ein:\n.tran 0.01 5 0\n.ic V(U_C)=0\n.plot tran V(U_C) V(U_in)\n\n.tran 0.01 5 0 – Transiente Analyse mit \\(0{,}01\\, \\text{s}\\) Schrittweite für \\(5\\, \\text{s}\\)\n.ic V(U_C)=0 – Anfangsbedingung: \\(U_C = 0\\, \\text{V}\\) (Kondensator entladen)\n.plot tran V(U_C) V(U_in) – Plot \\(U_C\\) und \\(U_{in}\\)\n\n\n\n\n\nSPICE-Direktiven im Schaltplan\n\n\n\n\nMethode B: Simulations-GUI\n\nGehe zu View → Simulation → Simulation Frame\nKlicke auf Add Signal und wähle die Signale:\n\nV(U_C) – Spannung \\(U_C\\) am Kondensator\nV(U_in) – Eingangsspannung \\(U_{in}\\)\nI(C1) – Strom \\(I\\) durch den Kondensator (optional)\n\nUnter Simulation Settings:\n\nAnalysis Type: Transient\nStop Time: \\(5\\, \\text{s}\\)\nTime Step: \\(0{,}01\\, \\text{s}\\)\n\n\n\n\n\nSimulations-Einstellungen"
+    "objectID": "posts/01-kicad-installation/index.html#schritt-5-erster-start-projekt-anlegen",
+    "href": "posts/01-kicad-installation/index.html#schritt-5-erster-start-projekt-anlegen",
+    "title": "KiCad 10 installieren – Schritt für Schritt",
+    "section": "Schritt 5: Erster Start – Projekt anlegen",
+    "text": "Schritt 5: Erster Start – Projekt anlegen\n\nStarte KiCad (Windows: Startmenü; macOS: Programme; Linux: kicad &).\nDer Projektmanager begrüßt dich – ohne Login, ohne Aktivierung, direkt einsatzbereit.\nFile → New Project, Name vergeben (z. B. blinkende-led), Speicherort wählen.\nDu hast jetzt Schaltplan (.kicad_sch) und Board (.kicad_pcb) in einem Projekt – beide öffnest du direkt aus dem Projektmanager.\n\n\n\n\nKiCad-Projektmanager mit frisch angelegtem Projekt\n\n\n\n\n\n\n\n\nTipTipp: Englisch behalten\n\n\n\nDa die englischen Begriffe in Tutorials und Foren üblich sind, ist es oft einfacher, die englische Oberfläche zu nutzen. Du kannst jederzeit unter Preferences → Set Language wechseln."
   },
   {
-    "objectID": "posts/2026-10-08-kicad-kondensator-simulation/index.html#schritt-4-simulation-durchführen",
-    "href": "posts/2026-10-08-kicad-kondensator-simulation/index.html#schritt-4-simulation-durchführen",
-    "title": "KiCad: Kondensator-Ladung simulieren",
-    "section": "Schritt 4: Simulation durchführen",
-    "text": "Schritt 4: Simulation durchführen\n\nKlicke auf die Play-Schaltfläche (▶) oder gehe zu Simulation → Run Simulation\nKiCad startet ngspice und führt die Simulation durch\nNach einigen Sekunden erscheint das Ergebnis im Simulationsfenster\n\n\n\n\nErgebnis der transienten Analyse im SPICE-Simulator von KiCad"
+    "objectID": "posts/01-kicad-installation/index.html#schritt-6-sprachpaket-optional",
+    "href": "posts/01-kicad-installation/index.html#schritt-6-sprachpaket-optional",
+    "title": "KiCad 10 installieren – Schritt für Schritt",
+    "section": "Schritt 6: Sprachpaket (optional)",
+    "text": "Schritt 6: Sprachpaket (optional)\nFalls KiCad nicht auf Deutsch startet: Preferences → Set Language → German, anschließend KiCad neu starten. Die Übersetzungen kommen direkt mit dem Installer."
   },
   {
-    "objectID": "posts/2026-10-08-kicad-kondensator-simulation/index.html#schritt-5-ergebnisse-analysieren",
-    "href": "posts/2026-10-08-kicad-kondensator-simulation/index.html#schritt-5-ergebnisse-analysieren",
-    "title": "KiCad: Kondensator-Ladung simulieren",
-    "section": "Schritt 5: Ergebnisse analysieren",
-    "text": "Schritt 5: Ergebnisse analysieren\n\nSpannungsverlauf am Kondensator\nDu solltest eine exponentielle Kurve sehen, die von \\(0\\, \\text{V}\\) auf \\(10\\, \\text{V}\\) ansteigt.\n\n\n\nKondensator-Ladespannung über die Zeit\n\n\n\n\nWichtige Zeitpunkte\n\n\n\nZeit in \\(\\text{s}\\)\n\\(U_C\\) in \\(\\text{V}\\)\n% der Endspannung\n\n\n\n\n0,00\n0,0000\n0,0 %\n\n\n0,50\n3,9347\n39,3 %\n\n\n1,00\n6,3212\n63,2 %\n\n\n1,50\n7,7687\n77,7 %\n\n\n2,00\n8,6466\n86,5 %\n\n\n3,00\n9,5021\n95,0 %\n\n\n5,00\n9,9326\n99,3 %\n\n\n\n\n\nZeitkonstante (\\(\\tau\\)) verstehen\nDie Zeitkonstante eines RC-Glieds berechnet sich nach:\n\\[\\tau = R \\cdot C\\]\nIn unserem Beispiel:\n- \\(R = 10\\, \\text{kΩ}\\)\n- \\(C = 100\\, \\text{µF}\\)\n- \\(\\tau = R \\cdot C = 1\\, \\text{s}\\)\n\n\n\n\n\n\nNoteWichtige Regel\n\n\n\nNach 1 τ (1 Sekunde) ist der Kondensator zu 63,2 %geladen. Nach 5 τ (5 Sekunden) gilt er als vollständig geladen (99,3 %).\n\n\n\n\nStromverlauf\nDer Ladestrom folgt einer exponentiellen Abnahme:\n\nAnfangsstrom (\\(t = 0\\)): \\(I_0 = \\frac{U_0}{R} = \\frac{10\\, \\text{V}}{10\\, \\text{kΩ}} = 1\\, \\text{mA}\\)\nNach \\(1\\, \\text{s}\\): ca. \\(0{,}37\\, \\text{mA}\\)\nNach \\(2\\, \\text{s}\\): ca. \\(0{,}14\\, \\text{mA}\\)\n\n\n\n\nLadestrom über die Zeit"
+    "objectID": "posts/01-kicad-installation/index.html#troubleshooting",
+    "href": "posts/01-kicad-installation/index.html#troubleshooting",
+    "title": "KiCad 10 installieren – Schritt für Schritt",
+    "section": "Troubleshooting",
+    "text": "Troubleshooting\n\n\n\n\n\n\nNoteHäufige Fehler\n\n\n\n\nWindows: Installer bricht ab → als Administrator ausführen.\nmacOS: “App ist beschädigt” → xattr -cr /Applications/kicad.app im Terminal ausführen (passiert selten beim offiziellen Download).\nLinux: PPA-Fehler → Distribution prüfen; auf Debian ggf. das offizielle KiCad-Repository verwenden."
   },
   {
-    "objectID": "posts/2026-10-08-kicad-kondensator-simulation/index.html#schritt-6-simulation-anpassen-optional",
-    "href": "posts/2026-10-08-kicad-kondensator-simulation/index.html#schritt-6-simulation-anpassen-optional",
-    "title": "KiCad: Kondensator-Ladung simulieren",
-    "section": "Schritt 6: Simulation anpassen (optional)",
-    "text": "Schritt 6: Simulation anpassen (optional)\n\nAndere Werte ausprobieren\nÄndere die Werte und beobachte, wie sich die Ladezeit ändert:\n\n\n\nWiderstand (\\(R\\))\nKapazität (\\(C\\))\nZeitkonstante \\(\\tau\\)\n\n\n\n\n\\(10\\, \\text{kΩ}\\)\n\\(100\\, \\text{µF}\\)\n\\(1\\, \\text{s}\\)\n\n\n\\(10\\, \\text{kΩ}\\)\n\\(10\\, \\text{µF}\\)\n\\(0{,}1\\, \\text{s}\\)\n\n\n\\(100\\, \\text{kΩ}\\)\n\\(100\\, \\text{µF}\\)\n\\(10\\, \\text{s}\\)\n\n\n\\(1\\, \\text{kΩ}\\)\n\\(1\\, \\text{mF}\\)\n\\(1\\, \\text{s}\\)\n\n\n\n\n\nSimulationsdauer anpassen\nFür schnellere Schaltungen (kleineres \\(\\tau\\)):\n- Stop Time: \\(1\\, \\text{s}\\) - Time Step: \\(0{,}001\\, \\text{s}\\)\nFür langsamere Schaltungen (größeres \\(\\tau\\)):\n- Stop Time: \\(20\\, \\text{s}\\) - Time Step: \\(0{,}1\\, \\text{s}\\)"
-  },
-  {
-    "objectID": "posts/2026-10-08-kicad-kondensator-simulation/index.html#theorieteil-mathematische-grundlagen",
-    "href": "posts/2026-10-08-kicad-kondensator-simulation/index.html#theorieteil-mathematische-grundlagen",
-    "title": "KiCad: Kondensator-Ladung simulieren",
-    "section": "Theorieteil: Mathematische Grundlagen",
-    "text": "Theorieteil: Mathematische Grundlagen\n\nLadespannung\nDie Spannung am Kondensator während des Ladevorgangs folgt der Formel:\n\\[U_C(t) = U_0 \\cdot \\left(1 - e^{-\\frac{t}{\\tau}}\\right)\\]\n\n\\(U_C(t)\\) = Spannung am Kondensator zur Zeit \\(t\\)\n\\(U_0 = 10\\, \\text{V}\\) = Versorgungsspannung\n\\(t\\) = Zeit in \\(\\text{s}\\)\n\\(\\tau\\) = Zeitkonstante (\\(R \\cdot C\\))\n\n\n\nLadestrom\nDer Strom während des Ladevorgangs:\n\\[I(t) = \\frac{U_0}{R} \\cdot e^{-\\frac{t}{\\tau}}\\]"
-  },
-  {
-    "objectID": "posts/2026-10-08-kicad-kondensator-simulation/index.html#tipps-und-tricks",
-    "href": "posts/2026-10-08-kicad-kondensator-simulation/index.html#tipps-und-tricks",
-    "title": "KiCad: Kondensator-Ladung simulieren",
-    "section": "Tipps und Tricks",
-    "text": "Tipps und Tricks\n\n\n\n\n\n\nTipSimulation speichern\n\n\n\n\nDie Simulations-Einstellungen werden in einer .spice-Datei gespeichert\nDu kannst diese unter File → Save im Simulationsfenster speichern\nSo kannst du die Simulation später schnell wieder laden\n\n\n\n\n\n\n\n\n\nWarningHäufige Fehler\n\n\n\n\nKeine GND-Verbindung: Jede Schaltung braucht einen Masseanschluss\nFalsche Werte: Achte auf die Einheit (kΩ, µF, mF etc.)\nZu großer Zeitschritt: Bei schnellen Vorgängen kleinere Schritte wählen"
-  },
-  {
-    "objectID": "posts/2026-10-08-kicad-kondensator-simulation/index.html#nächste-schritte",
-    "href": "posts/2026-10-08-kicad-kondensator-simulation/index.html#nächste-schritte",
-    "title": "KiCad: Kondensator-Ladung simulieren",
+    "objectID": "posts/01-kicad-installation/index.html#nächste-schritte",
+    "href": "posts/01-kicad-installation/index.html#nächste-schritte",
+    "title": "KiCad 10 installieren – Schritt für Schritt",
     "section": "Nächste Schritte",
-    "text": "Nächste Schritte\nJetzt, wo du die Grundlagen der RC-Simulation beherrschst, kannst du:\n\nFilter-Schaltungen simulieren (Tiefpass, Hochpass)\nOszillator-Schaltungen analysieren\nKomplexere Schaltungen mit mehreren RC-Gliedern aufbauen\n\nViel Erfolg beim Experimentieren mit KiCad-Simulationen!"
+    "text": "Nächste Schritte\nJetzt, wo KiCad läuft, kannst du direkt loslegen: Öffne die mitgelieferten Demoprojekte unter File → Open Demo Project – oder wirf einen Blick auf die offizielle Dokumentation: https://docs.kicad.org\nViel Erfolg beim ersten eigenen Board!"
   },
   {
-    "objectID": "posts/2026-10-14-kicad-schaltung-zu-platine/index.html",
-    "href": "posts/2026-10-14-kicad-schaltung-zu-platine/index.html",
-    "title": "KiCad: Von der Simulation zur Platine",
+    "objectID": "posts/03-kicad-bibliotheken-als-plugin/index.html",
+    "href": "posts/03-kicad-bibliotheken-als-plugin/index.html",
+    "title": "KiCad: Eigene Bibliotheken als Plug-in installieren",
     "section": "",
-    "text": "Im Simulationsbeitrag haben wir eine RC-Schaltung aufgebaut und die Ladung des Kondensators in ngspice beobachtet. Jetzt machen wir daraus eine echte Platine. Dabei ändert sich die Schaltung an einer entscheidenden Stelle: Die Simulationsquelle wird durch eine Stiftleiste ersetzt, denn auf einer realen Platine kommt die Spannung von außen – vom Labornetzteil oder einer Batterie. Und am Ausgang kommt eine zweite Stiftleiste, damit du die reale Ladekurve messen und mit der Simulation vergleichen kannst."
+    "text": "Installiere eigene Bibliotheken (Libraries) mit Symbolen (Symbols), Footprints, SPICE-Modellen und 3D-Modellen als Plug-in-Paket über die Plugin- und Content-Verwaltung (Plugin and Content Manager, PCM). Die Pakete stammen aus der HTLinn Cloud – derselben Quelle wie das InHouse-Plug-in."
   },
   {
-    "objectID": "posts/2026-10-14-kicad-schaltung-zu-platine/index.html#was-du-lernst",
-    "href": "posts/2026-10-14-kicad-schaltung-zu-platine/index.html#was-du-lernst",
-    "title": "KiCad: Von der Simulation zur Platine",
-    "section": "Was du lernst",
-    "text": "Was du lernst\n\nDie simulierte RC-Schaltung in ein PCB-Projekt überführen\nDie Simulationsquelle durch eine Stiftleiste ersetzen\nEine Stiftleiste am Ausgang für Messungen ergänzen\nFootprints zuweisen und den Schaltplan prüfen (ERC)\nDie Platine im Board-Editor layouten und Fertigungsdaten exportieren"
-  },
-  {
-    "objectID": "posts/2026-10-14-kicad-schaltung-zu-platine/index.html#voraussetzungen",
-    "href": "posts/2026-10-14-kicad-schaltung-zu-platine/index.html#voraussetzungen",
-    "title": "KiCad: Von der Simulation zur Platine",
+    "objectID": "posts/03-kicad-bibliotheken-als-plugin/index.html#voraussetzungen",
+    "href": "posts/03-kicad-bibliotheken-als-plugin/index.html#voraussetzungen",
+    "title": "KiCad: Eigene Bibliotheken als Plug-in installieren",
     "section": "Voraussetzungen",
-    "text": "Voraussetzungen\n\nKiCad 10 installiert (siehe unseren Installationsguide)\nDu hast die Kondensator-Simulation durchgeführt – wir bauen direkt auf deren Schaltung auf"
+    "text": "Voraussetzungen\n\nKiCad 10 ist installiert.\nDu hast die ZIP-Datei des Bibliotheks-Pakets (Libraries) von HTLinn Cloud heruntergeladen.\nDie ZIP-Datei wurde nicht entpackt."
   },
   {
-    "objectID": "posts/2026-10-14-kicad-schaltung-zu-platine/index.html#schritt-1-projekt-vorbereiten",
-    "href": "posts/2026-10-14-kicad-schaltung-zu-platine/index.html#schritt-1-projekt-vorbereiten",
-    "title": "KiCad: Von der Simulation zur Platine",
-    "section": "Schritt 1: Projekt vorbereiten",
-    "text": "Schritt 1: Projekt vorbereiten\n\nStarte KiCad und öffne dein Simulationsprojekt rc-simulation\nSpeichere es unter neuem Namen: File → Save Project As, z. B. rc-platine\nÖffne den Schaltplan-Editor (Eeschema) – die RC-Schaltung mit Spannungsquelle, Widerstand (\\(10\\, \\text{kΩ}\\)), Kondensator (\\(100\\, \\text{µF}\\)) und den SPICE-Direktiven sollte noch offen sein\n\n\n\n\n\nAusgangslage: Schaltplan der RC-Schaltung aus dem Simulationsprojekt"
+    "objectID": "posts/03-kicad-bibliotheken-als-plugin/index.html#paket-installieren",
+    "href": "posts/03-kicad-bibliotheken-als-plugin/index.html#paket-installieren",
+    "title": "KiCad: Eigene Bibliotheken als Plug-in installieren",
+    "section": "Paket installieren",
+    "text": "Paket installieren\n\nLade die ZIP-Datei über den oben genannten HTLinn-Cloud-Link herunter.\nStarte die KiCad-Projektverwaltung (KiCad Project Manager).\nÖffne über Werkzeuge (Tools) → Plugin- und Content-Verwaltung (Plugin and Content Manager) die PCM.\nWähle oben rechts Aus Datei installieren (Install from file…).\nWähle im Dateidialog die heruntergeladene ZIP-Datei aus. Entpacke sie nicht.\nDie PCM prüft die Paketmetadaten und die Kompatibilität mit deiner KiCad-Version. Klicke zur Installation auf Installieren (Install), falls ein Bestätigungsdialog angezeigt wird.\nSchließe das Plugin- und Content-Verwaltungsfenster (Plugin and Content Manager) nach der Installation.\nDie Bauteile stehen nun zur Verfügung.\n\n\n\n\n\n\n\nImportantDringend empfohlen: Standard-Bibliotheken deaktivieren\n\n\n\nKiCad bringt tausende Symbol- und Footprint-Einträge mit, die sofort mitinstalliert und aktiviert sind. Als Einsteiger siehst du im Dialog Symbol wählen (Choose Symbol) dadurch hunderte ähnliche Bauteile – und verlierst leicht den Überblick. Deaktiviere die KiCad-Standard-Bibliotheken und arbeitete ausschließlich mit der installierten Bibliothek. Diese Einstellung ist besonders für Einsteiger dringend empfohlen.\n\nSymbol-Bibliotheken deaktivieren\n\nÖffne den Schaltplaneditor (Schematic Editor).\nWähle Einstellungen (Preferences) → Symbolbibliotheken verwalten (Manage Symbol Libraries).\nEntferne in der Spalte Aktiv (Active) das Häkchen bei allen Bibliotheken außer den selbst installierten Bibliotheken aus dem Bibliotheks-Paket.\nBestätige mit OK.\n\n\n\nFootprint-Bibliotheken deaktivieren\n\nÖffne den Leiterplatteneditor (PCB Editor).\nWähle Einstellungen (Preferences) → Footprint-Bibliotheken verwalten (Manage Footprint Libraries).\nEntferne in der Spalte Aktiv (Active) das Häkchen bei allen Bibliotheken außer den selbst installierten Bibliotheken aus dem Bibliotheks-Paket.\nBestätige mit OK.\n\nIm Dialog Symbol wählen (Choose Symbol) bzw. Footprint wählen (Choose Footprint) erscheinen danach nur noch die Bauteile deiner installierten Bibliotheken – übersichtlich und einheitlich.\nKeine Sorge: Die Standard-Bibliotheken werden dadurch nicht gelöscht, sie werden nur nicht mehr geladen. Setze das Häkchen in der Spalte Aktiv (Active) erneut, bringt du sie jederzeit zurück. Dieselben Dialoge nutzt du auch, um Bibliotheken zu priorisieren."
   },
   {
-    "objectID": "posts/2026-10-14-kicad-schaltung-zu-platine/index.html#schritt-2-schaltplan-für-die-platine-anpassen",
-    "href": "posts/2026-10-14-kicad-schaltung-zu-platine/index.html#schritt-2-schaltplan-für-die-platine-anpassen",
-    "title": "KiCad: Von der Simulation zur Platine",
-    "section": "Schritt 2: Schaltplan für die Platine anpassen",
-    "text": "Schritt 2: Schaltplan für die Platine anpassen\nDer Schaltplan enthält jetzt zwei Elemente, die auf einer Platine nichts zu suchen haben – und zwei Anschlusspunkte, die noch fehlen.\n\n1. Simulations-Zubehör entfernen\n\nMarkiere die SPICE-Direktiven und lösche sie mit Entf\nNetzschilder wie \\(U_C\\) und \\(U_{in}\\) darfst du behalten – sie erleichtern später die Fehlersuche\n\n\n\n2. Die Simulationsquelle durch eine Stiftleiste ersetzen\n\nLösche die Spannungsquelle (VDC)\nDrücke A (Add Symbol) und suche nach Conn_01x02_Male aus der Bibliothek Connector – eine zweipolige Stiftleiste\nPlatziere sie dort, wo vorher die Quelle stand, und benenne sie mit Doppelklick J1\nVerbinde Pin 1 mit dem Netz, das vorher der Pluspol der Quelle war (Netzlabel +10V), und Pin 2 mit GND\n\n\n\n\n\nStiftleiste J1 ersetzt die Simulationsquelle\n\n\n\n\n3. Stiftleiste am Ausgang platzieren\n\nPlatziere eine zweite Conn_01x02_Male und benenne sie J2\nVerbinde Pin 1 mit dem Netz \\(U_C\\) (zwischen Widerstand und Kondensator) und Pin 2 mit GND\nJ2 sitzt damit parallel zum Kondensator – hier schließt du später Multimeter oder Oszilloskop an und vergleichst die reale Ladekurve mit der aus der Simulation\n\n\n\n\n\nFertiger Schaltplan: J1 am Eingang, J2 am Ausgang\n\n\n\n\n\n\n\n\nWarningPWR_FLAG nicht vergessen\n\n\n\nOhne Spannungsquelle meldet der ERC den Fehler “Input Power pin not driven by any Output Power pins” – KiCad weiß ja nicht, dass die Spannung jetzt extern über J1 kommt. Platziere mit A ein PWR_FLAG und verbinde es mit dem +10V-Netz (und mit GND). Damit bestätigst du dem ERC: Hier kommt die Spannung wirklich her."
+    "objectID": "posts/03-kicad-bibliotheken-als-plugin/index.html#symbolbibliothek-testen",
+    "href": "posts/03-kicad-bibliotheken-als-plugin/index.html#symbolbibliothek-testen",
+    "title": "KiCad: Eigene Bibliotheken als Plug-in installieren",
+    "section": "Symbolbibliothek testen",
+    "text": "Symbolbibliothek testen\n\nÖffne ein neues oder bestehendes Projekt.\nStarte den Schaltplaneditor (Schematic Editor).\nWähle die Aktion zum Platzieren eines Symbols (Place Symbol).\nÖffne den Dialog Symbol wählen (Choose Symbol).\nPrüfe, ob die neue Symbolbibliothek in der Bibliotheksliste verfügbar ist."
   },
   {
-    "objectID": "posts/2026-10-14-kicad-schaltung-zu-platine/index.html#schritt-3-footprints-zuweisen",
-    "href": "posts/2026-10-14-kicad-schaltung-zu-platine/index.html#schritt-3-footprints-zuweisen",
-    "title": "KiCad: Von der Simulation zur Platine",
-    "section": "Schritt 3: Footprints zuweisen",
-    "text": "Schritt 3: Footprints zuweisen\nJedes Symbol braucht jetzt sein Footprint – das physische Bauteilgehäuse mit den Lötpads.\n\nGehe zu Tools → Assign Footprints\nWeise die Footprints zu:\n\n\n\n\n\n\n\n\n\nSymbol\nBauteil\nFootprint (Bibliothek)\n\n\n\n\nR\nWiderstand \\(10\\, \\text{kΩ}\\)\nR_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal (Resistor_THT)\n\n\nC\nElektrolytkondensator \\(100\\, \\text{µF}\\)\nC_Radial_D8.0mm_H11.0mm_P3.50mm (Capacitor_THT)\n\n\nJ1, J2\nStiftleisten 2-polig\nPinHeader_1x02_P2.54mm_Vertical (Connector_PinHeader_2.54mm)\n\n\n\n\nKlicke auf Apply, Save Schematic and Continue\n\n\n\n\n\n\n\nTipTipp: Durchsteckmontage für die Schule\n\n\n\nWir wählen bewusst THT-Bauteile (Through-Hole) statt SMD: Sie sind mit dem normalen Lötkolben gut zu verlöten und Bauteile lassen sich leicht austauschen. SMD lohnt sich erst, wenn die Platine kleiner oder die Stückzahl größer wird.\n\n\n\n\n\n\nAssign-Footprints-Dialog mit den zugewiesenen Footprints"
+    "objectID": "posts/03-kicad-bibliotheken-als-plugin/index.html#hintergrund-und-tipps",
+    "href": "posts/03-kicad-bibliotheken-als-plugin/index.html#hintergrund-und-tipps",
+    "title": "KiCad: Eigene Bibliotheken als Plug-in installieren",
+    "section": "Hintergrund und Tipps",
+    "text": "Hintergrund und Tipps\n\n\n\n\n\n\nNoteWas ist im Paket enthalten?\n\n\n\nEin Bibliotheks-Paket kann mehr als nur Symbole (Symbols) und Footprints enthalten:\n\nSPICE-Modelle – erlauben die Simulation der Bauteile direkt im Schaltplaneditor (Schematic Editor)\n3D-Modelle (.step/.wrl) – sind den Footprints bereits zugeordnet und erscheinen automatisch in der 3D-Ansicht (3D Viewer) des Leiterplatteneditors (PCB Editor)\n\nAll diese Dateien werden gemeinsam vom Paket installiert – du musst sie nicht einzeln einbinden oder konfigurieren.\n\n\n\n\n\n\n\n\nTipDownload vereinfachen: Nextcloud-Desktop-App\n\n\n\nStatt die ZIP-Datei jedes Mal im Browser herunterzuladen, installiere dir einmalig die Nextcloud-Desktop-App (Nextcloud Desktop Client) und melde dich mit deinem HTLinn-Konto bei https://cloud.htlinn.ac.at an. Die Dateien der HTLinn Cloud werden dann automatisch mit deinem Nextcloud-Ordner synchronisiert – immer auf dem neuesten Stand. Wähle die ZIP-Datei bei der Installation direkt aus diesem Ordner aus, ein separater Browser-Download entfällt.\nDie App ist auch für das InHouse-Plug-in aus dem Beitrag KiCad: InHouse-Plug-in installieren nützlich."
   },
   {
-    "objectID": "posts/2026-10-14-kicad-schaltung-zu-platine/index.html#schritt-4-prüfen-und-ins-board-übernehmen",
-    "href": "posts/2026-10-14-kicad-schaltung-zu-platine/index.html#schritt-4-prüfen-und-ins-board-übernehmen",
-    "title": "KiCad: Von der Simulation zur Platine",
-    "section": "Schritt 4: Prüfen und ins Board übernehmen",
-    "text": "Schritt 4: Prüfen und ins Board übernehmen\n\nAnnotations prüfen: Gehe zu Inspect → Annotate Schematic und klicke auf Annotate, damit alle Symbole eindeutige Referenzen (R1, C1, J1, J2) haben\nERC ausführen: Gehe zu Inspect → Electrical Rules Checker → Perform ERC – das Ergebnis sollte 0 Fehler sein\nSpeichere den Schaltplan\nGehe zu Tools → Update PCB from Schematic (F8) und klicke auf Update PCB\n\n\n\n\n\nERC-Bericht: keine Fehler\n\n\n\n\n\n\nBoard-Editor mit den übernommenen Footprints\n\n\nDer Board-Editor öffnet sich mit allen Footprints in einem Stapel neben dem (noch leeren) Board."
-  },
-  {
-    "objectID": "posts/2026-10-14-kicad-schaltung-zu-platine/index.html#schritt-5-board-umriss-und-platzierung",
-    "href": "posts/2026-10-14-kicad-schaltung-zu-platine/index.html#schritt-5-board-umriss-und-platzierung",
-    "title": "KiCad: Von der Simulation zur Platine",
-    "section": "Schritt 5: Board-Umriss und Platzierung",
-    "text": "Schritt 5: Board-Umriss und Platzierung\n\nWähle oben in der Layer-Leiste den Layer Edge.Cuts\nZeichne mit Place → Add Rectangle eine Platine von z. B. 40 mm × 30 mm\nZiehe die Footprints aus dem Stapel auf die Platine und ordne sie entlang des Signalflusses an:\n\nJ1 an den linken Rand (Eingang)\nR1 in der Mitte\nC1 weiter rechts – Polarität beachten, der Pluspol-Markierungspunkt muss zur Plusseite zeigen\nJ2 an den rechten Rand (Ausgang)\n\nKontrolliere die Beschriftung im Silkscreen (F.Silks): Referenzen wie J1, J2 sollten lesbar und nicht von Bauteilen verdeckt sein\n\n\n\n\n\nPlatine mit Umriss und platzierten Bauteilen"
-  },
-  {
-    "objectID": "posts/2026-10-14-kicad-schaltung-zu-platine/index.html#schritt-6-leiterbahnen-routen",
-    "href": "posts/2026-10-14-kicad-schaltung-zu-platine/index.html#schritt-6-leiterbahnen-routen",
-    "title": "KiCad: Von der Simulation zur Platine",
-    "section": "Schritt 6: Leiterbahnen routen",
-    "text": "Schritt 6: Leiterbahnen routen\n\nWechsle auf den Layer F.Cu und starte mit X (Route Tracks) das Routing. Setze die Leiterbahnbreite auf ca. 0,5 mm – für unsere wenigen Milliampere mehr als ausreichend\nVerbinde die Luftverbindungen (Ratsnest-Linien):\n\nJ1 Pin 1 → R1 → C1 (Pluspol)\nJ1 Pin 2 → GND\nC1 (Minuspol) → GND\nJ2 Pin 1 → \\(U_C\\), J2 Pin 2 → GND\n\nFür GND legen wir eine Kupferfläche an: Place → Add Fill Zone, Layer F.Cu, Netz GND, über die ganze Platine – danach mit B (Edit Zone/Refill) füllen\n\n\n\n\n\n\n\nTipTipp: Warum eine GND-Fläche?\n\n\n\nDie Kupferfläche ersetzt einzelne GND-Leiterbahnen: weniger Routing- Arbeit, bessere mechanische Stabilität beim Löten und ein sauberer Massebezug – auch für deine Messung an J2.\n\n\n\n\n\n\nKomplett geroutete Platine mit GND-Kupferfläche"
-  },
-  {
-    "objectID": "posts/2026-10-14-kicad-schaltung-zu-platine/index.html#schritt-7-prüfen-und-fertigungsdaten-exportieren",
-    "href": "posts/2026-10-14-kicad-schaltung-zu-platine/index.html#schritt-7-prüfen-und-fertigungsdaten-exportieren",
-    "title": "KiCad: Von der Simulation zur Platine",
-    "section": "Schritt 7: Prüfen und Fertigungsdaten exportieren",
-    "text": "Schritt 7: Prüfen und Fertigungsdaten exportieren\n\nDRC ausführen\n\nGehe im Board-Editor zu Inspect → Design Rules Checker → Run DRC\nEs sollten 0 Fehler und höchstens harmlose Warnungen übrig sein\n\n\n\n\n\nDRC: keine Fehler\n\n\n\n\n3D-Vorschau\nMit View → 3D Viewer (Alt+3) kontrollierst du die Platine vor der Fertigung einmal von allen Seiten.\n\n\n\n\n3D-Vorschau der fertigen Platine\n\n\n\n\nGerber- und Bohrdaten\n\nGehe zu File → Fabrication Outputs → Plots\nWähle die empfohlenen Gerber-Layer (oder direkt die Voreinstellung für deinen Hersteller) und klicke auf Plot\nErzeuge anschließend die Bohrdaten über Generate Drill Files\nPacke den Ausgabeordner als ZIP – das ist das Format, das du bei jedem Leiterplatten-Hersteller hochlädst\n\n\n\n\n\nPlot-Dialog für die Gerber-Ausgabe"
-  },
-  {
-    "objectID": "posts/2026-10-14-kicad-schaltung-zu-platine/index.html#theorieteil-warum-stiftleisten-statt-simulationsquelle",
-    "href": "posts/2026-10-14-kicad-schaltung-zu-platine/index.html#theorieteil-warum-stiftleisten-statt-simulationsquelle",
-    "title": "KiCad: Von der Simulation zur Platine",
-    "section": "Theorieteil: Warum Stiftleisten statt Simulationsquelle?",
-    "text": "Theorieteil: Warum Stiftleisten statt Simulationsquelle?\nDie Simulationsquelle war ein Modell: ein ideales Bauteil, das ngspice für die Berechnung braucht. Auf einer realen Platine gibt es sie nicht – Spannung liefert ein Netzteil, eine Batterie oder ein Labornetzteil, das von außen angeschlossen wird. Die Stiftleiste J1 ist genau diese Schnittstelle: Sie macht aus dem Modellanschluss einen physischen Anschluss.\nDie Stiftleiste J2 am Ausgang hat die gleiche Aufgabe in die andere Richtung: Sie führt das Netz \\(U_C\\) heraus, das wir in der Simulation geplottet haben. Mit einem Multimeter an J2 kannst du die reale Ladekurve messen und mit der Tabelle aus dem Simulationsbeitrag vergleichen. Die Physik ändert sich nicht: Mit \\(R = 10\\, \\text{kΩ}\\) und \\(C = 100\\, \\text{µF}\\) gilt weiterhin \\(\\tau = R \\cdot C = 1\\, \\text{s}\\) – nach etwa 5 Sekunden ist der Kondensator praktisch voll geladen.\nDer ERC-Punkt mit dem PWR_FLAG passt ebenfalls in dieses Bild: KiCad prüft, ob jedes Power-Netz auch wirklich von einer Quelle getrieben wird. Da die Quelle jetzt außerhalb der Platine liegt, sagst du es dem ERC mit dem Flag explizit.\nUnd die Footprints sind die Brücke zwischen Symbol und Bauteil: Das Widerstandssymbol R aus der Simulation wird zu einem konkreten Bauteil mit 10,16 mm Rastermaß – nur so weiß der Board-Editor, wie groß die Lötpads sein müssen."
-  },
-  {
-    "objectID": "posts/2026-10-14-kicad-schaltung-zu-platine/index.html#tipps-und-tricks",
-    "href": "posts/2026-10-14-kicad-schaltung-zu-platine/index.html#tipps-und-tricks",
-    "title": "KiCad: Von der Simulation zur Platine",
-    "section": "Tipps und Tricks",
-    "text": "Tipps und Tricks\n\n\n\n\n\n\nTipTipp: Simulation und Realität vergleichen\n\n\n\nSchließe an J1 ein Labornetzteil mit \\(10\\, \\text{V}\\) an und ein Multimeter an J2. Lade den Kondensator (Netzteil kurz trennen und wieder verbinden) und stoppe, wann J2 ca. \\(6{,}3\\, \\text{V}\\) zeigt: Nach einer Sekunde – exakt wie in der Simulation.\n\n\n\n\n\n\n\n\nTipTipp: Bauteilwerte im Silkscreen\n\n\n\nFüge Texte auf dem F.Silks-Layer hinzu, z. B. 10k, 100µ und +10V / GND an den Stiftleisten. So erkennst du die Belegung auch ohne Schaltplan.\n\n\n\n\n\n\n\n\nWarningHäufige Fehler\n\n\n\n\nPWR_FLAG vergessen: Der ERC meldet “Input Power pin not driven” – Flag platzieren und mit +10V sowie GND verbinden.\nElektrolytkondensator verpolen: Der Minuspol-Streifen muss Richtung GND. Verpolte Elkos können beim Laden aufplatzen.\nEdge.Cuts nicht geschlossen: Die Umrisslinie muss ein geschlossener Rahmen sein, sonst akzeptieren Hersteller und DRC die Platine nicht.\nSPICE-Direktiven nicht gelöscht: Sie stören das Board nicht direkt, verwirren aber jeden, der den Schaltplan später liest.\nHeader falsch gepolt: Prüfe an J1 und J2, welcher Pin im Schaltplan Pin 1 ist – im Footprint ist Pin 1 am eckigen Pad markiert."
-  },
-  {
-    "objectID": "posts/2026-10-14-kicad-schaltung-zu-platine/index.html#nächste-schritte",
-    "href": "posts/2026-10-14-kicad-schaltung-zu-platine/index.html#nächste-schritte",
-    "title": "KiCad: Von der Simulation zur Platine",
+    "objectID": "posts/03-kicad-bibliotheken-als-plugin/index.html#nächste-schritte",
+    "href": "posts/03-kicad-bibliotheken-als-plugin/index.html#nächste-schritte",
+    "title": "KiCad: Eigene Bibliotheken als Plug-in installieren",
     "section": "Nächste Schritte",
-    "text": "Nächste Schritte\nJetzt, wo deine erste Platine aus einer Simulation entstanden ist, kannst du:\n\nDie Gerber-Dateien bei einem Hersteller hochladen und die Platine bestellen\nDie reale Ladekurve messen und mit der ngspice-Simulation vergleichen\nDie Schaltung erweitern: z. B. einen Taster zum Entladen des Kondensators oder eine LED mit Vorwiderstand ergänzen\n\nViel Erfolg beim Ätten, Bestellen und Löten deiner ersten Platine!"
+    "text": "Nächste Schritte\n\nNach der Installation stehen dir die Inhalte des Bibliotheks-Pakets in allen Projekten zur Verfügung – Symbole, Footprints, SPICE- und 3D-Modelle, egal ob InHouse-Bibliothek oder ein anderes Baukasten-Paket.\nDie grundlegende Bedienung der PCM wird im Beitrag KiCad: Plugin- und Content-Verwaltung erklärt.\nIm Beitrag KiCad: InHouse-Plug-in installieren erfährst du, wie du zusätzlich die InHouse-Vorlage (InHouse Template) für neue Projekte nutzt."
   }
 ]

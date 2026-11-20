@@ -2,21 +2,27 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.24">
+<meta name="generator" content="quarto-1.10.19">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Human">
 <meta name="author" content="Mistral Vibe (KI Assistent)">
-<meta name="dcterms.date" content="2026-10-09">
-<meta name="description" content="Lerne, wie du in KiCad Plugins und Erweiterungen über den Plugin and Content Manager aus einer .zip-Datei installierst – offline und ohne manuelles Kopieren.">
+<meta name="dcterms.date" content="2026-11-28">
+<meta name="description" content="Installiere das InHouse-Plug-in (InHouse Plug-in) mit seinen Bauteilen (Components) und Vorlagen (Templates) über die Plugin- und Content-Verwaltung (Plugin and Content Manager).">
 
-<title>KiCad: In House Bauteile und Vorlagen installieren – KiCad Blog</title>
+<title>KiCad: InHouse-Plug-in installieren – KiCad Blog</title>
 <style>
-code{white-space: pre-wrap;}
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -36,15 +42,14 @@ ul.task-list li input[type="checkbox"] {
 <meta name="quarto:offset" content="../../">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-e31584831b205ffbb2d98406f31c2a5b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-172ba59bd5e0b52282274ba0c0cc16fc.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -75,8 +80,8 @@ ul.task-list li input[type="checkbox"] {
 
 
 <link rel="stylesheet" href="../../styles.css">
-<meta property="og:title" content="KiCad: In House Bauteile und Vorlagen installieren – KiCad Blog">
-<meta property="og:description" content="Lerne, wie du in KiCad Plugins und Erweiterungen über den Plugin and Content Manager aus einer .zip-Datei installierst – offline und ohne manuelles Kopieren.">
+<meta property="og:title" content="KiCad: InHouse-Plug-in installieren – KiCad Blog">
+<meta property="og:description" content="Installiere das InHouse-Plug-in (InHouse Plug-in) mit seinen Bauteilen (Components) und Vorlagen (Templates) über die Plugin- und Content-Verwaltung (Plugin and Content Manager).">
 <meta property="og:site_name" content="KiCad Blog">
 </head>
 
@@ -87,8 +92,6 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
-    </a>
     <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">KiCad Blog</span>
     </a>
@@ -123,18 +126,12 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#was-du-lernst" id="toc-was-du-lernst" class="nav-link active" data-scroll-target="#was-du-lernst">Was du lernst</a></li>
-  <li><a href="#voraussetzungen" id="toc-voraussetzungen" class="nav-link" data-scroll-target="#voraussetzungen">Voraussetzungen</a></li>
-  <li><a href="#was-ist-der-plugin-and-content-manager" id="toc-was-ist-der-plugin-and-content-manager" class="nav-link" data-scroll-target="#was-ist-der-plugin-and-content-manager">Was ist der Plugin and Content Manager?</a></li>
-  <li><a href="#schritt-1-den-pcm-öffnen" id="toc-schritt-1-den-pcm-öffnen" class="nav-link" data-scroll-target="#schritt-1-den-pcm-öffnen">Schritt 1: Den PCM öffnen</a></li>
-  <li><a href="#schritt-2-plugin-aus-einer-.zip-datei-installieren" id="toc-schritt-2-plugin-aus-einer-.zip-datei-installieren" class="nav-link" data-scroll-target="#schritt-2-plugin-aus-einer-.zip-datei-installieren">Schritt 2: Plugin aus einer .zip-Datei installieren</a>
-  <ul class="collapse">
-  <li><a href="#plugin-testen" id="toc-plugin-testen" class="nav-link" data-scroll-target="#plugin-testen">Plugin testen</a></li>
-  </ul></li>
-  <li><a href="#schritt-3-pakete-verwalten" id="toc-schritt-3-pakete-verwalten" class="nav-link" data-scroll-target="#schritt-3-pakete-verwalten">Schritt 3: Pakete verwalten</a>
-  <ul class="collapse">
-  <li><a href="#aktualisieren" id="toc-aktualisieren" class="nav-link" data-scroll-target="#aktualisieren">Aktualisieren</a></li>
-  </ul></li>
+  <li><a href="#voraussetzungen" id="toc-voraussetzungen" class="nav-link active" data-scroll-target="#voraussetzungen">Voraussetzungen</a></li>
+  <li><a href="#paket-installieren" id="toc-paket-installieren" class="nav-link" data-scroll-target="#paket-installieren">Paket installieren</a></li>
+  <li><a href="#inhouse-vorlage-testen" id="toc-inhouse-vorlage-testen" class="nav-link" data-scroll-target="#inhouse-vorlage-testen">InHouse-Vorlage testen</a></li>
+  <li><a href="#inhouse-bauteile-testen" id="toc-inhouse-bauteile-testen" class="nav-link" data-scroll-target="#inhouse-bauteile-testen">InHouse-Bauteile testen</a></li>
+  <li><a href="#hintergrund-und-tipps" id="toc-hintergrund-und-tipps" class="nav-link" data-scroll-target="#hintergrund-und-tipps">Hintergrund und Tipps</a></li>
+  <li><a href="#nächste-schritte" id="toc-nächste-schritte" class="nav-link" data-scroll-target="#nächste-schritte">Nächste Schritte</a></li>
   </ul>
 </nav>
     </div>
@@ -143,7 +140,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">KiCad: In House Bauteile und Vorlagen installieren</h1>
+<h1 class="title">KiCad: InHouse-Plug-in installieren</h1>
   <div class="quarto-categories">
     <div class="quarto-category">Anleitung</div>
     <div class="quarto-category">Plugins</div>
@@ -154,7 +151,7 @@ ul.task-list li input[type="checkbox"] {
 
 <div>
   <div class="description">
-    Lerne, wie du in KiCad Plugins und Erweiterungen über den Plugin and Content Manager aus einer .zip-Datei installierst – offline und ohne manuelles Kopieren.
+    Installiere das InHouse-Plug-in (InHouse Plug-in) mit seinen Bauteilen (Components) und Vorlagen (Templates) über die Plugin- und Content-Verwaltung (Plugin and Content Manager).
   </div>
 </div>
 
@@ -172,7 +169,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">October 9, 2026</p>
+      <p class="date">November 28, 2026</p>
     </div>
   </div>
   
@@ -184,118 +181,109 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>KiCad ist von Haus aus ein mächtiges Werkzeug – aber eines der bestgehüteten Geheimnisse ist der <strong>Plugin and Content Manager (PCM)</strong>. Damit erweiterst du KiCad um zusätzliche Werkzeuge, Bibliotheken, 3D-Modelle und Farbthemen – ganz ohne manuelles Kopieren von Dateien. In diesem Beitrag zeigen wir dir, wie du Plugins aus einer <strong>.zip-Datei</strong> installierst und wie du sie wieder loswirst.</p>
-<section id="was-du-lernst" class="level2">
-<h2 class="anchored" data-anchor-id="was-du-lernst">Was du lernst</h2>
-<ul>
-<li>Was der <strong>Plugin and Content Manager (PCM)</strong> ist und welche Paketarten es gibt</li>
-<li>Plugins <strong>aus einer .zip-Datei</strong> über <strong>Install from File</strong> installieren</li>
-<li>Installierte Pakete <strong>aktualisieren und deinstallieren</strong></li>
-</ul>
-</section>
+<p>Installiere das InHouse-Plug-in (InHouse Plug-in) mit seinen Bauteilen (InHouse Components) und der InHouse-Vorlage (InHouse Template) über die Plugin- und Content-Verwaltung (Plugin and Content Manager, PCM). Die Pakete stammen aus der HTLinn Cloud.</p>
 <section id="voraussetzungen" class="level2">
 <h2 class="anchored" data-anchor-id="voraussetzungen">Voraussetzungen</h2>
 <ul>
-<li>KiCad 10 installiert (siehe unseren <a href="../..\posts/2026-09-24-kicad-installation/">Installationsguide</a>)</li>
-<li>Die <strong>.zip-Datei</strong> des Pakets (z. B. vom USB-Stick oder Schulserver)</li>
-<li>Grundlegende Kenntnisse der KiCad-Benutzeroberfläche</li>
+<li>KiCad 10 ist installiert.</li>
+<li>Du hast die ZIP-Datei des InHouse-Pakets von <a href="https://cloud.htlinn.ac.at/f/3643189">HTLinn Cloud</a> heruntergeladen.</li>
+<li>Die ZIP-Datei wurde nicht entpackt.</li>
 </ul>
 </section>
-<section id="was-ist-der-plugin-and-content-manager" class="level2">
-<h2 class="anchored" data-anchor-id="was-ist-der-plugin-and-content-manager">Was ist der Plugin and Content Manager?</h2>
-<p>Der PCM ist KiCads zentrale Anlaufstelle für Erweiterungen. Er verwaltet vier Arten von <strong>Paketen</strong>:</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 47%">
-<col style="width: 52%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Paketart</th>
-<th>Beispiele</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><strong>Plugins</strong></td>
-<td>Zusatzwerkzeuge im Schaltplan- und PCB-Editor, z. B. BOM-Exporte, DFM-Prüfungen, Bemaßungs-Helfer</td>
-</tr>
-<tr class="even">
-<td><strong>Bibliotheken</strong></td>
-<td>Symbol- und Footprint-Bibliotheken von Herstellern wie SparkFun oder Adafruit</td>
-</tr>
-<tr class="odd">
-<td><strong>3D-Modelle</strong></td>
-<td>STEP-/WRL-Modelle für die 3D-Ansicht</td>
-</tr>
-<tr class="even">
-<td><strong>Farbthemen</strong></td>
-<td>Alternative Farbschemata für die Editoren</td>
-</tr>
-</tbody>
-</table>
-<p>Der PCM kann auch direkt aus dem <strong>offiziellen Repository</strong> (https://plugins.kicad.org) installieren – das ist aber nicht das Thema dieses Beitrags. Hier geht es gezielt um die <strong>.zip-Datei</strong>.</p>
-</section>
-<section id="schritt-1-den-pcm-öffnen" class="level2">
-<h2 class="anchored" data-anchor-id="schritt-1-den-pcm-öffnen">Schritt 1: Den PCM öffnen</h2>
+<section id="paket-installieren" class="level2">
+<h2 class="anchored" data-anchor-id="paket-installieren">Paket installieren</h2>
 <ol type="1">
-<li>Starte <strong>KiCad</strong> – der Projektmanager genügt.</li>
-<li>Gehe zu <strong>Tools → Plugin and Content Manager</strong></li>
+<li>Lade die ZIP-Datei über den oben genannten HTLinn-Cloud-Link herunter.</li>
+<li>Starte die KiCad-Projektverwaltung (KiCad Project Manager).</li>
+<li>Öffne über <strong>Werkzeuge (Tools) → Plugin- und Content-Verwaltung (Plugin and Content Manager)</strong> die PCM.</li>
+<li>Wähle oben rechts <strong>Aus Datei installieren (Install from file…)</strong>.</li>
+<li>Wähle im Dateidialog die heruntergeladene ZIP-Datei aus. Entpacke sie nicht.</li>
+<li>Die PCM prüft die Paketmetadaten und die Kompatibilität mit deiner KiCad-Version. Klicke zur Installation auf <strong>Installieren (Install)</strong>, falls ein Bestätigungsdialog angezeigt wird.</li>
+<li>Schließe das Plugin- und Content-Verwaltungsfenster (Plugin and Content Manager) nach der Installation.</li>
+<li>Öffne einmalig den Leiterplatteneditor (PCB Editor), um die Bibliotheken und Vorlagen zu initialisieren. Danach kannst du die Editoren wieder schließen.</li>
+<li>Schließe alle geöffneten KiCad-Fenster und starte KiCad neu, um die Installation abzuschließen.</li>
 </ol>
-<p>Der PCM ist in drei Reiter unterteilt:</p>
-<ul>
-<li><strong>Browse</strong> – alle verfügbaren Pakete aus dem Repository</li>
-<li><strong>Installed</strong> – deine installierten Pakete</li>
-<li><strong>Updates</strong> – Pakete, für die eine neue Version verfügbar ist</li>
-</ul>
-</section>
-<section id="schritt-2-plugin-aus-einer-.zip-datei-installieren" class="level2">
-<h2 class="anchored" data-anchor-id="schritt-2-plugin-aus-einer-.zip-datei-installieren">Schritt 2: Plugin aus einer .zip-Datei installieren</h2>
-<ol type="1">
-<li>Hol dir die <strong>.zip-Datei</strong> des Pakets – vom Schulserver</li>
-<li>Klicke im PCM auf die Schaltfläche <strong>Install from File</strong></li>
-<li>Wähle die <strong>.zip-Datei</strong> des Pakets aus und bestätige</li>
-<li>Der PCM liest die <code>metadata.json</code>, prüft die <strong>kompatible KiCad-Version</strong> und installiert das Paket</li>
-</ol>
-<p><strong>Wichtig bei Plugins:</strong> Action-Plugins werden beim Start von KiCad geladen. Nach der Installation starte KiCad einmal neu und öffne den Board Designer.</p>
-<p>Jetzt stehen dir die Inhalte des Plugins zur Verfügung.</p>
-<section id="plugin-testen" class="level3">
-<h3 class="anchored" data-anchor-id="plugin-testen">Plugin testen</h3>
-<section id="in-house-vorlage" class="level4">
-<h4 class="anchored" data-anchor-id="in-house-vorlage">In House Vorlage</h4>
-<ol type="1">
-<li>Starte KiCad neu</li>
-<li>Erstelle ein neues Projekt und überprüfe, ob die Vorlage für die in House Fertigung (<strong>File → New → Project</strong>)</li>
-</ol>
-<p>Taucht der Eintrag auf, war die Installation erfolgreich.</p>
-</section>
-<section id="in-house-bauteile" class="level4">
-<h4 class="anchored" data-anchor-id="in-house-bauteile">In House Bauteile</h4>
-<p>Nachdem du ein Projekt angelegt hast, öffne den Schematic Editor und platziere ein Bauteil. In der <strong>Symbolauswahl</strong> sollte jetzt die Bibliothek für die in House Bauteile verfügbar sein.</p>
-<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Note
+<span class="screen-reader-only">Important</span>Dringend empfohlen: Standard-Bibliotheken deaktivieren
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Für mehr übersichtlichkeit können die mit KiCAD installierten Bibliotheken in den Einstellungen unter <strong>Preferences → Manage Symbol Libraries</strong> und <strong>Preferences → Manage Footprint Libraries</strong> verwaltet werden. Dort können Bibliotheken aktiviert, deaktiviert oder priorisiert werden.</p>
+<p>KiCad bringt tausende Symbol- und Footprint-Einträge mit, die sofort mitinstalliert und aktiviert sind. Als Einsteiger siehst du im Dialog <strong>Symbol wählen (Choose Symbol)</strong> dadurch hunderte ähnliche Bauteile – und verlierst leicht den Überblick. <strong>Deaktiviere die KiCad-Standard-Bibliotheken und arbeitete ausschließlich mit der InHouse-Bibliothek.</strong> Diese Einstellung ist besonders für Einsteiger dringend empfohlen.</p>
+<section id="symbol-bibliotheken-deaktivieren" class="level3">
+<h3 class="anchored" data-anchor-id="symbol-bibliotheken-deaktivieren">Symbol-Bibliotheken deaktivieren</h3>
+<ol type="1">
+<li>Öffne den Schaltplaneditor (Schematic Editor).</li>
+<li>Wähle <strong>Einstellungen (Preferences) → Symbolbibliotheken verwalten (Manage Symbol Libraries)</strong>.</li>
+<li>Entferne in der Spalte <strong>Aktiv (Active)</strong> das Häkchen bei <strong>allen Bibliotheken außer der InHouse-Symbolbibliothek (InHouse Symbol Library)</strong>.</li>
+<li>Bestätige mit <strong>OK</strong>.</li>
+</ol>
+</section>
+<section id="footprint-bibliotheken-deaktivieren" class="level3">
+<h3 class="anchored" data-anchor-id="footprint-bibliotheken-deaktivieren">Footprint-Bibliotheken deaktivieren</h3>
+<ol type="1">
+<li>Öffne den Leiterplatteneditor (PCB Editor).</li>
+<li>Wähle <strong>Einstellungen (Preferences) → Footprint-Bibliotheken verwalten (Manage Footprint Libraries)</strong>.</li>
+<li>Entferne in der Spalte <strong>Aktiv (Active)</strong> das Häkchen bei <strong>allen Bibliotheken außer der InHouse-Footprint-Bibliothek (InHouse Footprint Library)</strong>.</li>
+<li>Bestätige mit <strong>OK</strong>.</li>
+</ol>
+<p>Im Dialog <strong>Symbol wählen (Choose Symbol)</strong> bzw. <strong>Footprint wählen (Choose Footprint)</strong> erscheinen danach nur noch die InHouse-Bauteile – übersichtlich und einheitlich.</p>
+<p><strong>Keine Sorge:</strong> Die Standard-Bibliotheken werden dadurch nicht gelöscht, sie werden nur nicht mehr geladen. Setze das Häkchen in der Spalte <strong>Aktiv (Active)</strong> erneut, bringt du sie jederzeit zurück. Dieselben Dialoge nutzt du auch, um Bibliotheken zu priorisieren.</p>
+</section>
 </div>
 </div>
 </section>
+<section id="inhouse-vorlage-testen" class="level2">
+<h2 class="anchored" data-anchor-id="inhouse-vorlage-testen">InHouse-Vorlage testen</h2>
+<ol type="1">
+<li>Öffne die KiCad-Projektverwaltung (KiCad Project Manager).</li>
+<li>Wähle <strong>Datei (File) → Neues Projekt aus einer Vorlage… (New Project from Template…)</strong>.</li>
+<li>Suche in der Vorlagenauswahl (Template Chooser) nach der InHouse-Vorlage (InHouse Template).</li>
+<li>Wähle die Vorlage aus und erstelle das neue Projekt.</li>
+</ol>
+<p>Die Vorlage enthält die für die InHouse-Fertigung vorbereiteten Projekteinstellungen. Bei einer erfolgreichen Installation erscheint der Vorlageneintrag in der Vorlagenauswahl (Template Chooser).</p>
 </section>
+<section id="inhouse-bauteile-testen" class="level2">
+<h2 class="anchored" data-anchor-id="inhouse-bauteile-testen">InHouse-Bauteile testen</h2>
+<ol type="1">
+<li>Öffne ein neues oder bestehendes Projekt.</li>
+<li>Starte den Schaltplaneditor (Schematic Editor).</li>
+<li>Wähle die Aktion zum Platzieren eines Symbols (Place Symbol).</li>
+<li>Öffne den Dialog <strong>Symbol wählen (Choose Symbol)</strong>.</li>
+<li>Prüfe, ob die InHouse-Symbolbibliothek (InHouse Symbol Library) in der Bibliotheksliste verfügbar ist.</li>
+</ol>
+<p>Falls du die Footprint-Zuweisung prüfen möchtest, öffne anschließend den Leiterplatteneditor (PCB Editor). Die InHouse-Footprint-Bibliothek (InHouse Footprint Library) sollte ebenfalls in der Bibliotheksverwaltung verfügbar sein.</p>
 </section>
-<section id="schritt-3-pakete-verwalten" class="level2">
-<h2 class="anchored" data-anchor-id="schritt-3-pakete-verwalten">Schritt 3: Pakete verwalten</h2>
-<section id="aktualisieren" class="level3">
-<h3 class="anchored" data-anchor-id="aktualisieren">Aktualisieren</h3>
-<p>Einfach eine aktuellere Version des Plugins wie oben beschrieben installieren – der PCM ersetzt die alte Version automatisch.</p>
+<section id="hintergrund-und-tipps" class="level2">
+<h2 class="anchored" data-anchor-id="hintergrund-und-tipps">Hintergrund und Tipps</h2>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Download vereinfachen: Nextcloud-Desktop-App
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Statt die ZIP-Datei jedes Mal im Browser herunterzuladen, installiere dir einmalig die <a href="https://nextcloud.com/install/#install-clients">Nextcloud-Desktop-App</a> (Nextcloud Desktop Client) und melde dich mit deinem HTLinn-Konto bei <code>https://cloud.htlinn.ac.at</code> an. Die Dateien der HTLinn Cloud werden dann automatisch mit deinem Nextcloud-Ordner synchronisiert – immer auf dem neuesten Stand. Wähle die ZIP-Datei bei der Installation direkt aus diesem Ordner aus, ein separater Browser-Download entfällt.</p>
+<p>Die App ist auch für die Bibliotheken aus dem Beitrag <a href="../03-kicad-bibliotheken-als-plugin/">KiCad: Eigene Bibliotheken als Plug-in installieren</a> nützlich.</p>
+</div>
+</div>
+</section>
+<section id="nächste-schritte" class="level2">
+<h2 class="anchored" data-anchor-id="nächste-schritte">Nächste Schritte</h2>
+<ul>
+<li>Nach der Installation stehen dir die InHouse-Bauteile und die InHouse-Vorlage in allen Projekten zur Verfügung.</li>
+<li>Die grundlegende Bedienung der PCM wird im Beitrag <a href="../06-kicad-pcm/">KiCad: Plugin- und Content-Verwaltung</a> erklärt.</li>
+<li>Die dazu passenden Symbol- und Footprint-Bibliotheken installierst du wie im Beitrag <a href="../03-kicad-bibliotheken-als-plugin/">KiCad: Eigene Bibliotheken als Plug-in installieren</a> beschrieben.</li>
+</ul>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->

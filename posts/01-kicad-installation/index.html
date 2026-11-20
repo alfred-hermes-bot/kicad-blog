@@ -2,27 +2,68 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.24">
+<meta name="generator" content="quarto-1.10.19">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Human">
 <meta name="author" content="Mistral Vibe (KI Assistent)">
-<meta name="dcterms.date" content="2026-10-09">
-<meta name="description" content="Lerne, wie du in KiCad Plugins und Erweiterungen über den Plugin and Content Manager aus einer .zip-Datei installierst – offline und ohne manuelles Kopieren.">
+<meta name="dcterms.date" content="2026-11-24">
+<meta name="description" content="Von null zum Schaltplan in 15 Minuten: Die komplette Installation von KiCad 10 auf Windows, macOS und Linux.">
 
-<title>KiCad: Plugins installieren – KiCad Blog</title>
+<title>KiCad 10 installieren – Schritt für Schritt – KiCad Blog</title>
 <style>
-code{white-space: pre-wrap;}
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -36,15 +77,14 @@ ul.task-list li input[type="checkbox"] {
 <meta name="quarto:offset" content="../../">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-e31584831b205ffbb2d98406f31c2a5b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-172ba59bd5e0b52282274ba0c0cc16fc.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -75,9 +115,12 @@ ul.task-list li input[type="checkbox"] {
 
 
 <link rel="stylesheet" href="../../styles.css">
-<meta property="og:title" content="KiCad: Plugins installieren – KiCad Blog">
-<meta property="og:description" content="Lerne, wie du in KiCad Plugins und Erweiterungen über den Plugin and Content Manager aus einer .zip-Datei installierst – offline und ohne manuelles Kopieren.">
+<meta property="og:title" content="KiCad 10 installieren – Schritt für Schritt – KiCad Blog">
+<meta property="og:description" content="Von null zum Schaltplan in 15 Minuten: Die komplette Installation von KiCad 10 auf Windows, macOS und Linux.">
+<meta property="og:image" content="https://alfred-hermes-bot.github.io/kicad-blog/posts/01-kicad-installation/images/01-downloadseite.png">
 <meta property="og:site_name" content="KiCad Blog">
+<meta property="og:image:height" content="291">
+<meta property="og:image:width" content="806">
 </head>
 
 <body class="nav-fixed quarto-light">
@@ -87,8 +130,6 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
-    </a>
     <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">KiCad Blog</span>
     </a>
@@ -123,18 +164,19 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#was-du-lernst" id="toc-was-du-lernst" class="nav-link active" data-scroll-target="#was-du-lernst">Was du lernst</a></li>
-  <li><a href="#voraussetzungen" id="toc-voraussetzungen" class="nav-link" data-scroll-target="#voraussetzungen">Voraussetzungen</a></li>
-  <li><a href="#was-ist-der-plugin-and-content-manager" id="toc-was-ist-der-plugin-and-content-manager" class="nav-link" data-scroll-target="#was-ist-der-plugin-and-content-manager">Was ist der Plugin and Content Manager?</a></li>
-  <li><a href="#schritt-1-den-pcm-öffnen" id="toc-schritt-1-den-pcm-öffnen" class="nav-link" data-scroll-target="#schritt-1-den-pcm-öffnen">Schritt 1: Den PCM öffnen</a></li>
-  <li><a href="#schritt-2-plugin-aus-einer-.zip-datei-installieren" id="toc-schritt-2-plugin-aus-einer-.zip-datei-installieren" class="nav-link" data-scroll-target="#schritt-2-plugin-aus-einer-.zip-datei-installieren">Schritt 2: Plugin aus einer .zip-Datei installieren</a>
+  <li><a href="#schritt-1-download" id="toc-schritt-1-download" class="nav-link active" data-scroll-target="#schritt-1-download">Schritt 1: Download</a></li>
+  <li><a href="#schritt-2-windows-1011" id="toc-schritt-2-windows-1011" class="nav-link" data-scroll-target="#schritt-2-windows-1011">Schritt 2: Windows (10/11)</a></li>
+  <li><a href="#schritt-3-macos" id="toc-schritt-3-macos" class="nav-link" data-scroll-target="#schritt-3-macos">Schritt 3: macOS</a></li>
+  <li><a href="#schritt-4-linux" id="toc-schritt-4-linux" class="nav-link" data-scroll-target="#schritt-4-linux">Schritt 4: Linux</a>
   <ul class="collapse">
-  <li><a href="#plugin-testen" id="toc-plugin-testen" class="nav-link" data-scroll-target="#plugin-testen">Plugin testen</a></li>
+  <li><a href="#ubuntu-debian-und-derivate" id="toc-ubuntu-debian-und-derivate" class="nav-link" data-scroll-target="#ubuntu-debian-und-derivate">Ubuntu / Debian (und Derivate)</a></li>
+  <li><a href="#fedora" id="toc-fedora" class="nav-link" data-scroll-target="#fedora">Fedora</a></li>
+  <li><a href="#arch-linux" id="toc-arch-linux" class="nav-link" data-scroll-target="#arch-linux">Arch Linux</a></li>
   </ul></li>
-  <li><a href="#schritt-3-pakete-verwalten" id="toc-schritt-3-pakete-verwalten" class="nav-link" data-scroll-target="#schritt-3-pakete-verwalten">Schritt 3: Pakete verwalten</a>
-  <ul class="collapse">
-  <li><a href="#aktualisieren" id="toc-aktualisieren" class="nav-link" data-scroll-target="#aktualisieren">Aktualisieren</a></li>
-  </ul></li>
+  <li><a href="#schritt-5-erster-start-projekt-anlegen" id="toc-schritt-5-erster-start-projekt-anlegen" class="nav-link" data-scroll-target="#schritt-5-erster-start-projekt-anlegen">Schritt 5: Erster Start – Projekt anlegen</a></li>
+  <li><a href="#schritt-6-sprachpaket-optional" id="toc-schritt-6-sprachpaket-optional" class="nav-link" data-scroll-target="#schritt-6-sprachpaket-optional">Schritt 6: Sprachpaket (optional)</a></li>
+  <li><a href="#troubleshooting" id="toc-troubleshooting" class="nav-link" data-scroll-target="#troubleshooting">Troubleshooting</a></li>
+  <li><a href="#nächste-schritte" id="toc-nächste-schritte" class="nav-link" data-scroll-target="#nächste-schritte">Nächste Schritte</a></li>
   </ul>
 </nav>
     </div>
@@ -143,18 +185,17 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">KiCad: Plugins installieren</h1>
+<h1 class="title">KiCad 10 installieren – Schritt für Schritt</h1>
   <div class="quarto-categories">
     <div class="quarto-category">Anleitung</div>
-    <div class="quarto-category">Plugins</div>
+    <div class="quarto-category">Installation</div>
     <div class="quarto-category">KiCad</div>
-    <div class="quarto-category">PCM</div>
   </div>
   </div>
 
 <div>
   <div class="description">
-    Lerne, wie du in KiCad Plugins und Erweiterungen über den Plugin and Content Manager aus einer .zip-Datei installierst – offline und ohne manuelles Kopieren.
+    Von null zum Schaltplan in 15 Minuten: Die komplette Installation von KiCad 10 auf Windows, macOS und Linux.
   </div>
 </div>
 
@@ -172,7 +213,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">October 9, 2026</p>
+      <p class="date">November 24, 2026</p>
     </div>
   </div>
   
@@ -184,118 +225,131 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>KiCad ist von Haus aus ein mächtiges Werkzeug – aber eines der bestgehüteten Geheimnisse ist der <strong>Plugin and Content Manager (PCM)</strong>. Damit erweiterst du KiCad um zusätzliche Werkzeuge, Bibliotheken, 3D-Modelle und Farbthemen – ganz ohne manuelles Kopieren von Dateien. In diesem Beitrag zeigen wir dir, wie du Plugins aus einer <strong>.zip-Datei</strong> installierst und wie du sie wieder loswirst.</p>
-<section id="was-du-lernst" class="level2">
-<h2 class="anchored" data-anchor-id="was-du-lernst">Was du lernst</h2>
-<ul>
-<li>Was der <strong>Plugin and Content Manager (PCM)</strong> ist und welche Paketarten es gibt</li>
-<li>Plugins <strong>aus einer .zip-Datei</strong> über <strong>Install from File</strong> installieren</li>
-<li>Installierte Pakete <strong>aktualisieren und deinstallieren</strong></li>
-</ul>
+<p>KiCad 10 ist die aktuelle stabile Version (Stand September 2026). Hier führen wir dich durch die Installation auf allen drei Betriebssystemen – inklusive der ersten Startvorbereitung.</p>
+<section id="schritt-1-download" class="level2">
+<h2 class="anchored" data-anchor-id="schritt-1-download">Schritt 1: Download</h2>
+<p>Gehe auf die offizielle Download-Seite <a href="https://www.kicad.org/download/">https://www.kicad.org/download/</a> und wähle dein Betriebssystem. <strong>Nimm die stabile Version (10.0.x), nicht die Nightly-Builds</strong> – die sind nur für Tester gedacht.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Immer vom offiziellen Server laden
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Downloade KiCad ausschließlich von kicad.org. Inoffizielle Spiegelserver können veraltete oder veränderte Pakete enthalten.</p>
+</div>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/01-downloadseite.png" class="img-fluid figure-img"></p>
+<figcaption>Download-Seite auf kicad.org – wähle dein Betriebssystem</figcaption>
+</figure>
+</div>
 </section>
-<section id="voraussetzungen" class="level2">
-<h2 class="anchored" data-anchor-id="voraussetzungen">Voraussetzungen</h2>
-<ul>
-<li>KiCad 10 installiert (siehe unseren <a href="../..\posts/2026-09-24-kicad-installation/">Installationsguide</a>)</li>
-<li>Die <strong>.zip-Datei</strong> des Pakets (z. B. vom USB-Stick oder Schulserver)</li>
-<li>Grundlegende Kenntnisse der KiCad-Benutzeroberfläche</li>
-</ul>
-</section>
-<section id="was-ist-der-plugin-and-content-manager" class="level2">
-<h2 class="anchored" data-anchor-id="was-ist-der-plugin-and-content-manager">Was ist der Plugin and Content Manager?</h2>
-<p>Der PCM ist KiCads zentrale Anlaufstelle für Erweiterungen. Er verwaltet vier Arten von <strong>Paketen</strong>:</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 47%">
-<col style="width: 52%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Paketart</th>
-<th>Beispiele</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><strong>Plugins</strong></td>
-<td>Zusatzwerkzeuge im Schaltplan- und PCB-Editor, z. B. BOM-Exporte, DFM-Prüfungen, Bemaßungs-Helfer</td>
-</tr>
-<tr class="even">
-<td><strong>Bibliotheken</strong></td>
-<td>Symbol- und Footprint-Bibliotheken von Herstellern wie SparkFun oder Adafruit</td>
-</tr>
-<tr class="odd">
-<td><strong>3D-Modelle</strong></td>
-<td>STEP-/WRL-Modelle für die 3D-Ansicht</td>
-</tr>
-<tr class="even">
-<td><strong>Farbthemen</strong></td>
-<td>Alternative Farbschemata für die Editoren</td>
-</tr>
-</tbody>
-</table>
-<p>Der PCM kann auch direkt aus dem <strong>offiziellen Repository</strong> (https://plugins.kicad.org) installieren – das ist aber nicht das Thema dieses Beitrags. Hier geht es gezielt um die <strong>.zip-Datei</strong>.</p>
-</section>
-<section id="schritt-1-den-pcm-öffnen" class="level2">
-<h2 class="anchored" data-anchor-id="schritt-1-den-pcm-öffnen">Schritt 1: Den PCM öffnen</h2>
+<section id="schritt-2-windows-1011" class="level2">
+<h2 class="anchored" data-anchor-id="schritt-2-windows-1011">Schritt 2: Windows (10/11)</h2>
 <ol type="1">
-<li>Starte <strong>KiCad</strong> – der Projektmanager genügt.</li>
-<li>Gehe zu <strong>Tools → Plugin and Content Manager</strong></li>
+<li>Lade den <strong>Windows-Installer</strong> (64-bit) als <code>.exe</code> herunter.</li>
+<li><strong>Doppelklick</strong> auf die Datei – Windows fragt ggf. nach einer Freigabe (“Dieser App erlauben, Änderungen vorzunehmen”) → <strong>Ja</strong>.</li>
+<li>Der Installer öffnet sich. Wähle die Sprache (z. B. Deutsch) und akzeptiere die <strong>GPLv3-Lizenz</strong> – die du übrigens tatsächlich lesen kannst, weil sie keine versteckten Klauseln hat.</li>
+<li><strong>Komponentenauswahl:</strong> Standardmäßig wird alles installiert, inklusive der offiziellen Bibliotheken und Support-Pakete für 3D-Modelle. Für Einsteiger: Standard lassen.</li>
+<li>Zielordner bestätigen (Standard: <code>C:\Program Files\KiCad\10.0</code>), <strong>Install</strong> klicken, kurzer Warte-Vorgang, <strong>Finish</strong>.</li>
 </ol>
-<p>Der PCM ist in drei Reiter unterteilt:</p>
-<ul>
-<li><strong>Browse</strong> – alle verfügbaren Pakete aus dem Repository</li>
-<li><strong>Installed</strong> – deine installierten Pakete</li>
-<li><strong>Updates</strong> – Pakete, für die eine neue Version verfügbar ist</li>
-</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/02-windows-komponenten.png" class="img-fluid figure-img"></p>
+<figcaption>Windows-Installer: Komponenten auswählen</figcaption>
+</figure>
+</div>
 </section>
-<section id="schritt-2-plugin-aus-einer-.zip-datei-installieren" class="level2">
-<h2 class="anchored" data-anchor-id="schritt-2-plugin-aus-einer-.zip-datei-installieren">Schritt 2: Plugin aus einer .zip-Datei installieren</h2>
+<section id="schritt-3-macos" class="level2">
+<h2 class="anchored" data-anchor-id="schritt-3-macos">Schritt 3: macOS</h2>
 <ol type="1">
-<li>Hol dir die <strong>.zip-Datei</strong> des Pakets – vom Schulserver</li>
-<li>Klicke im PCM auf die Schaltfläche <strong>Install from File</strong></li>
-<li>Wähle die <strong>.zip-Datei</strong> des Pakets aus und bestätige</li>
-<li>Der PCM liest die <code>metadata.json</code>, prüft die <strong>kompatible KiCad-Version</strong> und installiert das Paket</li>
+<li>Lade die <strong><code>.dmg</code>-Datei</strong> von kicad.org (Apple Silicon oder Intel, je nach Mac).</li>
+<li>Doppelklick auf die <code>.dmg</code> – das Fenster mit dem KiCad-Icon erscheint.</li>
+<li><strong>Ziehe das KiCad-Icon in den Programme-Ordner.</strong></li>
+<li>Erster Start: macOS blockiert ggf. Apps “von einem nicht überprüften Entwickler” (KiCad wird ordnungsgemäß signiert – falls trotzdem eine Meldung kommt: Systemeinstellungen → Sicherheit → <strong>Trotzdem öffnen</strong>).</li>
 </ol>
-<p><strong>Wichtig bei Plugins:</strong> Action-Plugins werden beim Start von KiCad geladen. Nach der Installation starte KiCad einmal neu und öffne den Board Designer.</p>
-<p>Jetzt stehen dir die Inhalte des Plugins zur Verfügung.</p>
-<section id="plugin-testen" class="level3">
-<h3 class="anchored" data-anchor-id="plugin-testen">Plugin testen</h3>
-<section id="in-house-vorlage" class="level4">
-<h4 class="anchored" data-anchor-id="in-house-vorlage">In House Vorlage</h4>
-<ol type="1">
-<li>Starte KiCad neu</li>
-<li>Erstelle ein neues Projekt und überprüfe, ob die Vorlage für die in House Fertigung (<strong>File → New → Project</strong>)</li>
-</ol>
-<p>Taucht der Eintrag auf, war die Installation erfolgreich.</p>
 </section>
-<section id="in-house-bauteile" class="level4">
-<h4 class="anchored" data-anchor-id="in-house-bauteile">In House Bauteile</h4>
-<p>Nachdem du ein Projekt angelegt hast, öffne den Schematic Editor und platziere ein Bauteil. In der <strong>Symbolauswahl</strong> sollte jetzt die Bibliothek für die in House Bauteile verfügbar sein.</p>
+<section id="schritt-4-linux" class="level2">
+<h2 class="anchored" data-anchor-id="schritt-4-linux">Schritt 4: Linux</h2>
+<section id="ubuntu-debian-und-derivate" class="level3">
+<h3 class="anchored" data-anchor-id="ubuntu-debian-und-derivate">Ubuntu / Debian (und Derivate)</h3>
+<p>Das offizielle KiCad-Team pflegt ein stabiles PPA:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> add-apt-repository ppa:kicad/kicad-10.0-releases</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt update</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt install kicad</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="fedora" class="level3">
+<h3 class="anchored" data-anchor-id="fedora">Fedora</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> dnf install kicad</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="arch-linux" class="level3">
+<h3 class="anchored" data-anchor-id="arch-linux">Arch Linux</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> pacman <span class="at">-S</span> kicad</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+</section>
+<section id="schritt-5-erster-start-projekt-anlegen" class="level2">
+<h2 class="anchored" data-anchor-id="schritt-5-erster-start-projekt-anlegen">Schritt 5: Erster Start – Projekt anlegen</h2>
+<ol type="1">
+<li>Starte <strong>KiCad</strong> (Windows: Startmenü; macOS: Programme; Linux: <code>kicad &amp;</code>).</li>
+<li>Der Projektmanager begrüßt dich – ohne Login, ohne Aktivierung, direkt einsatzbereit.</li>
+<li><strong>File → New Project</strong>, Name vergeben (z. B. <code>blinkende-led</code>), Speicherort wählen.</li>
+<li>Du hast jetzt Schaltplan (<code>.kicad_sch</code>) und Board (<code>.kicad_pcb</code>) in einem Projekt – beide öffnest du direkt aus dem Projektmanager.</li>
+</ol>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/04-projektmanager.png" class="img-fluid figure-img"></p>
+<figcaption>KiCad-Projektmanager mit frisch angelegtem Projekt</figcaption>
+</figure>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Tipp: Englisch behalten
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Da die englischen Begriffe in Tutorials und Foren üblich sind, ist es oft einfacher, die englische Oberfläche zu nutzen. Du kannst jederzeit unter <strong>Preferences → Set Language</strong> wechseln.</p>
+</div>
+</div>
+</section>
+<section id="schritt-6-sprachpaket-optional" class="level2">
+<h2 class="anchored" data-anchor-id="schritt-6-sprachpaket-optional">Schritt 6: Sprachpaket (optional)</h2>
+<p>Falls KiCad nicht auf Deutsch startet: <strong>Preferences → Set Language → German</strong>, anschließend KiCad neu starten. Die Übersetzungen kommen direkt mit dem Installer.</p>
+</section>
+<section id="troubleshooting" class="level2">
+<h2 class="anchored" data-anchor-id="troubleshooting">Troubleshooting</h2>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Note
+<span class="screen-reader-only">Note</span>Häufige Fehler
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Für mehr übersichtlichkeit können die mit KiCAD installierten Bibliotheken in den Einstellungen unter <strong>Preferences → Manage Symbol Libraries</strong> und <strong>Preferences → Manage Footprint Libraries</strong> verwaltet werden. Dort können Bibliotheken aktiviert, deaktiviert oder priorisiert werden.</p>
+<ul>
+<li><strong>Windows:</strong> Installer bricht ab → als Administrator ausführen.</li>
+<li><strong>macOS:</strong> “App ist beschädigt” → <code>xattr -cr /Applications/kicad.app</code> im Terminal ausführen (passiert selten beim offiziellen Download).</li>
+<li><strong>Linux:</strong> PPA-Fehler → Distribution prüfen; auf Debian ggf. das offizielle KiCad-Repository verwenden.</li>
+</ul>
 </div>
 </div>
 </section>
-</section>
-</section>
-<section id="schritt-3-pakete-verwalten" class="level2">
-<h2 class="anchored" data-anchor-id="schritt-3-pakete-verwalten">Schritt 3: Pakete verwalten</h2>
-<section id="aktualisieren" class="level3">
-<h3 class="anchored" data-anchor-id="aktualisieren">Aktualisieren</h3>
-<p>Einfach eine aktuellere Version des Plugins wie oben beschrieben installieren – der PCM ersetzt die alte Version automatisch.</p>
+<section id="nächste-schritte" class="level2">
+<h2 class="anchored" data-anchor-id="nächste-schritte">Nächste Schritte</h2>
+<p>Jetzt, wo KiCad läuft, kannst du direkt loslegen: Öffne die mitgelieferten Demoprojekte unter <code>File → Open Demo Project</code> – oder wirf einen Blick auf die offizielle Dokumentation: <a href="https://docs.kicad.org">https://docs.kicad.org</a></p>
+<p>Viel Erfolg beim ersten eigenen Board!</p>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->

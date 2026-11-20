@@ -2,62 +2,33 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.24">
+<meta name="generator" content="quarto-1.10.19">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Human">
 <meta name="author" content="Mistral Vibe (KI Assistent)">
-<meta name="dcterms.date" content="2026-10-08">
-<meta name="description" content="Installation von KiCad 10">
+<meta name="dcterms.date" content="2026-11-26">
+<meta name="description" content="Lerne, wie du in KiCad eine einfache RC-Schaltung simulierst und die Ladung eines Kondensators analysierst – inklusive Zeitkonstante und Spannungsverlauf.">
 
-<title>KiCad 10 installieren – KiCad Blog</title>
+<title>KiCad: Kondensator-Ladung simulieren – Schritt-für-Schritt Anleitung – KiCad Blog</title>
 <style>
-code{white-space: pre-wrap;}
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -71,15 +42,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <meta name="quarto:offset" content="../../">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-e31584831b205ffbb2d98406f31c2a5b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-172ba59bd5e0b52282274ba0c0cc16fc.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -108,14 +78,43 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../../styles.css">
-<meta property="og:title" content="KiCad 10 installieren – KiCad Blog">
-<meta property="og:description" content="Installation von KiCad 10">
-<meta property="og:image" content="https://alfred-hermes-bot.github.io/kicad-blog/posts/2026-09-24-kicad-installation/images/01-downloadseite.png">
+<meta property="og:title" content="KiCad: Kondensator-Ladung simulieren – Schritt-für-Schritt Anleitung – KiCad Blog">
+<meta property="og:description" content="Lerne, wie du in KiCad eine einfache RC-Schaltung simulierst und die Ladung eines Kondensators analysierst – inklusive Zeitkonstante und Spannungsverlauf.">
+<meta property="og:image" content="https://alfred-hermes-bot.github.io/kicad-blog/posts/04-kicad-kondensator-simulation/images/01-neues-projekt.png">
 <meta property="og:site_name" content="KiCad Blog">
-<meta property="og:image:height" content="291">
-<meta property="og:image:width" content="806">
+<meta property="og:image:height" content="368">
+<meta property="og:image:width" content="666">
 </head>
 
 <body class="nav-fixed quarto-light">
@@ -125,8 +124,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
-    </a>
     <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">KiCad Blog</span>
     </a>
@@ -161,17 +158,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#schritt-1-download" id="toc-schritt-1-download" class="nav-link active" data-scroll-target="#schritt-1-download">Schritt 1: Download</a></li>
-  <li><a href="#schritt-2-windows-1011" id="toc-schritt-2-windows-1011" class="nav-link" data-scroll-target="#schritt-2-windows-1011">Schritt 2: Windows (10/11)</a></li>
-  <li><a href="#schritt-3-macos" id="toc-schritt-3-macos" class="nav-link" data-scroll-target="#schritt-3-macos">Schritt 3: macOS</a></li>
-  <li><a href="#schritt-4-linux" id="toc-schritt-4-linux" class="nav-link" data-scroll-target="#schritt-4-linux">Schritt 4: Linux</a>
+  <li><a href="#was-du-lernst" id="toc-was-du-lernst" class="nav-link active" data-scroll-target="#was-du-lernst">Was du lernst</a></li>
+  <li><a href="#voraussetzungen" id="toc-voraussetzungen" class="nav-link" data-scroll-target="#voraussetzungen">Voraussetzungen</a></li>
+  <li><a href="#schritt-1-neues-projekt-anlegen" id="toc-schritt-1-neues-projekt-anlegen" class="nav-link" data-scroll-target="#schritt-1-neues-projekt-anlegen">Schritt 1: Neues Projekt anlegen</a></li>
+  <li><a href="#schritt-2-rc-schaltung-aufbauen" id="toc-schritt-2-rc-schaltung-aufbauen" class="nav-link" data-scroll-target="#schritt-2-rc-schaltung-aufbauen">Schritt 2: RC-Schaltung aufbauen</a>
   <ul class="collapse">
-  <li><a href="#ubuntu-debian-und-derivate" id="toc-ubuntu-debian-und-derivate" class="nav-link" data-scroll-target="#ubuntu-debian-und-derivate">Ubuntu / Debian (und Derivate)</a></li>
-  <li><a href="#fedora" id="toc-fedora" class="nav-link" data-scroll-target="#fedora">Fedora</a></li>
-  <li><a href="#arch-linux" id="toc-arch-linux" class="nav-link" data-scroll-target="#arch-linux">Arch Linux</a></li>
+  <li><a href="#verbindung-herstellen" id="toc-verbindung-herstellen" class="nav-link" data-scroll-target="#verbindung-herstellen">Verbindung herstellen</a></li>
   </ul></li>
-  <li><a href="#schritt-5-erster-start-projekt-anlegen" id="toc-schritt-5-erster-start-projekt-anlegen" class="nav-link" data-scroll-target="#schritt-5-erster-start-projekt-anlegen">Schritt 5: Erster Start – Projekt anlegen</a></li>
-  <li><a href="#troubleshooting" id="toc-troubleshooting" class="nav-link" data-scroll-target="#troubleshooting">Troubleshooting</a></li>
+  <li><a href="#schritt-3-simulation-einrichten" id="toc-schritt-3-simulation-einrichten" class="nav-link" data-scroll-target="#schritt-3-simulation-einrichten">Schritt 3: Simulation einrichten</a>
+  <ul class="collapse">
+  <li><a href="#methode-a-spice-direktiven-im-schaltplan" id="toc-methode-a-spice-direktiven-im-schaltplan" class="nav-link" data-scroll-target="#methode-a-spice-direktiven-im-schaltplan">Methode A: SPICE-Direktiven im Schaltplan</a></li>
+  <li><a href="#methode-b-simulations-gui" id="toc-methode-b-simulations-gui" class="nav-link" data-scroll-target="#methode-b-simulations-gui">Methode B: Simulations-GUI</a></li>
+  </ul></li>
+  <li><a href="#schritt-4-simulation-durchführen" id="toc-schritt-4-simulation-durchführen" class="nav-link" data-scroll-target="#schritt-4-simulation-durchführen">Schritt 4: Simulation durchführen</a></li>
+  <li><a href="#schritt-5-ergebnisse-analysieren" id="toc-schritt-5-ergebnisse-analysieren" class="nav-link" data-scroll-target="#schritt-5-ergebnisse-analysieren">Schritt 5: Ergebnisse analysieren</a>
+  <ul class="collapse">
+  <li><a href="#spannungsverlauf-am-kondensator" id="toc-spannungsverlauf-am-kondensator" class="nav-link" data-scroll-target="#spannungsverlauf-am-kondensator">Spannungsverlauf am Kondensator</a></li>
+  <li><a href="#wichtige-zeitpunkte" id="toc-wichtige-zeitpunkte" class="nav-link" data-scroll-target="#wichtige-zeitpunkte">Wichtige Zeitpunkte</a></li>
+  <li><a href="#zeitkonstante-tau" id="toc-zeitkonstante-tau" class="nav-link" data-scroll-target="#zeitkonstante-tau">Zeitkonstante (<span class="math inline">\(\tau\)</span>)</a></li>
+  <li><a href="#stromverlauf" id="toc-stromverlauf" class="nav-link" data-scroll-target="#stromverlauf">Stromverlauf</a></li>
+  </ul></li>
+  <li><a href="#schritt-6-simulation-anpassen-optional" id="toc-schritt-6-simulation-anpassen-optional" class="nav-link" data-scroll-target="#schritt-6-simulation-anpassen-optional">Schritt 6: Simulation anpassen (optional)</a></li>
+  <li><a href="#theorieteil-mathematische-grundlagen" id="toc-theorieteil-mathematische-grundlagen" class="nav-link" data-scroll-target="#theorieteil-mathematische-grundlagen">Theorieteil: Mathematische Grundlagen</a></li>
+  <li><a href="#tipps" id="toc-tipps" class="nav-link" data-scroll-target="#tipps">Tipps</a></li>
   <li><a href="#nächste-schritte" id="toc-nächste-schritte" class="nav-link" data-scroll-target="#nächste-schritte">Nächste Schritte</a></li>
   </ul>
 </nav>
@@ -181,17 +190,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">KiCad 10 installieren</h1>
+<h1 class="title">KiCad: Kondensator-Ladung simulieren – Schritt-für-Schritt Anleitung</h1>
   <div class="quarto-categories">
     <div class="quarto-category">Anleitung</div>
-    <div class="quarto-category">Installation</div>
+    <div class="quarto-category">Simulation</div>
     <div class="quarto-category">KiCad</div>
+    <div class="quarto-category">RC-Schaltung</div>
   </div>
   </div>
 
 <div>
   <div class="description">
-    Installation von KiCad 10
+    Lerne, wie du in KiCad eine einfache RC-Schaltung simulierst und die Ladung eines Kondensators analysierst – inklusive Zeitkonstante und Spannungsverlauf.
   </div>
 </div>
 
@@ -209,7 +219,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">October 8, 2026</p>
+      <p class="date">November 26, 2026</p>
     </div>
   </div>
   
@@ -221,85 +231,75 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>KiCad 10 ist die aktuelle stabile Version (Stand September 2026). Hier führen wir dich durch die Installation auf allen drei Betriebssystemen – inklusive der ersten Startvorbereitung.</p>
-<section id="schritt-1-download" class="level2">
-<h2 class="anchored" data-anchor-id="schritt-1-download">Schritt 1: Download</h2>
-<p>Gehe auf die offizielle Download-Seite <a href="https://www.kicad.org/download/">https://www.kicad.org/download/</a> und wähle dein Betriebssystem. <strong>Nimm die stabile Version (10.0.x), nicht die Nightly-Builds</strong> – die sind nur für Tester gedacht.</p>
-<div class="callout callout-style-default callout-warning callout-titled">
+<p>In diesem Beitrag simulieren wir eine einfache <strong>RC-Schaltung (Widerstand-Kondensator)</strong> mit dem eingebauten <strong>ngspice</strong>-Simulator und untersuchen die Ladung des Kondensators.</p>
+<div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Immer vom offiziellen Server laden
+<span class="screen-reader-only">Important</span>Wir arbeiten mit dem InHouse-Plug-in
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Downloade KiCad ausschließlich von kicad.org. Inoffizielle Spiegelserver können veraltete oder veränderte Pakete enthalten.</p>
+<p>Diese Anleitung nutzt <strong>ausschließlich die Bauteile aus dem InHouse-Plug-in</strong> und das Projekt wird mit der <strong>InHouse-Vorlage</strong> angelegt. Falls noch nicht geschehen: <a href="../../posts/02-kicad-inhouse-plugin/">InHouse-Plug-in installieren</a> – dort steht auch, wie du die Standard-Bibliotheken deaktivierst, sodass nur die InHouse-Bauteile erscheinen.</p>
 </div>
 </div>
+<section id="was-du-lernst" class="level2">
+<h2 class="anchored" data-anchor-id="was-du-lernst">Was du lernst</h2>
+<ul>
+<li>Eine RC-Schaltung in KiCad erstellen<br>
+</li>
+<li>Die Simulation einrichten und durchführen<br>
+</li>
+<li>Den Ladungsverlauf des Kondensators analysieren<br>
+</li>
+<li>Die Zeitkonstante verstehen und berechnen</li>
+</ul>
+</section>
+<section id="voraussetzungen" class="level2">
+<h2 class="anchored" data-anchor-id="voraussetzungen">Voraussetzungen</h2>
+<ul>
+<li>KiCad 10 installiert (siehe <a href="../../posts/01-kicad-installation/">Installationsguide</a>)</li>
+<li><strong>InHouse-Plug-in</strong> installiert (siehe <a href="../../posts/02-kicad-inhouse-plugin/">InHouse-Plug-in installieren</a>)</li>
+<li>InHouse-Bibliotheken eingerichtet (siehe <a href="../../posts/03-kicad-bibliotheken-als-plugin/">Eigene Bibliotheken als Plug-in installieren</a>)</li>
+</ul>
+</section>
+<section id="schritt-1-neues-projekt-anlegen" class="level2">
+<h2 class="anchored" data-anchor-id="schritt-1-neues-projekt-anlegen">Schritt 1: Neues Projekt anlegen</h2>
+<ol type="1">
+<li><strong>File → New Project from Template…</strong>, wähle die <strong>InHouse Template</strong></li>
+<li>Name: <code>rc-simulation</code>, Speicherort wählen</li>
+<li>Öffne den <strong>Schaltplan-Editor (Eeschema)</strong> über den Projektmanager</li>
+</ol>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/01-downloadseite.png" class="img-fluid figure-img"></p>
-<figcaption>Download-Seite auf kicad.org – wähle dein Betriebssystem</figcaption>
+<p><img src="images/01-neues-projekt.png" class="img-fluid figure-img"></p>
+<figcaption>Neues KiCad-Projekt erstellen</figcaption>
 </figure>
 </div>
 </section>
-<section id="schritt-2-windows-1011" class="level2">
-<h2 class="anchored" data-anchor-id="schritt-2-windows-1011">Schritt 2: Windows (10/11)</h2>
+<section id="schritt-2-rc-schaltung-aufbauen" class="level2">
+<h2 class="anchored" data-anchor-id="schritt-2-rc-schaltung-aufbauen">Schritt 2: RC-Schaltung aufbauen</h2>
+<p>Alle Symbole kommen aus der <strong>InHouse-Symbolbibliothek</strong> – im Dialog <strong>Symbol wählen (Choose Symbol)</strong> (<strong>A</strong>) erscheinen ohnehin nur noch die InHouse-Bauteile.</p>
 <ol type="1">
-<li>Lade den <strong>Windows-Installer</strong> (64-bit) als <code>.exe</code> herunter.</li>
-<li><strong>Doppelklick</strong> auf die Datei – Windows fragt ggf. nach einer Freigabe (“Dieser App erlauben, Änderungen vorzunehmen”) → <strong>Ja</strong>.</li>
-<li>Der Installer öffnet sich. Wähle die Sprache (z. B. Deutsch) und akzeptiere die <strong>GPLv3-Lizenz</strong> – die du übrigens tatsächlich lesen kannst, weil sie keine versteckten Klauseln hat.</li>
-<li><strong>Komponentenauswahl:</strong> Standardmäßig wird alles installiert, inklusive der offiziellen Bibliotheken und Support-Pakete für 3D-Modelle. Für Einsteiger: Standard lassen.</li>
-<li>Zielordner bestätigen (Standard: <code>C:\Program Files\KiCad\10.0</code>), <strong>Install</strong> klicken, kurzer Warte-Vorgang, <strong>Finish</strong>.</li>
+<li><strong>Spannungsquelle (VDC):</strong> platzieren, <strong>Value = <span class="math inline">\(10\, \text{V}\)</span></strong></li>
+<li><strong>Widerstand (R):</strong> in Reihe, <strong>Value = <span class="math inline">\(10\, \text{kΩ}\)</span></strong></li>
+<li><strong>Kondensator (C):</strong> parallel zu GND, <strong>Value = <span class="math inline">\(100\, \text{µF}\)</span></strong></li>
+<li><strong>GND (Masse):</strong> ans untere Ende</li>
 </ol>
+<section id="verbindung-herstellen" class="level3">
+<h3 class="anchored" data-anchor-id="verbindung-herstellen">Verbindung herstellen</h3>
+<p>Mit dem <strong>Wire-Tool (W)</strong> verbinden:</p>
+<ul>
+<li>Quelle (+) → Widerstand → Kondensator</li>
+<li>Kondensator und Quelle (−) → GND</li>
+</ul>
+<p>Deine Schaltung sollte so aussehen:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/02-windows-komponenten.png" class="img-fluid figure-img"></p>
-<figcaption>Windows-Installer: Komponenten auswählen</figcaption>
-</figure>
-</div>
-</section>
-<section id="schritt-3-macos" class="level2">
-<h2 class="anchored" data-anchor-id="schritt-3-macos">Schritt 3: macOS</h2>
-<ol type="1">
-<li>Lade die <strong><code>.dmg</code>-Datei</strong> von kicad.org (Apple Silicon oder Intel, je nach Mac).</li>
-<li>Doppelklick auf die <code>.dmg</code> – das Fenster mit dem KiCad-Icon erscheint.</li>
-<li><strong>Ziehe das KiCad-Icon in den Programme-Ordner.</strong></li>
-<li>Erster Start: macOS blockiert ggf. Apps “von einem nicht überprüften Entwickler” (KiCad wird ordnungsgemäß signiert – falls trotzdem eine Meldung kommt: Systemeinstellungen → Sicherheit → <strong>Trotzdem öffnen</strong>).</li>
-</ol>
-</section>
-<section id="schritt-4-linux" class="level2">
-<h2 class="anchored" data-anchor-id="schritt-4-linux">Schritt 4: Linux</h2>
-<section id="ubuntu-debian-und-derivate" class="level3">
-<h3 class="anchored" data-anchor-id="ubuntu-debian-und-derivate">Ubuntu / Debian (und Derivate)</h3>
-<p>Das offizielle KiCad-Team pflegt ein stabiles PPA:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> add-apt-repository ppa:kicad/kicad-10.0-releases</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt update</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt install kicad</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="fedora" class="level3">
-<h3 class="anchored" data-anchor-id="fedora">Fedora</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> dnf install kicad</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="arch-linux" class="level3">
-<h3 class="anchored" data-anchor-id="arch-linux">Arch Linux</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> pacman <span class="at">-S</span> kicad</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-</section>
-<section id="schritt-5-erster-start-projekt-anlegen" class="level2">
-<h2 class="anchored" data-anchor-id="schritt-5-erster-start-projekt-anlegen">Schritt 5: Erster Start – Projekt anlegen</h2>
-<ol type="1">
-<li>Starte <strong>KiCad</strong> (Windows: Startmenü; macOS: Programme; Linux: <code>kicad &amp;</code>).</li>
-<li>Der Projektmanager begrüßt dich – ohne Login, ohne Aktivierung, direkt einsatzbereit.</li>
-<li><strong>File → New Project</strong>, Name vergeben (z. B. <code>blinkende-led</code>), Speicherort wählen.</li>
-<li>Du hast jetzt Schaltplan (<code>.kicad_sch</code>) und Board (<code>.kicad_pcb</code>) in einem Projekt – beide öffnest du direkt aus dem Projektmanager.</li>
-</ol>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/04-projektmanager.png" class="img-fluid figure-img"></p>
-<figcaption>KiCad-Projektmanager mit frisch angelegtem Projekt</figcaption>
+<p><img src="images/02-rc-schaltung.png" class="img-fluid figure-img"></p>
+<figcaption>RC-Schaltung im KiCad Schaltplan-Editor</figcaption>
 </figure>
 </div>
 <div class="callout callout-style-default callout-tip callout-titled">
@@ -308,37 +308,226 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Tipp: Englisch behalten
+<span class="screen-reader-only">Tip</span>Tipp: Netznamen zuweisen
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Da die englischen Begriffe in Tutorials und Foren üblich sind, ist es oft einfacher, die englische Oberfläche zu nutzen. Du kannst jederzeit unter <strong>Preferences → Set Language</strong> wechseln.</p>
+<p>Setze mit dem <strong>Label-Tool (L)</strong> die Netznamen <strong><span class="math inline">\(U_C\)</span></strong> (zwischen Widerstand und Kondensator) und <strong><span class="math inline">\(U_{in}\)</span></strong> (an der Quelle).</p>
 </div>
 </div>
 </section>
-<section id="troubleshooting" class="level2">
-<h2 class="anchored" data-anchor-id="troubleshooting">Troubleshooting</h2>
+</section>
+<section id="schritt-3-simulation-einrichten" class="level2">
+<h2 class="anchored" data-anchor-id="schritt-3-simulation-einrichten">Schritt 3: Simulation einrichten</h2>
+<p>Es gibt zwei Methoden – wähle eine:</p>
+<section id="methode-a-spice-direktiven-im-schaltplan" class="level3">
+<h3 class="anchored" data-anchor-id="methode-a-spice-direktiven-im-schaltplan">Methode A: SPICE-Direktiven im Schaltplan</h3>
+<p><strong>Place → Add SPICE Directive</strong> (<strong>S</strong>), dann einfügen:</p>
+<pre class="spice"><code>.tran 0.01 5 0
+.ic V(U_C)=0
+.plot tran V(U_C) V(U_in)</code></pre>
+<ul>
+<li><code>.tran 0.01 5 0</code> – Schrittwerte <span class="math inline">\(0{,}01\, \text{s}\)</span>, Dauer <span class="math inline">\(5\, \text{s}\)</span></li>
+<li><code>.ic V(U_C)=0</code> – Kondensator startet entladen</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/03-spice-direktiven.png" class="img-fluid figure-img"></p>
+<figcaption>SPICE-Direktiven im Schaltplan</figcaption>
+</figure>
+</div>
+</section>
+<section id="methode-b-simulations-gui" class="level3">
+<h3 class="anchored" data-anchor-id="methode-b-simulations-gui">Methode B: Simulations-GUI</h3>
+<ol type="1">
+<li><strong>View → Simulation → Simulation Frame</strong></li>
+<li><strong>Add Signal:</strong> <code>V(U_C)</code>, <code>V(U_in)</code>, optional <code>I(C1)</code></li>
+<li><strong>Simulation Settings:</strong> Transient, Stop Time <span class="math inline">\(5\, \text{s}\)</span>, Time Step <span class="math inline">\(0{,}01\, \text{s}\)</span></li>
+</ol>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/04-simulationseinstellungen.png" class="img-fluid figure-img"></p>
+<figcaption>Simulations-Einstellungen</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="schritt-4-simulation-durchführen" class="level2">
+<h2 class="anchored" data-anchor-id="schritt-4-simulation-durchführen">Schritt 4: Simulation durchführen</h2>
+<p>▶ klicken (oder <strong>Simulation → Run Simulation</strong>) – das Ergebnis erscheint im Simulationsfenster.</p>
+</section>
+<section id="schritt-5-ergebnisse-analysieren" class="level2">
+<h2 class="anchored" data-anchor-id="schritt-5-ergebnisse-analysieren">Schritt 5: Ergebnisse analysieren</h2>
+<section id="spannungsverlauf-am-kondensator" class="level3">
+<h3 class="anchored" data-anchor-id="spannungsverlauf-am-kondensator">Spannungsverlauf am Kondensator</h3>
+<p>Exponentieller Anstieg von <span class="math inline">\(0\, \text{V}\)</span> auf <span class="math inline">\(10\, \text{V}\)</span>:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/05-ladespannung.png" class="img-fluid figure-img"></p>
+<figcaption>Kondensator-Ladespannung über die Zeit</figcaption>
+</figure>
+</div>
+</section>
+<section id="wichtige-zeitpunkte" class="level3">
+<h3 class="anchored" data-anchor-id="wichtige-zeitpunkte">Wichtige Zeitpunkte</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Zeit in <span class="math inline">\(\text{s}\)</span></th>
+<th><span class="math inline">\(U_C\)</span> in <span class="math inline">\(\text{V}\)</span></th>
+<th>% der Endspannung</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0,00</td>
+<td>0,0000</td>
+<td>0,0 %</td>
+</tr>
+<tr class="even">
+<td>0,50</td>
+<td>3,9347</td>
+<td>39,3 %</td>
+</tr>
+<tr class="odd">
+<td><strong>1,00</strong></td>
+<td><strong>6,3212</strong></td>
+<td><strong>63,2 %</strong></td>
+</tr>
+<tr class="even">
+<td>1,50</td>
+<td>7,7687</td>
+<td>77,7 %</td>
+</tr>
+<tr class="odd">
+<td><strong>2,00</strong></td>
+<td><strong>8,6466</strong></td>
+<td><strong>86,5 %</strong></td>
+</tr>
+<tr class="even">
+<td>3,00</td>
+<td>9,5021</td>
+<td>95,0 %</td>
+</tr>
+<tr class="odd">
+<td><strong>5,00</strong></td>
+<td><strong>9,9326</strong></td>
+<td><strong>99,3 %</strong></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="zeitkonstante-tau" class="level3">
+<h3 class="anchored" data-anchor-id="zeitkonstante-tau">Zeitkonstante (<span class="math inline">\(\tau\)</span>)</h3>
+<p><span class="math display">\[\tau = R \cdot C = 10\, \text{kΩ} \cdot 100\, \text{µF} = 1\, \text{s}\]</span></p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Häufige Fehler
+<span class="screen-reader-only">Note</span>Wichtige Regel
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Nach <strong>1 τ (1 Sekunde)</strong> ist der Kondensator zu <strong>63,2 %</strong> geladen.<br>
+Nach <strong>5 τ (5 Sekunden)</strong> gilt er als vollständig geladen (<strong>99,3 %</strong>).</p>
+</div>
+</div>
+</section>
+<section id="stromverlauf" class="level3">
+<h3 class="anchored" data-anchor-id="stromverlauf">Stromverlauf</h3>
+<p>Der Ladestrom nimmt exponentiell ab: <span class="math inline">\(I_0 = \frac{U_0}{R} = 1\, \text{mA}\)</span>, nach <span class="math inline">\(1\, \text{s}\)</span> ca. <span class="math inline">\(0{,}37\, \text{mA}\)</span>, nach <span class="math inline">\(2\, \text{s}\)</span> ca. <span class="math inline">\(0{,}14\, \text{mA}\)</span>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/06-ladestrom.png" class="img-fluid figure-img"></p>
+<figcaption>Ladestrom über die Zeit</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="schritt-6-simulation-anpassen-optional" class="level2">
+<h2 class="anchored" data-anchor-id="schritt-6-simulation-anpassen-optional">Schritt 6: Simulation anpassen (optional)</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Widerstand (<span class="math inline">\(R\)</span>)</th>
+<th>Kapazität (<span class="math inline">\(C\)</span>)</th>
+<th>Zeitkonstante <span class="math inline">\(\tau\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(10\, \text{kΩ}\)</span></td>
+<td><span class="math inline">\(100\, \text{µF}\)</span></td>
+<td><span class="math inline">\(1\, \text{s}\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(10\, \text{kΩ}\)</span></td>
+<td><span class="math inline">\(10\, \text{µF}\)</span></td>
+<td><span class="math inline">\(0{,}1\, \text{s}\)</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(100\, \text{kΩ}\)</span></td>
+<td><span class="math inline">\(100\, \text{µF}\)</span></td>
+<td><span class="math inline">\(10\, \text{s}\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(1\, \text{kΩ}\)</span></td>
+<td><span class="math inline">\(1\, \text{mF}\)</span></td>
+<td><span class="math inline">\(1\, \text{s}\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Für schnellere Schaltungen: Stop Time <span class="math inline">\(1\, \text{s}\)</span>, Time Step <span class="math inline">\(0{,}001\, \text{s}\)</span>. Für langsamere: Stop Time <span class="math inline">\(20\, \text{s}\)</span>, Time Step <span class="math inline">\(0{,}1\, \text{s}\)</span>.</p>
+</section>
+<section id="theorieteil-mathematische-grundlagen" class="level2">
+<h2 class="anchored" data-anchor-id="theorieteil-mathematische-grundlagen">Theorieteil: Mathematische Grundlagen</h2>
+<p>Ladespannung und Ladestrom:</p>
+<p><span class="math display">\[U_C(t) = U_0 \cdot \left(1 - e^{-\frac{t}{\tau}}\right) \qquad I(t) = \frac{U_0}{R} \cdot e^{-\frac{t}{\tau}}\]</span></p>
+<p>mit <span class="math inline">\(U_0 = 10\, \text{V}\)</span>, <span class="math inline">\(\tau = R \cdot C\)</span>.</p>
+</section>
+<section id="tipps" class="level2">
+<h2 class="anchored" data-anchor-id="tipps">Tipps</h2>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Simulation speichern
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Die Simulationseinstellungen lassen sich im Simulationsfenster als <code>.spice</code>-Datei speichern (<strong>File → Save</strong>) und später wieder laden.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Häufige Fehler
 </div>
 </div>
 <div class="callout-body-container callout-body">
 <ul>
-<li><strong>Windows:</strong> Installer bricht ab → als Administrator ausführen.</li>
-<li><strong>macOS:</strong> “App ist beschädigt” → <code>xattr -cr /Applications/kicad.app</code> im Terminal ausführen (passiert selten beim offiziellen Download).</li>
-<li><strong>Linux:</strong> PPA-Fehler → Distribution prüfen; auf Debian ggf. das offizielle KiCad-Repository verwenden.</li>
+<li><strong>Keine GND-Verbindung:</strong> Jede Schaltung braucht einen Masseanschluss</li>
+<li><strong>Falsche Einheiten:</strong> auf kΩ, µF, mF achten</li>
+<li><strong>Zu großer Zeitschritt:</strong> bei schnellen Vorgängen kleinere Schritte wählen</li>
 </ul>
 </div>
 </div>
 </section>
 <section id="nächste-schritte" class="level2">
 <h2 class="anchored" data-anchor-id="nächste-schritte">Nächste Schritte</h2>
-<p>Jetzt, wo KiCad läuft, kannst du direkt loslegen: Installiere die In House Libary! <a href="../../posts/2026-10-09-kicad-inhouse-bauteile-und-vorlagen/index.html">KiCad: Plugins installieren</a>. Viel Erfolg beim ersten eigenen Board!</p>
+<ul>
+<li><strong>Filter-Schaltungen</strong> simulieren (Tiefpass, Hochpass)</li>
+<li><strong>Oszillator-Schaltungen</strong> analysieren</li>
+<li><strong>Komplexere Schaltungen</strong> mit mehreren RC-Gliedern aufbauen</li>
+</ul>
+<p>Im nächsten Beitrag wird aus dieser Simulation eine <a href="../../posts/05-kicad-schaltung-zu-platine/">echte Platine</a>.</p>
 
 
 </section>
