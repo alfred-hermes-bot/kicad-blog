@@ -1,7 +1,7 @@
 ---
 title: "KiCad: Kondensator-Ladung simulieren – Schritt-für-Schritt Anleitung"
 author: ["Human", "Mistral Vibe (KI Assistent)"]
-order: 5
+order: 4
 date: 2026-11-26
 categories: [Anleitung, Simulation, KiCad, RC-Schaltung]
 description: "Lerne, wie du in KiCad eine einfache RC-Schaltung simulierst und die Ladung eines Kondensators analysierst – inklusive Zeitkonstante und Spannungsverlauf."

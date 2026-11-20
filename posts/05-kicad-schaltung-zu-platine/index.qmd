@@ -1,14 +1,14 @@
 ---
-title: "KiCad: Von der Simulation zur Platine"
+title: "KiCad: Von der Schaltung zur Platine"
 author: ["Human", "Mistral Vibe (KI Assistent)"]
-order: 4
+order: 5
 date: 2026-11-28
 categories: [Anleitung, PCB-Design, KiCad, RC-Schaltung]
 description: "Verwandle die simulierte RC-Schaltung in eine echte Leiterplatte: ersetze die Simulationsquelle durch eine Stiftleiste, ergänze eine Stiftleiste am Ausgang, weise Footprints zu, route die Platine und exportiere die Fertigungsdaten."
 
 ---
 
-Im [Simulationsbeitrag](/posts/05-kicad-kondensator-simulation/)
+Im [Simulationsbeitrag](/posts/04-kicad-kondensator-simulation/)
 haben wir eine RC-Schaltung aufgebaut und die Ladung des Kondensators in
 ngspice beobachtet. Jetzt machen wir daraus eine **echte Platine**. Dabei
 ändert sich die Schaltung an einer entscheidenden Stelle: Die
@@ -28,7 +28,7 @@ die reale Ladekurve messen und mit der Simulation vergleichen kannst.
 ## Voraussetzungen
 
 - KiCad 10 installiert (siehe unseren [Installationsguide](/posts/01-kicad-installation/))
-- Du hast die [Kondensator-Simulation](/posts/05-kicad-kondensator-simulation/) durchgeführt – wir bauen direkt auf deren Schaltung auf
+- Du hast die [Kondensator-Simulation](/posts/04-kicad-kondensator-simulation/) durchgeführt – wir bauen direkt auf deren Schaltung auf
 
 ## Schritt 1: Projekt vorbereiten
 
@@ -217,7 +217,7 @@ Die Stiftleiste **J2 am Ausgang** hat die gleiche Aufgabe in die andere
 Richtung: Sie führt das Netz $U_C$ heraus, das wir in der Simulation
 geplottet haben. Mit einem Multimeter an J2 kannst du die **reale
 Ladekurve** messen und mit der Tabelle aus dem
-[Simulationsbeitrag](/posts/05-kicad-kondensator-simulation/)
+[Simulationsbeitrag](/posts/04-kicad-kondensator-simulation/)
 vergleichen. Die Physik ändert sich nicht: Mit $R = 10\, \text{kΩ}$ und
 $C = 100\, \text{µF}$ gilt weiterhin $\tau = R \cdot C = 1\, \text{s}$ –
 nach etwa 5 Sekunden ist der Kondensator praktisch voll geladen.
