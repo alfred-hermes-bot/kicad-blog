@@ -5,7 +5,7 @@ order: 5
 date: 2026-11-28
 categories: [Anleitung, PCB-Design, KiCad, RC-Schaltung]
 description: "Verwandle die simulierte RC-Schaltung in eine echte Leiterplatte: ersetze die Simulationsquelle durch eine Stiftleiste, ergänze eine Stiftleiste am Ausgang, weise Footprints zu, route die Platine und exportiere die Fertigungsdaten."
-
+draft: true
 ---
 
 Im [Simulationsbeitrag](/posts/04-kicad-kondensator-simulation/)
