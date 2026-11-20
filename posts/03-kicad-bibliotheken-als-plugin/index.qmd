@@ -2,7 +2,7 @@
 title: "KiCad: Bibliotheken als Plug-in installieren"
 author: ["Human", "Mistral Vibe (KI Assistent)"]
 order: 3
-date: 2026-10-09
+date: 2026-11-25
 categories: [Anleitung, Bibliotheken, KiCad, PCM]
 description: "Importiere die InHouse-Bibliotheken (InHouse Libraries) mit Symbolen (Symbols) und Footprints als Plug-in-Paket über die Plugin- und Content-Verwaltung (Plugin and Content Manager)."
 ---

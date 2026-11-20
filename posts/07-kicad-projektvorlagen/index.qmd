@@ -2,7 +2,7 @@
 title: "KiCad: Projektvorlagen importieren und nutzen – Schritt-für-Schritt Anleitung"
 author: ["Human", "Mistral Vibe (KI Assistent)"]
 order: 7
-date: 2026-10-09
+date: 2026-11-27
 categories: [Anleitung, Vorlagen, KiCad, Workflow]
 description: "Lerne, wie du in KiCad eine Projektvorlage importierst – z. B. die Schul-Vorlage von deinem Lehrer – und daraus in Sekunden ein neues Projekt startest."
 draft: true
