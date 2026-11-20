@@ -27,25 +27,6 @@ Installiere das InHouse-Plug-in (InHouse Plug-in) mit seinen Bauteilen (InHouse 
 8. Öffne einmalig den Leiterplatteneditor (PCB Editor), um die Bibliotheken und Vorlagen zu initialisieren. Danach kannst du die Editoren wieder schließen.
 9. Schließe alle geöffneten KiCad-Fenster und starte KiCad neu, um die Installation abzuschließen.
 
-## InHouse-Vorlage testen
-
-1. Öffne die KiCad-Projektverwaltung (KiCad Project Manager).
-2. Wähle **Datei (File) → Neues Projekt aus einer Vorlage… (New Project from Template…)**.
-3. Suche in der Vorlagenauswahl (Template Chooser) nach der InHouse-Vorlage (InHouse Template).
-4. Wähle die Vorlage aus und erstelle das neue Projekt.
-
-Die Vorlage enthält die für die InHouse-Fertigung vorbereiteten Projekteinstellungen. Bei einer erfolgreichen Installation erscheint der Vorlageneintrag in der Vorlagenauswahl (Template Chooser).
-
-## InHouse-Bauteile testen
-
-1. Öffne ein neues oder bestehendes Projekt.
-2. Starte den Schaltplaneditor (Schematic Editor).
-3. Wähle die Aktion zum Platzieren eines Symbols (Place Symbol).
-4. Öffne den Dialog **Symbol wählen (Choose Symbol)**.
-5. Prüfe, ob die InHouse-Symbolbibliothek (InHouse Symbol Library) in der Bibliotheksliste verfügbar ist.
-
-Falls du die Footprint-Zuweisung prüfen möchtest, öffne anschließend den Leiterplatteneditor (PCB Editor). Die InHouse-Footprint-Bibliothek (InHouse Footprint Library) sollte ebenfalls in der Bibliotheksverwaltung verfügbar sein.
-
 ::: callout-important
 ## Dringend empfohlen: Standard-Bibliotheken deaktivieren
 
@@ -69,6 +50,26 @@ Im Dialog **Symbol wählen (Choose Symbol)** bzw. **Footprint wählen (Choose Fo
 
 **Keine Sorge:** Die Standard-Bibliotheken werden dadurch nicht gelöscht, sie werden nur nicht mehr geladen. Setze das Häkchen in der Spalte **Aktiv (Active)** erneut, bringt du sie jederzeit zurück. Dieselben Dialoge nutzt du auch, um Bibliotheken zu priorisieren.
 :::
+
+## InHouse-Vorlage testen
+
+1. Öffne die KiCad-Projektverwaltung (KiCad Project Manager).
+2. Wähle **Datei (File) → Neues Projekt aus einer Vorlage… (New Project from Template…)**.
+3. Suche in der Vorlagenauswahl (Template Chooser) nach der InHouse-Vorlage (InHouse Template).
+4. Wähle die Vorlage aus und erstelle das neue Projekt.
+
+Die Vorlage enthält die für die InHouse-Fertigung vorbereiteten Projekteinstellungen. Bei einer erfolgreichen Installation erscheint der Vorlageneintrag in der Vorlagenauswahl (Template Chooser).
+
+## InHouse-Bauteile testen
+
+1. Öffne ein neues oder bestehendes Projekt.
+2. Starte den Schaltplaneditor (Schematic Editor).
+3. Wähle die Aktion zum Platzieren eines Symbols (Place Symbol).
+4. Öffne den Dialog **Symbol wählen (Choose Symbol)**.
+5. Prüfe, ob die InHouse-Symbolbibliothek (InHouse Symbol Library) in der Bibliotheksliste verfügbar ist.
+
+Falls du die Footprint-Zuweisung prüfen möchtest, öffne anschließend den Leiterplatteneditor (PCB Editor). Die InHouse-Footprint-Bibliothek (InHouse Footprint Library) sollte ebenfalls in der Bibliotheksverwaltung verfügbar sein.
+
 
 ## Hintergrund und Tipps
 
