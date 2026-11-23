@@ -3,7 +3,11 @@ title: "Über diesen Blog"
 ---
 
 Herzlich willkommen! Dieser Blog beschäftigt sich mit **KiCad**, der
-freien Open-Source-Suite für Elektronikdesign (Schaltplan, PCB, Gerber-Export).
+freien Open-Source-Suite für Elektronikdesign.  
 
-Hier findest du Anleitungen, Vergleiche und Praxis-Tipps – ohne
-Lizenzkosten-Komplexe und ohne dongle-basierte Existenzangst.
+Im speziellen wird auf die Verwendung von KiCAD an der HTL Anichstraße Innsbruck eingegangen.   
+
+Neue Themen und Verbesserungsvorschläge können gerne als issue auf GitHub eingereicht werden. Wir freuen uns über Feedback und Anregungen!  
+https://github.com/alfred-hermes-bot/kicad-blog/issues
+
+

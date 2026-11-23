@@ -11,5 +11,10 @@ page-layout: full
 sidebar: false
 ---
 
-Willkommen! Dieser Blog beschäftigt sich mit **KiCad**, der freien
-Open-Source-Suite für Elektronikdesign.
+Herzlich willkommen! Dieser Blog beschäftigt sich mit **KiCad**, der
+freien Open-Source-Suite für Elektronikdesign.  
+
+Im speziellen wird auf die Verwendung von KiCAD an der HTL Anichstraße Innsbruck eingegangen.   
+
+Neue Themen und Verbesserungsvorschläge können gerne als issue auf GitHub eingereicht werden. Wir freuen uns über Feedback und Anregungen!  
+Die beste Möglichkeit ist über  [GitHub-Issue-Tracker.](https://github.com/alfred-hermes-bot/kicad-blog/issues)
