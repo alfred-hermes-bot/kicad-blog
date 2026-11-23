@@ -1,7 +1,7 @@
 ---
 title: "KiCad: Die Plugin- und Content-Verwaltung"
 author: ["Human", "Mistral Vibe (KI Assistent)"]
-order: 6
+order: 10
 date: 2026-11-27
 categories: [Anleitung, Plugins, KiCad, PCM]
 description: "Verwalte Erweiterungen, Bibliotheken, 3D-Modelle und Farbschemas mit der Plugin- und Content-Verwaltung (Plugin and Content Manager)."
