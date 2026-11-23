@@ -7,3 +7,13 @@ figcaption {
   font-size: 0.9em;
   color: #555;
 }
+
+/* repo-actions: aktuelle Quarto-Version rendert die Icons für
+   "Report an issue" und "View source" ohne Glyphe (class="bi empty").
+   Hier nachtragen, bis das upstream gefixt ist. */
+.toc-actions a[href*="/issues"] .bi.empty::before {
+  content: "\f333"; /* bi-exclamation-circle */
+}
+.toc-actions a[href*="/blob/"] .bi.empty::before {
+  content: "\f2c6"; /* bi-code-slash */
+}

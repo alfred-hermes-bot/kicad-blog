@@ -6,6 +6,9 @@ website:
   title: "KiCad Blog"
   description: "Alles rund um KiCad – Open-Source-EDA für alle."
   site-url: "https://alfred-hermes-bot.github.io/kicad-blog/"
+  repo-url: "https://github.com/alfred-hermes-bot/kicad-blog"
+  repo-branch: main
+  repo-actions: [edit, issue, source]
   navbar:
     right:
       - text: "Blog"
