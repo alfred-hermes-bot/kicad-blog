@@ -1,25 +1,69 @@
 # KiCad Blog
 
-Ein anonymer Quarto-Blog rund um KiCad – Open-Source-EDA.
+Quellenrepository für den deutschsprachigen KiCad-Blog der HTL Anichstraße Innsbruck.
+Die Website wird mit [Quarto](https://quarto.org/) erstellt und ist unter
+[alfred-hermes-bot.github.io/kicad-blog](https://alfred-hermes-bot.github.io/kicad-blog/)
+veröffentlicht.
 
-## Posts
+## Projektstruktur
 
-1. **Warum KiCad? Open Source schlägt Lizenzknast** – Lizenzmodell, Funktionen, Anwender (CERN, NASA/JPL, SpaceIL) und ein ehrlicher Vergleich.
-2. **KiCad 10 installieren – Schritt für Schritt** – Windows, macOS, Linux.
+- `posts/` enthält die Blogbeiträge als einzelne Quarto-Seiten.
+- `index.qmd` erstellt die Beitragsübersicht.
+- `about.qmd` enthält Informationen über den Blog.
+- `_quarto.yml` konfiguriert Website, Theme und Veröffentlichung.
+- `_site/` ist das automatisch erzeugte Ausgabeverzeichnis und wird nicht bearbeitet.
 
-## Lokal bauen
+## Voraussetzungen
+
+Für die lokale Arbeit wird eine aktuelle [Quarto-CLI](https://quarto.org/docs/get-started/)
+benötigt.
+
+## Lokal entwickeln
 
 ```bash
-quarto render     # Website nach _site/ bauen
-quarto preview    # Live-Vorschau unter localhost
+quarto preview
 ```
 
-## Autoren
+Alternativ kann die Website einmalig erzeugt werden:
 
-- Human
-- Mistral Vibe (KI Assistent)
+```bash
+quarto render
+```
 
-## Bildlizenzen
+Die Vorschau aktualisiert Bearbeitungen in Beitrag, Navigation oder Layout automatisch.
+Die erzeugte Website befindet sich in `_site/`.
 
-Screenshots selbst erstellen (dann gehört dir das Urheberrecht) oder nur
-Material von kicad.org verwenden (GPLv3+ / CC-BY 3.0+, mit Namensnennung).
+## Beitrag hinzufügen
+
+1. Einen neuen Ordner unter `posts/` anlegen.
+2. Die Seite als `index.qmd` mit Frontmatter anlegen.
+3. Bilder und weitere Beitragdateien im selben Beitragordner ablegen.
+4. Die Frontmatter-Eigenschaft `order` setzen. Damit wird die Position in der
+   Beitragsübersicht festgelegt.
+5. Lokale Vorschau und erzeugte Seite prüfen.
+
+Der Ordnername ist Teil der URL und sollte daher stabil bleiben. Beim Einfügen,
+Umbenennen oder Entfernen von Beiträgen ist keine manuelle Aktualisierung der
+README-Liste erforderlich.
+
+## Veröffentlichung
+
+Ein Push auf den Branch `main` startet den Quarto-Workflow aus
+`.github/workflows/quarto-deploy.yml`. Die Website wird darüber auf GitHub Pages
+veröffentlicht.
+
+## Inhalte und Medien
+
+- Texte klar und sachlich auf Deutsch verfassen.
+- KiCad-bezogene Begriffe konsistent schreiben.
+- Screenshots mit relevanter Ausschnittgröße und hoher Lesbarkeit bereitstellen.
+- Beim Verwenden fremder Abbildungen Quelle und Lizenz prüfen und nachvollziehbar
+  nennen. Eigene Screenshots sollten die verwendete KiCad-Version erkennen lassen.
+- Keine Zugangsdaten, privaten Pfade oder persönlichen Daten in Beiträgen oder Bildern
+  veröffentlichen.
+
+## Mitwirken
+
+Änderungen und Themenvorschläge können über
+[GitHub Issues](https://github.com/alfred-hermes-bot/kicad-blog/issues) eingereicht
+werden. Vor größeren Änderungen bitte zuerst ein Issue erstellen.
