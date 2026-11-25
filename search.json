@@ -56,88 +56,11 @@
     "text": "Windows, Git Bash. KiCad 10.0: C:\\Program Files\\KiCad\\10.0\\bin\\kicad.exe (bundled Python: ...\\bin\\python.exe).\nRepo checkout: C:\\Users\\leo\\Documents\\KiCad\\MCP Server\\KiCAD-MCP-Server.\nKiCad config root: %APPDATA%\\kicad (Roaming). User files root: C:\\Users\\leo\\Documents\\KiCad."
   },
   {
-    "objectID": "posts/04-kicad-kondensator-simulation/index.html",
-    "href": "posts/04-kicad-kondensator-simulation/index.html",
-    "title": "KiCad: Kondensator-Ladung simulieren – Schritt-für-Schritt Anleitung",
+    "objectID": "posts/04-kicad-erste-schritte/index.html",
+    "href": "posts/04-kicad-erste-schritte/index.html",
+    "title": "KiCad: Erste Schritte",
     "section": "",
-    "text": "In diesem Beitrag simulieren wir eine einfache RC-Schaltung (Widerstand-Kondensator) mit dem eingebauten ngspice-Simulator und untersuchen die Ladung des Kondensators."
-  },
-  {
-    "objectID": "posts/04-kicad-kondensator-simulation/index.html#was-du-lernst",
-    "href": "posts/04-kicad-kondensator-simulation/index.html#was-du-lernst",
-    "title": "KiCad: Kondensator-Ladung simulieren – Schritt-für-Schritt Anleitung",
-    "section": "Was du lernst",
-    "text": "Was du lernst\n\nEine RC-Schaltung in KiCad erstellen\n\nDie Simulation einrichten und durchführen\n\nDen Ladungsverlauf des Kondensators analysieren\n\nDie Zeitkonstante verstehen und berechnen"
-  },
-  {
-    "objectID": "posts/04-kicad-kondensator-simulation/index.html#voraussetzungen",
-    "href": "posts/04-kicad-kondensator-simulation/index.html#voraussetzungen",
-    "title": "KiCad: Kondensator-Ladung simulieren – Schritt-für-Schritt Anleitung",
-    "section": "Voraussetzungen",
-    "text": "Voraussetzungen\n\nKiCad 10 installiert (siehe Installationsguide)\nInHouse-Plug-in installiert (siehe InHouse-Plug-in installieren)\nInHouse-Bibliotheken eingerichtet (siehe Eigene Bibliotheken als Plug-in installieren)"
-  },
-  {
-    "objectID": "posts/04-kicad-kondensator-simulation/index.html#schritt-1-neues-projekt-anlegen",
-    "href": "posts/04-kicad-kondensator-simulation/index.html#schritt-1-neues-projekt-anlegen",
-    "title": "KiCad: Kondensator-Ladung simulieren – Schritt-für-Schritt Anleitung",
-    "section": "Schritt 1: Neues Projekt anlegen",
-    "text": "Schritt 1: Neues Projekt anlegen\n\nFile → New Project from Template…, wähle die InHouse Template\nName: rc-simulation, Speicherort wählen\nÖffne den Schaltplan-Editor (Eeschema) über den Projektmanager\n\n\n\n\nNeues KiCad-Projekt erstellen"
-  },
-  {
-    "objectID": "posts/04-kicad-kondensator-simulation/index.html#schritt-2-rc-schaltung-aufbauen",
-    "href": "posts/04-kicad-kondensator-simulation/index.html#schritt-2-rc-schaltung-aufbauen",
-    "title": "KiCad: Kondensator-Ladung simulieren – Schritt-für-Schritt Anleitung",
-    "section": "Schritt 2: RC-Schaltung aufbauen",
-    "text": "Schritt 2: RC-Schaltung aufbauen\nAlle Symbole kommen aus der InHouse-Symbolbibliothek – im Dialog Symbol wählen (Choose Symbol) (A) erscheinen ohnehin nur noch die InHouse-Bauteile.\n\nSpannungsquelle (VDC): platzieren, Value = \\(10\\, \\text{V}\\)\nWiderstand (R): in Reihe, Value = \\(10\\, \\text{kΩ}\\)\nKondensator (C): parallel zu GND, Value = \\(100\\, \\text{µF}\\)\nGND (Masse): ans untere Ende\n\n\nVerbindung herstellen\nMit dem Wire-Tool (W) verbinden:\n\nQuelle (+) → Widerstand → Kondensator\nKondensator und Quelle (−) → GND\n\nDeine Schaltung sollte so aussehen:\n\n\n\nRC-Schaltung im KiCad Schaltplan-Editor\n\n\n\n\n\n\n\n\nTipTipp: Netznamen zuweisen\n\n\n\nSetze mit dem Label-Tool (L) die Netznamen \\(U_C\\) (zwischen Widerstand und Kondensator) und \\(U_{in}\\) (an der Quelle)."
-  },
-  {
-    "objectID": "posts/04-kicad-kondensator-simulation/index.html#schritt-3-simulation-einrichten",
-    "href": "posts/04-kicad-kondensator-simulation/index.html#schritt-3-simulation-einrichten",
-    "title": "KiCad: Kondensator-Ladung simulieren – Schritt-für-Schritt Anleitung",
-    "section": "Schritt 3: Simulation einrichten",
-    "text": "Schritt 3: Simulation einrichten\nEs gibt zwei Methoden – wähle eine:\n\nMethode A: SPICE-Direktiven im Schaltplan\nPlace → Add SPICE Directive (S), dann einfügen:\n.tran 0.01 5 0\n.ic V(U_C)=0\n.plot tran V(U_C) V(U_in)\n\n.tran 0.01 5 0 – Schrittwerte \\(0{,}01\\, \\text{s}\\), Dauer \\(5\\, \\text{s}\\)\n.ic V(U_C)=0 – Kondensator startet entladen\n\n\n\n\nSPICE-Direktiven im Schaltplan\n\n\n\n\nMethode B: Simulations-GUI\n\nView → Simulation → Simulation Frame\nAdd Signal: V(U_C), V(U_in), optional I(C1)\nSimulation Settings: Transient, Stop Time \\(5\\, \\text{s}\\), Time Step \\(0{,}01\\, \\text{s}\\)\n\n\n\n\nSimulations-Einstellungen"
-  },
-  {
-    "objectID": "posts/04-kicad-kondensator-simulation/index.html#schritt-4-simulation-durchführen",
-    "href": "posts/04-kicad-kondensator-simulation/index.html#schritt-4-simulation-durchführen",
-    "title": "KiCad: Kondensator-Ladung simulieren – Schritt-für-Schritt Anleitung",
-    "section": "Schritt 4: Simulation durchführen",
-    "text": "Schritt 4: Simulation durchführen\n▶ klicken (oder Simulation → Run Simulation) – das Ergebnis erscheint im Simulationsfenster."
-  },
-  {
-    "objectID": "posts/04-kicad-kondensator-simulation/index.html#schritt-5-ergebnisse-analysieren",
-    "href": "posts/04-kicad-kondensator-simulation/index.html#schritt-5-ergebnisse-analysieren",
-    "title": "KiCad: Kondensator-Ladung simulieren – Schritt-für-Schritt Anleitung",
-    "section": "Schritt 5: Ergebnisse analysieren",
-    "text": "Schritt 5: Ergebnisse analysieren\n\nSpannungsverlauf am Kondensator\nExponentieller Anstieg von \\(0\\, \\text{V}\\) auf \\(10\\, \\text{V}\\):\n\n\n\nKondensator-Ladespannung über die Zeit\n\n\n\n\nWichtige Zeitpunkte\n\n\n\nZeit in \\(\\text{s}\\)\n\\(U_C\\) in \\(\\text{V}\\)\n% der Endspannung\n\n\n\n\n0,00\n0,0000\n0,0 %\n\n\n0,50\n3,9347\n39,3 %\n\n\n1,00\n6,3212\n63,2 %\n\n\n1,50\n7,7687\n77,7 %\n\n\n2,00\n8,6466\n86,5 %\n\n\n3,00\n9,5021\n95,0 %\n\n\n5,00\n9,9326\n99,3 %\n\n\n\n\n\nZeitkonstante (\\(\\tau\\))\n\\[\\tau = R \\cdot C = 10\\, \\text{kΩ} \\cdot 100\\, \\text{µF} = 1\\, \\text{s}\\]\n\n\n\n\n\n\nNoteWichtige Regel\n\n\n\nNach 1 τ (1 Sekunde) ist der Kondensator zu 63,2 % geladen.\nNach 5 τ (5 Sekunden) gilt er als vollständig geladen (99,3 %).\n\n\n\n\nStromverlauf\nDer Ladestrom nimmt exponentiell ab: \\(I_0 = \\frac{U_0}{R} = 1\\, \\text{mA}\\), nach \\(1\\, \\text{s}\\) ca. \\(0{,}37\\, \\text{mA}\\), nach \\(2\\, \\text{s}\\) ca. \\(0{,}14\\, \\text{mA}\\).\n\n\n\nLadestrom über die Zeit"
-  },
-  {
-    "objectID": "posts/04-kicad-kondensator-simulation/index.html#schritt-6-simulation-anpassen-optional",
-    "href": "posts/04-kicad-kondensator-simulation/index.html#schritt-6-simulation-anpassen-optional",
-    "title": "KiCad: Kondensator-Ladung simulieren – Schritt-für-Schritt Anleitung",
-    "section": "Schritt 6: Simulation anpassen (optional)",
-    "text": "Schritt 6: Simulation anpassen (optional)\n\n\n\nWiderstand (\\(R\\))\nKapazität (\\(C\\))\nZeitkonstante \\(\\tau\\)\n\n\n\n\n\\(10\\, \\text{kΩ}\\)\n\\(100\\, \\text{µF}\\)\n\\(1\\, \\text{s}\\)\n\n\n\\(10\\, \\text{kΩ}\\)\n\\(10\\, \\text{µF}\\)\n\\(0{,}1\\, \\text{s}\\)\n\n\n\\(100\\, \\text{kΩ}\\)\n\\(100\\, \\text{µF}\\)\n\\(10\\, \\text{s}\\)\n\n\n\\(1\\, \\text{kΩ}\\)\n\\(1\\, \\text{mF}\\)\n\\(1\\, \\text{s}\\)\n\n\n\nFür schnellere Schaltungen: Stop Time \\(1\\, \\text{s}\\), Time Step \\(0{,}001\\, \\text{s}\\). Für langsamere: Stop Time \\(20\\, \\text{s}\\), Time Step \\(0{,}1\\, \\text{s}\\)."
-  },
-  {
-    "objectID": "posts/04-kicad-kondensator-simulation/index.html#theorieteil-mathematische-grundlagen",
-    "href": "posts/04-kicad-kondensator-simulation/index.html#theorieteil-mathematische-grundlagen",
-    "title": "KiCad: Kondensator-Ladung simulieren – Schritt-für-Schritt Anleitung",
-    "section": "Theorieteil: Mathematische Grundlagen",
-    "text": "Theorieteil: Mathematische Grundlagen\nLadespannung und Ladestrom:\n\\[U_C(t) = U_0 \\cdot \\left(1 - e^{-\\frac{t}{\\tau}}\\right) \\qquad I(t) = \\frac{U_0}{R} \\cdot e^{-\\frac{t}{\\tau}}\\]\nmit \\(U_0 = 10\\, \\text{V}\\), \\(\\tau = R \\cdot C\\)."
-  },
-  {
-    "objectID": "posts/04-kicad-kondensator-simulation/index.html#tipps",
-    "href": "posts/04-kicad-kondensator-simulation/index.html#tipps",
-    "title": "KiCad: Kondensator-Ladung simulieren – Schritt-für-Schritt Anleitung",
-    "section": "Tipps",
-    "text": "Tipps\n\n\n\n\n\n\nTipSimulation speichern\n\n\n\nDie Simulationseinstellungen lassen sich im Simulationsfenster als .spice-Datei speichern (File → Save) und später wieder laden.\n\n\n\n\n\n\n\n\nWarningHäufige Fehler\n\n\n\n\nKeine GND-Verbindung: Jede Schaltung braucht einen Masseanschluss\nFalsche Einheiten: auf kΩ, µF, mF achten\nZu großer Zeitschritt: bei schnellen Vorgängen kleinere Schritte wählen"
-  },
-  {
-    "objectID": "posts/04-kicad-kondensator-simulation/index.html#nächste-schritte",
-    "href": "posts/04-kicad-kondensator-simulation/index.html#nächste-schritte",
-    "title": "KiCad: Kondensator-Ladung simulieren – Schritt-für-Schritt Anleitung",
-    "section": "Nächste Schritte",
-    "text": "Nächste Schritte\n\nFilter-Schaltungen simulieren (Tiefpass, Hochpass)\nOszillator-Schaltungen analysieren\nKomplexere Schaltungen mit mehreren RC-Gliedern aufbauen\n\nIm nächsten Beitrag wird aus dieser Simulation eine echte Platine."
+    "text": "Du möchtest mit KiCad loslegen? Da es hier noch keine eigene Anleitung zu den ersten Schritten gibt, empfehlen wir dieses Tutorial:\nKiCad-Tutorial: Erste Schritte mit KiCad"
   },
   {
     "objectID": "posts/02-kicad-inhouse-plugin/index.html",
@@ -193,7 +116,7 @@
     "href": "index.html",
     "title": "KiCad Blog",
     "section": "",
-    "text": "Herzlich willkommen! Dieser Blog beschäftigt sich mit KiCad, der freien Open-Source-Suite für Elektronikdesign.\nIm speziellen wird auf die Verwendung von KiCAD an der HTL Anichstraße Innsbruck eingegangen.\nNeue Themen und Verbesserungsvorschläge können gerne als issue auf GitHub eingereicht werden. Wir freuen uns über Feedback und Anregungen!\nDie beste Möglichkeit ist über GitHub-Issue-Tracker.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nKiCad 10 installieren – Schritt für Schritt\n\n\n\nAnleitung\n\nInstallation\n\nKiCad\n\n\n\nVon null zum Schaltplan in 15 Minuten: Die komplette Installation von KiCad 10 auf Windows, macOS und Linux.\n\n\n\n\n\nNov 24, 2026\n\n\nHuman , Mistral Vibe (KI Assistent)\n\n\n\n\n\n\n\n\n\n\n\n\nKiCad: InHouse-Plug-in installieren\n\n\n\nAnleitung\n\nPlugins\n\nKiCad\n\nPCM\n\n\n\nInstalliere das InHouse-Plug-in (InHouse Plug-in) mit seinen Bauteilen (Components) und Vorlagen (Templates) über die Plugin- und Content-Verwaltung (Plugin and Content Manager).\n\n\n\n\n\nNov 28, 2026\n\n\nHuman , Mistral Vibe (KI Assistent)\n\n\n\n\n\n\n\n\n\n\n\n\nKiCad: Eigene Bibliotheken als Plug-in installieren\n\n\n\nAnleitung\n\nBibliotheken\n\nKiCad\n\nPCM\n\n\n\nImportiere eigene Bibliotheken (Libraries) mit Symbolen (Symbols), Footprints, SPICE-Modellen und 3D-Modellen als Plug-in-Paket von der HTLinn Cloud über die Plugin- und Content-Verwaltung (Plugin and Content Manager).\n\n\n\n\n\nNov 25, 2026\n\n\nHuman , Mistral Vibe (KI Assistent)\n\n\n\n\n\n\n\n\n\n\n\n\nKiCad: Kondensator-Ladung simulieren – Schritt-für-Schritt Anleitung\n\n\n\nAnleitung\n\nSimulation\n\nKiCad\n\nRC-Schaltung\n\n\n\nLerne, wie du in KiCad eine einfache RC-Schaltung simulierst und die Ladung eines Kondensators analysierst – inklusive Zeitkonstante und Spannungsverlauf.\n\n\n\n\n\nNov 26, 2026\n\n\nHuman , Mistral Vibe (KI Assistent)\n\n\n\n\n\nNo matching items"
+    "text": "Herzlich willkommen! Dieser Blog beschäftigt sich mit KiCad, der freien Open-Source-Suite für Elektronikdesign.\nIm speziellen wird auf die Verwendung von KiCAD an der HTL Anichstraße Innsbruck eingegangen.\nNeue Themen und Verbesserungsvorschläge können gerne als issue auf GitHub eingereicht werden. Wir freuen uns über Feedback und Anregungen!\nDie beste Möglichkeit ist über GitHub-Issue-Tracker.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nKiCad 10 installieren – Schritt für Schritt\n\n\n\nAnleitung\n\nInstallation\n\nKiCad\n\n\n\nVon null zum Schaltplan in 15 Minuten: Die komplette Installation von KiCad 10 auf Windows, macOS und Linux.\n\n\n\n\n\nNov 24, 2026\n\n\nHuman , Mistral Vibe (KI Assistent)\n\n\n\n\n\n\n\n\n\n\n\n\nKiCad: InHouse-Plug-in installieren\n\n\n\nAnleitung\n\nPlugins\n\nKiCad\n\nPCM\n\n\n\nInstalliere das InHouse-Plug-in (InHouse Plug-in) mit seinen Bauteilen (Components) und Vorlagen (Templates) über die Plugin- und Content-Verwaltung (Plugin and Content Manager).\n\n\n\n\n\nNov 28, 2026\n\n\nHuman , Mistral Vibe (KI Assistent)\n\n\n\n\n\n\n\n\n\n\n\n\nKiCad: Eigene Bibliotheken als Plug-in installieren\n\n\n\nAnleitung\n\nBibliotheken\n\nKiCad\n\nPCM\n\n\n\nImportiere eigene Bibliotheken (Libraries) mit Symbolen (Symbols), Footprints, SPICE-Modellen und 3D-Modellen als Plug-in-Paket von der HTLinn Cloud über die Plugin- und Content-Verwaltung (Plugin and Content Manager).\n\n\n\n\n\nNov 25, 2026\n\n\nHuman , Mistral Vibe (KI Assistent)\n\n\n\n\n\n\n\n\n\n\n\n\nKiCad: Erste Schritte\n\n\n\nAnleitung\n\nEinstieg\n\nKiCad\n\n\n\nDu möchtest mit KiCad loslegen? Dieses externe Tutorial begleitet dich bei den ersten Schritten.\n\n\n\n\n\nNov 25, 2026\n\n\n\n\n\n\n\n\n\n\n\n\nKiCad: Kondensator-Ladung simulieren – Schritt-für-Schritt Anleitung\n\n\n\nAnleitung\n\nSimulation\n\nKiCad\n\nRC-Schaltung\n\n\n\nLerne, wie du in KiCad eine einfache RC-Schaltung simulierst und die Ladung eines Kondensators analysierst – inklusive Zeitkonstante und Spannungsverlauf.\n\n\n\n\n\nNov 26, 2026\n\n\nHuman , Mistral Vibe (KI Assistent)\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "about.html",
@@ -306,5 +229,89 @@
     "title": "KiCad: Eigene Bibliotheken als Plug-in installieren",
     "section": "Nächste Schritte",
     "text": "Nächste Schritte\n\nNach der Installation stehen dir die Inhalte des Bibliotheks-Pakets in allen Projekten zur Verfügung – Symbole, Footprints, SPICE- und 3D-Modelle, egal ob InHouse-Bibliothek oder ein anderes Baukasten-Paket.\nDie grundlegende Bedienung der PCM wird im Beitrag KiCad: Plugin- und Content-Verwaltung erklärt.\nIm Beitrag KiCad: InHouse-Plug-in installieren erfährst du, wie du zusätzlich die InHouse-Vorlage (InHouse Template) für neue Projekte nutzt."
+  },
+  {
+    "objectID": "posts/04-kicad-kondensator-simulation/index.html",
+    "href": "posts/04-kicad-kondensator-simulation/index.html",
+    "title": "KiCad: Kondensator-Ladung simulieren – Schritt-für-Schritt Anleitung",
+    "section": "",
+    "text": "In diesem Beitrag simulieren wir eine einfache RC-Schaltung (Widerstand-Kondensator) mit dem eingebauten ngspice-Simulator und untersuchen die Ladung des Kondensators."
+  },
+  {
+    "objectID": "posts/04-kicad-kondensator-simulation/index.html#was-du-lernst",
+    "href": "posts/04-kicad-kondensator-simulation/index.html#was-du-lernst",
+    "title": "KiCad: Kondensator-Ladung simulieren – Schritt-für-Schritt Anleitung",
+    "section": "Was du lernst",
+    "text": "Was du lernst\n\nEine RC-Schaltung in KiCad erstellen\n\nDie Simulation einrichten und durchführen\n\nDen Ladungsverlauf des Kondensators analysieren\n\nDie Zeitkonstante verstehen und berechnen"
+  },
+  {
+    "objectID": "posts/04-kicad-kondensator-simulation/index.html#voraussetzungen",
+    "href": "posts/04-kicad-kondensator-simulation/index.html#voraussetzungen",
+    "title": "KiCad: Kondensator-Ladung simulieren – Schritt-für-Schritt Anleitung",
+    "section": "Voraussetzungen",
+    "text": "Voraussetzungen\n\nKiCad 10 installiert (siehe Installationsguide)\nInHouse-Plug-in installiert (siehe InHouse-Plug-in installieren)\nInHouse-Bibliotheken eingerichtet (siehe Eigene Bibliotheken als Plug-in installieren)"
+  },
+  {
+    "objectID": "posts/04-kicad-kondensator-simulation/index.html#schritt-1-neues-projekt-anlegen",
+    "href": "posts/04-kicad-kondensator-simulation/index.html#schritt-1-neues-projekt-anlegen",
+    "title": "KiCad: Kondensator-Ladung simulieren – Schritt-für-Schritt Anleitung",
+    "section": "Schritt 1: Neues Projekt anlegen",
+    "text": "Schritt 1: Neues Projekt anlegen\n\nFile → New Project from Template…, wähle die InHouse Template\nName: rc-simulation, Speicherort wählen\nÖffne den Schaltplan-Editor (Eeschema) über den Projektmanager\n\n\n\n\nNeues KiCad-Projekt erstellen"
+  },
+  {
+    "objectID": "posts/04-kicad-kondensator-simulation/index.html#schritt-2-rc-schaltung-aufbauen",
+    "href": "posts/04-kicad-kondensator-simulation/index.html#schritt-2-rc-schaltung-aufbauen",
+    "title": "KiCad: Kondensator-Ladung simulieren – Schritt-für-Schritt Anleitung",
+    "section": "Schritt 2: RC-Schaltung aufbauen",
+    "text": "Schritt 2: RC-Schaltung aufbauen\nAlle Symbole kommen aus der InHouse-Symbolbibliothek – im Dialog Symbol wählen (Choose Symbol) (A) erscheinen ohnehin nur noch die InHouse-Bauteile.\n\nSpannungsquelle (VDC): platzieren, Value = \\(10\\, \\text{V}\\)\nWiderstand (R): in Reihe, Value = \\(10\\, \\text{kΩ}\\)\nKondensator (C): parallel zu GND, Value = \\(100\\, \\text{µF}\\)\nGND (Masse): ans untere Ende\n\n\nVerbindung herstellen\nMit dem Wire-Tool (W) verbinden:\n\nQuelle (+) → Widerstand → Kondensator\nKondensator und Quelle (−) → GND\n\nDeine Schaltung sollte so aussehen:\n\n\n\nRC-Schaltung im KiCad Schaltplan-Editor\n\n\n\n\n\n\n\n\nTipTipp: Netznamen zuweisen\n\n\n\nSetze mit dem Label-Tool (L) die Netznamen \\(U_C\\) (zwischen Widerstand und Kondensator) und \\(U_{in}\\) (an der Quelle)."
+  },
+  {
+    "objectID": "posts/04-kicad-kondensator-simulation/index.html#schritt-3-simulation-einrichten",
+    "href": "posts/04-kicad-kondensator-simulation/index.html#schritt-3-simulation-einrichten",
+    "title": "KiCad: Kondensator-Ladung simulieren – Schritt-für-Schritt Anleitung",
+    "section": "Schritt 3: Simulation einrichten",
+    "text": "Schritt 3: Simulation einrichten\nEs gibt zwei Methoden – wähle eine:\n\nMethode A: SPICE-Direktiven im Schaltplan\nPlace → Add SPICE Directive (S), dann einfügen:\n.tran 0.01 5 0\n.ic V(U_C)=0\n.plot tran V(U_C) V(U_in)\n\n.tran 0.01 5 0 – Schrittwerte \\(0{,}01\\, \\text{s}\\), Dauer \\(5\\, \\text{s}\\)\n.ic V(U_C)=0 – Kondensator startet entladen\n\n\n\n\nSPICE-Direktiven im Schaltplan\n\n\n\n\nMethode B: Simulations-GUI\n\nView → Simulation → Simulation Frame\nAdd Signal: V(U_C), V(U_in), optional I(C1)\nSimulation Settings: Transient, Stop Time \\(5\\, \\text{s}\\), Time Step \\(0{,}01\\, \\text{s}\\)\n\n\n\n\nSimulations-Einstellungen"
+  },
+  {
+    "objectID": "posts/04-kicad-kondensator-simulation/index.html#schritt-4-simulation-durchführen",
+    "href": "posts/04-kicad-kondensator-simulation/index.html#schritt-4-simulation-durchführen",
+    "title": "KiCad: Kondensator-Ladung simulieren – Schritt-für-Schritt Anleitung",
+    "section": "Schritt 4: Simulation durchführen",
+    "text": "Schritt 4: Simulation durchführen\n▶ klicken (oder Simulation → Run Simulation) – das Ergebnis erscheint im Simulationsfenster."
+  },
+  {
+    "objectID": "posts/04-kicad-kondensator-simulation/index.html#schritt-5-ergebnisse-analysieren",
+    "href": "posts/04-kicad-kondensator-simulation/index.html#schritt-5-ergebnisse-analysieren",
+    "title": "KiCad: Kondensator-Ladung simulieren – Schritt-für-Schritt Anleitung",
+    "section": "Schritt 5: Ergebnisse analysieren",
+    "text": "Schritt 5: Ergebnisse analysieren\n\nSpannungsverlauf am Kondensator\nExponentieller Anstieg von \\(0\\, \\text{V}\\) auf \\(10\\, \\text{V}\\):\n\n\n\nKondensator-Ladespannung über die Zeit\n\n\n\n\nWichtige Zeitpunkte\n\n\n\nZeit in \\(\\text{s}\\)\n\\(U_C\\) in \\(\\text{V}\\)\n% der Endspannung\n\n\n\n\n0,00\n0,0000\n0,0 %\n\n\n0,50\n3,9347\n39,3 %\n\n\n1,00\n6,3212\n63,2 %\n\n\n1,50\n7,7687\n77,7 %\n\n\n2,00\n8,6466\n86,5 %\n\n\n3,00\n9,5021\n95,0 %\n\n\n5,00\n9,9326\n99,3 %\n\n\n\n\n\nZeitkonstante (\\(\\tau\\))\n\\[\\tau = R \\cdot C = 10\\, \\text{kΩ} \\cdot 100\\, \\text{µF} = 1\\, \\text{s}\\]\n\n\n\n\n\n\nNoteWichtige Regel\n\n\n\nNach 1 τ (1 Sekunde) ist der Kondensator zu 63,2 % geladen.\nNach 5 τ (5 Sekunden) gilt er als vollständig geladen (99,3 %).\n\n\n\n\nStromverlauf\nDer Ladestrom nimmt exponentiell ab: \\(I_0 = \\frac{U_0}{R} = 1\\, \\text{mA}\\), nach \\(1\\, \\text{s}\\) ca. \\(0{,}37\\, \\text{mA}\\), nach \\(2\\, \\text{s}\\) ca. \\(0{,}14\\, \\text{mA}\\).\n\n\n\nLadestrom über die Zeit"
+  },
+  {
+    "objectID": "posts/04-kicad-kondensator-simulation/index.html#schritt-6-simulation-anpassen-optional",
+    "href": "posts/04-kicad-kondensator-simulation/index.html#schritt-6-simulation-anpassen-optional",
+    "title": "KiCad: Kondensator-Ladung simulieren – Schritt-für-Schritt Anleitung",
+    "section": "Schritt 6: Simulation anpassen (optional)",
+    "text": "Schritt 6: Simulation anpassen (optional)\n\n\n\nWiderstand (\\(R\\))\nKapazität (\\(C\\))\nZeitkonstante \\(\\tau\\)\n\n\n\n\n\\(10\\, \\text{kΩ}\\)\n\\(100\\, \\text{µF}\\)\n\\(1\\, \\text{s}\\)\n\n\n\\(10\\, \\text{kΩ}\\)\n\\(10\\, \\text{µF}\\)\n\\(0{,}1\\, \\text{s}\\)\n\n\n\\(100\\, \\text{kΩ}\\)\n\\(100\\, \\text{µF}\\)\n\\(10\\, \\text{s}\\)\n\n\n\\(1\\, \\text{kΩ}\\)\n\\(1\\, \\text{mF}\\)\n\\(1\\, \\text{s}\\)\n\n\n\nFür schnellere Schaltungen: Stop Time \\(1\\, \\text{s}\\), Time Step \\(0{,}001\\, \\text{s}\\). Für langsamere: Stop Time \\(20\\, \\text{s}\\), Time Step \\(0{,}1\\, \\text{s}\\)."
+  },
+  {
+    "objectID": "posts/04-kicad-kondensator-simulation/index.html#theorieteil-mathematische-grundlagen",
+    "href": "posts/04-kicad-kondensator-simulation/index.html#theorieteil-mathematische-grundlagen",
+    "title": "KiCad: Kondensator-Ladung simulieren – Schritt-für-Schritt Anleitung",
+    "section": "Theorieteil: Mathematische Grundlagen",
+    "text": "Theorieteil: Mathematische Grundlagen\nLadespannung und Ladestrom:\n\\[U_C(t) = U_0 \\cdot \\left(1 - e^{-\\frac{t}{\\tau}}\\right) \\qquad I(t) = \\frac{U_0}{R} \\cdot e^{-\\frac{t}{\\tau}}\\]\nmit \\(U_0 = 10\\, \\text{V}\\), \\(\\tau = R \\cdot C\\)."
+  },
+  {
+    "objectID": "posts/04-kicad-kondensator-simulation/index.html#tipps",
+    "href": "posts/04-kicad-kondensator-simulation/index.html#tipps",
+    "title": "KiCad: Kondensator-Ladung simulieren – Schritt-für-Schritt Anleitung",
+    "section": "Tipps",
+    "text": "Tipps\n\n\n\n\n\n\nTipSimulation speichern\n\n\n\nDie Simulationseinstellungen lassen sich im Simulationsfenster als .spice-Datei speichern (File → Save) und später wieder laden.\n\n\n\n\n\n\n\n\nWarningHäufige Fehler\n\n\n\n\nKeine GND-Verbindung: Jede Schaltung braucht einen Masseanschluss\nFalsche Einheiten: auf kΩ, µF, mF achten\nZu großer Zeitschritt: bei schnellen Vorgängen kleinere Schritte wählen"
+  },
+  {
+    "objectID": "posts/04-kicad-kondensator-simulation/index.html#nächste-schritte",
+    "href": "posts/04-kicad-kondensator-simulation/index.html#nächste-schritte",
+    "title": "KiCad: Kondensator-Ladung simulieren – Schritt-für-Schritt Anleitung",
+    "section": "Nächste Schritte",
+    "text": "Nächste Schritte\n\nFilter-Schaltungen simulieren (Tiefpass, Hochpass)\nOszillator-Schaltungen analysieren\nKomplexere Schaltungen mit mehreren RC-Gliedern aufbauen\n\nIm nächsten Beitrag wird aus dieser Simulation eine echte Platine."
   }
 ]
