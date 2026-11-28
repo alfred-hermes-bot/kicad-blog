@@ -1,7 +1,7 @@
 ---
 title: "Print Werkstätte: Platinen-Vorlagen maßstabsgetreu drucken"
 author: ["Human", "Mistral Vibe (KI Assistent)"]
-order: 6
+order: 7
 date: 2026-11-27
 categories: [Anleitung, Fertigung, KiCad, Print Werkstätte]
 description: "Platinen-Vorlagen mit der Print Werkstätte laden, auswählen, spiegeln, zuschneiden und auf das Platinenrohmaterial kleben."

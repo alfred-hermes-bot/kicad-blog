@@ -1,0 +1,12 @@
+---
+title: "KiCad: Erste Schritte"
+order: 4
+date: 2026-11-25
+categories: [Anleitung, Einstieg, KiCad]
+description: "Du möchtest mit KiCad loslegen? Dieses externe Tutorial begleitet dich bei den ersten Schritten."
+---
+
+Du möchtest mit KiCad loslegen? Da es hier noch keine eigene Anleitung zu
+den ersten Schritten gibt, empfehlen wir dieses Tutorial:
+
+[KiCad-Tutorial: Erste Schritte mit KiCad](https://www.build-electronic-circuits.com/kicad-tutorial/)

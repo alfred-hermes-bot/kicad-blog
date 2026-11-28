@@ -1,7 +1,7 @@
 ---
 title: "KiCad: Von der Schaltung zur Platine"
 author: ["Human", "Mistral Vibe (KI Assistent)"]
-order: 5
+order: 6
 date: 2026-11-28
 categories: [Anleitung, PCB-Design, KiCad, RC-Schaltung]
 description: "Verwandle die simulierte RC-Schaltung in eine echte Leiterplatte: ersetze die Simulationsquelle durch eine Stiftleiste, ergänze eine Stiftleiste am Ausgang, weise Footprints zu, route die Platine und exportiere die Fertigungsdaten."
@@ -33,7 +33,7 @@ die reale Ladekurve messen und mit der Simulation vergleichen kannst.
 ## Schritt 1: Projekt vorbereiten
 
 1. Starte **KiCad** und öffne dein Simulationsprojekt `rc-simulation`
-2. Speichere es unter neuem Namen: **File → Save Project As**, z. B. `rc-platine`
+2. Speichere es unter neuem Namen: **Datei → Projekt speichern unter…**, z. B. `rc-platine`
 3. Öffne den **Schaltplan-Editor (Eeschema)** – die RC-Schaltung mit
    Spannungsquelle, Widerstand ($10\, \text{kΩ}$), Kondensator
    ($100\, \text{µF}$) und den SPICE-Direktiven sollte noch offen sein
@@ -55,7 +55,7 @@ zu suchen haben – und zwei Anschlusspunkte, die noch fehlen.
 ### 2. Die Simulationsquelle durch eine Stiftleiste ersetzen
 
 1. Lösche die **Spannungsquelle (VDC)**
-2. Drücke **A** (Add Symbol) und suche nach `Conn_01x02_Male` aus der
+2. Drücke **A** (Bauteil hinzufügen) und suche nach `Conn_01x02_Male` aus der
    Bibliothek *Connector* – eine zweipolige Stiftleiste
 3. Platziere sie dort, wo vorher die Quelle stand, und benenne sie
    mit Doppelklick **J1**
@@ -91,7 +91,7 @@ bestätigst du dem ERC: Hier kommt die Spannung wirklich her.
 Jedes Symbol braucht jetzt sein **Footprint** – das physische
 Bauteilgehäuse mit den Lötpads.
 
-1. Gehe zu **Tools → Assign Footprints**
+1. Gehe zu **Werkzeuge → Bauteilfootprints zuweisen**
 2. Weise die Footprints zu:
 
 | Symbol | Bauteil | Footprint (Bibliothek) |
@@ -100,7 +100,7 @@ Bauteilgehäuse mit den Lötpads.
 | **C** | Elektrolytkondensator $100\, \text{µF}$ | `C_Radial_D8.0mm_H11.0mm_P3.50mm` (*Capacitor_THT*) |
 | **J1, J2** | Stiftleisten 2-polig | `PinHeader_1x02_P2.54mm_Vertical` (*Connector_PinHeader_2.54mm*) |
 
-3. Klicke auf **Apply, Save Schematic and Continue**
+3. Klicke auf **Anwenden, Schaltplan speichern und fortsetzen**
 
 ::: callout-tip
 ### Tipp: Durchsteckmontage für die Schule
@@ -111,23 +111,23 @@ die Stückzahl größer wird.
 :::
 
 <!-- Screenshot-Platzhalter: Assign-Footprints-Dialog mit zugewiesenen Footprints für R, C, J1 und J2 -->
-![Assign-Footprints-Dialog mit den zugewiesenen Footprints](images/04-footprints.png)
+![Dialog „Bauteilfootprints zuweisen“ mit den zugewiesenen Footprints](images/04-footprints.png)
 
 ## Schritt 4: Prüfen und ins Board übernehmen
 
-1. **Annotations prüfen:** Gehe zu **Inspect → Annotate Schematic** und
-   klicke auf **Annotate**, damit alle Symbole eindeutige Referenzen
+1. **Annotation prüfen:** Gehe zu **Untersuchen → Annotation des Schaltplans** und
+   klicke auf **Annotieren**, damit alle Symbole eindeutige Referenzen
    (R1, C1, J1, J2) haben
-2. **ERC ausführen:** Gehe zu **Inspect → Electrical Rules Checker →
-   Perform ERC** – das Ergebnis sollte **0 Fehler** sein
+2. **ERC ausführen:** Gehe zu **Untersuchen → Elektrischer Regel Check →
+   ERC durchführen** – das Ergebnis sollte **0 Fehler** sein
 3. Speichere den Schaltplan
-4. Gehe zu **Tools → Update PCB from Schematic (F8)** und klicke auf
-   **Update PCB**
+4. Gehe zu **Werkzeuge → Aktualisiere PCB aus dem Schaltplan (F8)** und klicke auf
+   **PCB aktualisieren**
 
 <!-- Screenshot-Platzhalter: ERC-Bericht ohne Fehler -->
 ![ERC-Bericht: keine Fehler](images/05-erc.png)
 
-<!-- Screenshot-Platzhalter: Board-Editor nach "Update PCB from Schematic" – Footprint-Stapel neben leerem Boardrahmen -->
+<!-- Screenshot-Platzhalter: Leiterplatteneditor nach „Aktualisiere PCB aus dem Schaltplan“ – Footprint-Stapel neben leerem Boardrahmen -->
 ![Board-Editor mit den übernommenen Footprints](images/06-update-pcb.png)
 
 Der Board-Editor öffnet sich mit allen Footprints in einem Stapel
@@ -136,7 +136,7 @@ neben dem (noch leeren) Board.
 ## Schritt 5: Board-Umriss und Platzierung
 
 1. Wähle oben in der Layer-Leiste den Layer **Edge.Cuts**
-2. Zeichne mit **Place → Add Rectangle** eine Platine von z. B.
+2. Zeichne mit **Einfügen → Rechteck hinzufügen** eine Platine von z. B.
    **40 mm × 30 mm**
 3. Ziehe die Footprints aus dem Stapel auf die Platine und ordne sie
    entlang des Signalflusses an:
@@ -160,9 +160,9 @@ neben dem (noch leeren) Board.
    - J1 Pin 2 → GND
    - C1 (Minuspol) → GND
    - J2 Pin 1 → $U_C$, J2 Pin 2 → GND
-3. Für GND legen wir eine **Kupferfläche** an: **Place → Add Fill
-   Zone**, Layer F.Cu, Netz GND, über die ganze Platine – danach mit
-   **B** (Edit Zone/Refill) füllen
+3. Für GND legen wir eine **Kupferfläche** an: **Einfügen → Gefüllte Fläche hinzufügen**,
+   Lage F.Cu, Netz GND, über die ganze Platine – danach mit
+   **B** (Flächeneigenschaften bearbeiten / Neu ausfüllen) füllen
 
 ::: callout-tip
 ### Tipp: Warum eine GND-Fläche?
@@ -178,7 +178,7 @@ Massebezug – auch für deine Messung an J2.
 
 ### DRC ausführen
 
-1. Gehe im Board-Editor zu **Inspect → Design Rules Checker → Run DRC**
+1. Gehe im Leiterplatteneditor zu **Untersuchen → Design Rules Überprüfungen → Starte DRC**
 2. Es sollten **0 Fehler** und höchstens harmlose Warnungen übrig sein
 
 <!-- Screenshot-Platzhalter: DRC-Dialog mit 0 Fehlern -->
@@ -186,7 +186,7 @@ Massebezug – auch für deine Messung an J2.
 
 ### 3D-Vorschau
 
-Mit **View → 3D Viewer** (Alt+3) kontrollierst du die Platine vor der
+Mit **Ansicht → 3D-Betrachter** (Alt+3) kontrollierst du die Platine vor der
 Fertigung einmal von allen Seiten.
 
 <!-- Screenshot-Platzhalter: 3D-Viewer mit der fertigen Platine -->
@@ -194,10 +194,10 @@ Fertigung einmal von allen Seiten.
 
 ### Gerber- und Bohrdaten
 
-1. Gehe zu **File → Fabrication Outputs → Plots**
+1. Gehe zu **Datei → Fertigungsdateien → Plotten**
 2. Wähle die empfohlenen **Gerber-Layer** (oder direkt die Voreinstellung
    für deinen Hersteller) und klicke auf **Plot**
-3. Erzeuge anschließend die **Bohrdaten** über **Generate Drill Files**
+3. Erzeuge anschließend die **Bohrdaten** über **Bohrdateien erzeugen**
 4. Packe den Ausgabeordner als **ZIP** – das ist das Format, das du bei
    jedem Leiterplatten-Hersteller hochlädst
 

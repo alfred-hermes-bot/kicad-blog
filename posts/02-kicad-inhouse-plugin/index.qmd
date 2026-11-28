@@ -24,22 +24,32 @@ Installiere das InHouse-Plug-in (InHouse Plug-in) mit seinen Bauteilen (InHouse 
 5. Wähle im Dateidialog die heruntergeladene ZIP-Datei aus. Entpacke sie nicht.
 6. Die PCM prüft die Paketmetadaten und die Kompatibilität mit deiner KiCad-Version. Klicke zur Installation auf **Installieren (Install)**, falls ein Bestätigungsdialog angezeigt wird.
 7. Schließe das Plugin- und Content-Verwaltungsfenster (Plugin and Content Manager) nach der Installation.
-8. Öffne einmalig den Leiterplatteneditor (PCB Editor), um die Bibliotheken und Vorlagen zu initialisieren. Danach kannst du die Editoren wieder schließen.
+8. Öffne den Leiterplatteneditor (PCB Editor) einmalig, damit die Bibliotheken und Vorlagen vollständig initialisiert werden.
+
+   **Wenn du noch kein Projekt hast:** Lege zunächst in der KiCad-Projektverwaltung (KiCad Project Manager) ein neues Projekt an, ganz egal welche Vorlage du verwendest. Es wird nur benötigt, um einmalig den Leiterplatteneditor zu öffnen.
+
+   Öffne anschließend den Leiterplatteneditor (PCB Editor) über das Projektfenster bzw. den entsprechenden Eintrag in der Werkzeugleiste.
+
+   **Wenn du bereits ein Projekt hast:** Öffne es in der Projektverwaltung und starte den Leiterplatteneditor über das Projektfenster bzw. den entsprechenden Eintrag in der Werkzeugleiste.
+
+   Schließe den Leiterplatteneditor danach wieder.
+
 9. Schließe alle geöffneten KiCad-Fenster und starte KiCad neu, um die Installation abzuschließen.
 
+
 ::: callout-important
-## Dringend empfohlen: Standard-Bibliotheken deaktivieren
+## Empfohlen für Einsteiger: Standard-Bibliotheken deaktivieren
 
 KiCad bringt tausende Symbol- und Footprint-Einträge mit, die sofort mitinstalliert und aktiviert sind. Als Einsteiger siehst du im Dialog **Symbol wählen (Choose Symbol)** dadurch hunderte ähnliche Bauteile – und verlierst leicht den Überblick. **Deaktiviere die KiCad-Standard-Bibliotheken und arbeitete ausschließlich mit der InHouse-Bibliothek.** Diese Einstellung ist besonders für Einsteiger dringend empfohlen.
 
-### Symbol-Bibliotheken deaktivieren
+- Symbol-Bibliotheken deaktivieren
 
 1. Öffne den Schaltplaneditor (Schematic Editor).
 2. Wähle **Einstellungen (Preferences) → Symbolbibliotheken verwalten (Manage Symbol Libraries)**.
 3. Entferne in der Spalte **Aktiv (Active)** das Häkchen bei **allen Bibliotheken außer der InHouse-Symbolbibliothek (InHouse Symbol Library)**.
 4. Bestätige mit **OK**.
 
-### Footprint-Bibliotheken deaktivieren
+- Footprint-Bibliotheken deaktivieren
 
 1. Öffne den Leiterplatteneditor (PCB Editor).
 2. Wähle **Einstellungen (Preferences) → Footprint-Bibliotheken verwalten (Manage Footprint Libraries)**.
@@ -86,3 +96,7 @@ Die App ist auch für die Bibliotheken aus dem Beitrag [KiCad: Eigene Bibliothek
 - Nach der Installation stehen dir die InHouse-Bauteile und die InHouse-Vorlage in allen Projekten zur Verfügung.
 - Die grundlegende Bedienung der PCM wird im Beitrag [KiCad: Plugin- und Content-Verwaltung](../06-kicad-pcm/) erklärt.
 - Die dazu passenden Symbol- und Footprint-Bibliotheken installierst du wie im Beitrag [KiCad: Eigene Bibliotheken als Plug-in installieren](../03-kicad-bibliotheken-als-plugin/) beschrieben.
+
+## InHouse-Plug-in aktualisieren
+
+Lade die aktuelle ZIP-Datei über den HTLinn-Cloud-Link herunter und installiere sie über **Werkzeuge (Tools) → Plugin- und Content-Verwaltung (Plugin and Content Manager) → Aus Datei installieren (Install from file…)**. Wähle die ZIP-Datei unausgepackt aus und bestätige die Aktualisierung. Schließe danach die PCM und starte KiCad neu.

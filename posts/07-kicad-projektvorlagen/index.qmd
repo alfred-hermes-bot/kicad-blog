@@ -1,7 +1,7 @@
 ---
 title: "KiCad: Projektvorlagen importieren und nutzen – Schritt-für-Schritt Anleitung"
 author: ["Human", "Mistral Vibe (KI Assistent)"]
-order: 7
+order: 8
 date: 2026-11-27
 categories: [Anleitung, Vorlagen, KiCad, Workflow]
 description: "Lerne, wie du in KiCad eine Projektvorlage importierst – z. B. die Schul-Vorlage von deinem Lehrer – und daraus in Sekunden ein neues Projekt startest."
@@ -21,7 +21,7 @@ wie du daraus neue Projekte startest.
 
 - Wissen, wie eine Projektvorlage **aufgebaut** ist
 - Eine Vorlage in KiCad **importieren** (in den Vorlagen-Ordner kopieren)
-- Ein neues Projekt über **File → New Project from Template** starten
+- Ein neues Projekt über **Datei → Neues Projekt aus einer Vorlage** starten
 - Typische Import-Fehler **erkennen und beheben**
 
 ## Voraussetzungen
@@ -40,8 +40,8 @@ mit allen Einstellungen, die jemand einmal vorbereitet hat:
 
 | Vorlagen-Inhalt | Was es dir erspart |
 |-----------------|--------------------|
-| **Titelblock** mit Name, Klasse, Datum | Ausfüllen bei Page Settings |
-| **Board-Setup**: Lagenaufbau, Netzklassen, Designregeln | Regeln pro Projekt neu setzen |
+| **Titelblock** mit Name, Klasse, Datum | Ausfüllen bei **Seite einrichten** |
+| **Platine/Board einrichten**: Lagenaufbau, Netzklassen, Designregeln | Regeln pro Projekt neu setzen |
 | **Verknüpfte Bibliothekstabelle** mit eigenen Bibliotheken | Bibliotheken suchen und eintragen |
 | **Zusatzdateien** (Stücklisten-Vorlage, Abgabe-Hinweise) | Dateien manuell kopieren |
 
@@ -62,11 +62,11 @@ KiCad zeigt Vorlagen nur an, wenn sie an einem festen Ort liegen. Wo der
 ist, siehst du in KiCad selbst:
 
 1. Starte **KiCad** (den Projektmanager, nicht einen Editor)
-2. Gehe zu **Preferences → Configure Paths**
+2. Gehe zu **Einstellungen → Pfade konfigurieren**
 3. Suche die Zeile **`KICAD_USER_TEMPLATE_DIR`** – dahinter steht dein
    persönlicher Vorlagen-Ordner
 
-![Configure Paths mit KICAD_USER_TEMPLATE_DIR](images/02-configure-paths.png)
+![Pfade konfigurieren mit KICAD_USER_TEMPLATE_DIR](images/02-configure-paths.png)
 
 Auf Windows ist das typischerweise
 `C:\Users\<Name>\AppData\Roaming\kicad\10.0\template\`. Klicke auf den
@@ -75,7 +75,7 @@ lege ihn an.
 
 ::: callout-note
 ### Zwei Vorlagen-Quellen
-KiCad kennt zwei Orte: **System Templates** (`KICAD_TEMPLATE_DIR`, mitgeliefert und schreibgeschützt) und **User Templates** (`KICAD_USER_TEMPLATE_DIR`, deine importierten Vorlagen). Importieren kannst du nur in letzteren.
+KiCad kennt zwei Orte: **Systemspezifische Vorlagen** (`KICAD_TEMPLATE_DIR`, mitgeliefert und schreibgeschützt) und **Benutzervorlagen** (`KICAD_USER_TEMPLATE_DIR`, deine importierten Vorlagen). Importieren kannst du nur in letzteren.
 :::
 
 ## Schritt 3: Vorlage importieren
@@ -117,11 +117,11 @@ bei KiCad nichts anderes als **an den richtigen Ort kopieren**.
 
 ## Schritt 4: Neues Projekt aus der Vorlage erstellen
 
-1. **File → New Project from Template**
-2. Wechsle zum Reiter **User Templates** – deine importierte Vorlage
+1. **Datei → Neues Projekt aus einer Vorlage**
+2. Wechsle zum Reiter **Benutzervorlagen** – deine importierte Vorlage
    erscheint als Karte mit Icon und Beschreibung
 
-![New Project from Template mit importierter Vorlage](images/01-new-from-template.png)
+![Neues Projekt aus einer Vorlage mit importierter Vorlage](images/01-new-from-template.png)
 
 3. Wähle die Vorlage aus
 4. Vergib unten einen **Projektnamen**, z. B. `uebung-3`, und wähle
@@ -138,7 +138,7 @@ Bevor du loslegst, kontrolliere, ob alles angekommen ist:
 
 - **Schaltplan:** Ist der Titelblock vorbelegt (Name, Klasse, Datum)?
   Trage jetzt nur noch deine konkreten Daten ein.
-- **Board Setup:** Sind die Netzklassen und Designregeln gesetzt?
+- **Platine/Board einrichten:** Sind die Netzklassen und Designregeln gesetzt?
 - **Bibliothekstabelle:** Ist die Vorlagen-Bibliothek unter *Project
   Specific Libraries* verknüpft?
 
@@ -148,13 +148,13 @@ Minuten – und jedes Projekt sieht einheitlich aus.
 ::: callout-warning
 ### Häufige Fehler
 - **Vorlage erscheint nicht im Assistenten:** Der Ordner liegt nicht direkt unter `KICAD_USER_TEMPLATE_DIR` (häufiger Fehler: ein Ordner zu tief nach dem Entpacken, z. B. `template/htl-vorlage/htl-vorlage/`), der `meta`-Ordner fehlt, oder KiCad wurde nicht neu gestartet.
-- **Fehlermeldung beim Öffnen des neuen Projekts:** In der Vorlage enthaltene absolute Pfade (z. B. `C:\Users\ersteller\...` in der Bibliothekstabelle) zeigen auf Rechner, die es bei dir nicht gibt. Trage die Pfade unter **Manage Symbol Libraries → Project Specific Libraries** neu ein.
+- **Fehlermeldung beim Öffnen des neuen Projekts:** In der Vorlage enthaltene absolute Pfade (z. B. `C:\Users\ersteller\...` in der Bibliothekstabelle) zeigen auf Rechner, die es bei dir nicht gibt. Trage die Pfade unter **Verwalten Bauteilbibliotheken → Projektspezifische Bibliotheken** neu ein.
 - **Komische Reste im neuen Projekt:** Alles außer `meta` wird kopiert – inklusive eventueller Mülldateien aus der Vorlage. Lösche sie im neuen Projekt, sie stören weiter nicht.
 :::
 
 ## Theorieteil: Wie KiCad Vorlagen verwaltet
 
-Der Assistent unter **File → New Project from Template** liest beim
+Der Assistent unter **Datei → Neues Projekt aus einer Vorlage** liest beim
 Start zwei Verzeichnisse: die System-Vorlagen (`KICAD_TEMPLATE_DIR`,
 mitgeliefert) und deine User-Vorlagen (`KICAD_USER_TEMPLATE_DIR`). Jeder
 Unterordner mit gültigem `meta`-Ordner wird als Karte angezeigt.
@@ -179,7 +179,7 @@ Du kannst beliebig viele Vorlagen nebeneinander importieren – z. B. eine für 
 
 ::: callout-tip
 ### Schul-Vorlagen direkt vom Server nutzen
-Wenn die Klasse ihre Vorlagen auf einem gemeinsamen Ordner (Schulserver, Git) pflegt, musst du gar nichts kopieren: Setze `KICAD_USER_TEMPLATE_DIR` in **Preferences → Configure Paths** einfach auf den gemeinsamen Ordner – ab sofort siehst du immer die aktuelle Vorlage.
+Wenn die Klasse ihre Vorlagen auf einem gemeinsamen Ordner (Schulserver, Git) pflegt, musst du gar nichts kopieren: Setze `KICAD_USER_TEMPLATE_DIR` in **Einstellungen → Pfade konfigurieren** einfach auf den gemeinsamen Ordner – ab sofort siehst du immer die aktuelle Vorlage.
 :::
 
 ## Nächste Schritte

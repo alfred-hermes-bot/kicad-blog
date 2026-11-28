@@ -29,25 +29,25 @@ Installiere eigene Bibliotheken (Libraries) mit Symbolen (Symbols), Footprints, 
 ::: callout-important
 ## Dringend empfohlen: Standard-Bibliotheken deaktivieren
 
-KiCad bringt tausende Symbol- und Footprint-Einträge mit, die sofort mitinstalliert und aktiviert sind. Als Einsteiger siehst du im Dialog **Symbol wählen (Choose Symbol)** dadurch hunderte ähnliche Bauteile – und verlierst leicht den Überblick. **Deaktiviere die KiCad-Standard-Bibliotheken und arbeitete ausschließlich mit der installierten Bibliothek.** Diese Einstellung ist besonders für Einsteiger dringend empfohlen.
+KiCad bringt tausende Symbol- und Footprint-Einträge mit, die sofort mitinstalliert und aktiviert sind. Als Einsteiger siehst du in der **Bauteilauswahl** dadurch Hunderte ähnliche Bauteile – und verlierst leicht den Überblick. **Deaktiviere die KiCad-Standard-Bibliotheken und arbeite ausschließlich mit der installierten Bibliothek.** Diese Einstellung ist besonders für Einsteiger dringend empfohlen.
 
 ### Symbol-Bibliotheken deaktivieren
 
 1. Öffne den Schaltplaneditor (Schematic Editor).
-2. Wähle **Einstellungen (Preferences) → Symbolbibliotheken verwalten (Manage Symbol Libraries)**.
+2. Wähle **Einstellungen → Verwalten Bauteilbibliotheken**.
 3. Entferne in der Spalte **Aktiv (Active)** das Häkchen bei **allen Bibliotheken außer den selbst installierten Bibliotheken** aus dem Bibliotheks-Paket.
 4. Bestätige mit **OK**.
 
 ### Footprint-Bibliotheken deaktivieren
 
 1. Öffne den Leiterplatteneditor (PCB Editor).
-2. Wähle **Einstellungen (Preferences) → Footprint-Bibliotheken verwalten (Manage Footprint Libraries)**.
+2. Wähle **Einstellungen → Verwalten Footprintbibliotheken**.
 3. Entferne in der Spalte **Aktiv (Active)** das Häkchen bei **allen Bibliotheken außer den selbst installierten Bibliotheken** aus dem Bibliotheks-Paket.
 4. Bestätige mit **OK**.
 
-Im Dialog **Symbol wählen (Choose Symbol)** bzw. **Footprint wählen (Choose Footprint)** erscheinen danach nur noch die Bauteile deiner installierten Bibliotheken – übersichtlich und einheitlich.
+In der **Bauteilauswahl** bzw. **Auswahl Footprint** erscheinen danach nur noch die Bauteile deiner installierten Bibliotheken – übersichtlich und einheitlich.
 
-**Keine Sorge:** Die Standard-Bibliotheken werden dadurch nicht gelöscht, sie werden nur nicht mehr geladen. Setze das Häkchen in der Spalte **Aktiv (Active)** erneut, bringt du sie jederzeit zurück. Dieselben Dialoge nutzt du auch, um Bibliotheken zu priorisieren.
+**Keine Sorge:** Die Standard-Bibliotheken werden dadurch nicht gelöscht, sie werden nur nicht mehr geladen. Setze das Häkchen in der Spalte **Aktiv (Active)** erneut, bringst du sie jederzeit zurück. Dieselben Dialoge nutzt du auch, um Bibliotheken zu priorisieren.
 :::
 
 ## Symbolbibliothek testen
@@ -55,7 +55,7 @@ Im Dialog **Symbol wählen (Choose Symbol)** bzw. **Footprint wählen (Choose Fo
 1. Öffne ein neues oder bestehendes Projekt.
 2. Starte den Schaltplaneditor (Schematic Editor).
 3. Wähle die Aktion zum Platzieren eines Symbols (Place Symbol).
-4. Öffne den Dialog **Symbol wählen (Choose Symbol)**.
+4. Öffne die **Bauteilauswahl**.
 5. Prüfe, ob die neue Symbolbibliothek in der Bibliotheksliste verfügbar ist.
 
 
@@ -80,8 +80,15 @@ Statt die ZIP-Datei jedes Mal im Browser herunterzuladen, installiere dir einmal
 Die App ist auch für das InHouse-Plug-in aus dem Beitrag [KiCad: InHouse-Plug-in installieren](../02-kicad-inhouse-plugin/) nützlich.
 :::
 
+## Pakete aktualisieren
+
+Lade die aktuelle ZIP-Datei über den HTLinn-Cloud-Link herunter und installiere sie über **Werkzeuge (Tools) → Plugin- und Content-Verwaltung (Plugin and Content Manager) → Aus Datei installieren (Install from file…)**. Wähle die ZIP-Datei unausgepackt aus und bestätige die Aktualisierung. Schließe danach die PCM und starte KiCad neu.
+
+
 ## Nächste Schritte
 
 - Nach der Installation stehen dir die Inhalte des Bibliotheks-Pakets in allen Projekten zur Verfügung – Symbole, Footprints, SPICE- und 3D-Modelle, egal ob InHouse-Bibliothek oder ein anderes Baukasten-Paket.
 - Die grundlegende Bedienung der PCM wird im Beitrag [KiCad: Plugin- und Content-Verwaltung](../06-kicad-pcm/) erklärt.
 - Im Beitrag [KiCad: InHouse-Plug-in installieren](../02-kicad-inhouse-plugin/) erfährst du, wie du zusätzlich die InHouse-Vorlage (InHouse Template) für neue Projekte nutzt.
+
+

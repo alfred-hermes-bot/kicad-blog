@@ -1,6 +1,6 @@
 ---
 title: "KiCad und KI"
-order: 8
+order: 9
 date: 2026-11-29
 categories: [KiCad, KI]
 description: "Ein Überblick über die gemeinsame Nutzung von KiCad und KI-Werkzeugen."

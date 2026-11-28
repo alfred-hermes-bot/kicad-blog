@@ -1,7 +1,7 @@
 ---
 title: "KiCad: Kondensator-Ladung simulieren – Schritt-für-Schritt Anleitung"
 author: ["Human", "Mistral Vibe (KI Assistent)"]
-order: 4
+order: 5
 date: 2026-11-26
 categories: [Anleitung, Simulation, KiCad, RC-Schaltung]
 description: "Lerne, wie du in KiCad eine einfache RC-Schaltung simulierst und die Ladung eines Kondensators analysierst – inklusive Zeitkonstante und Spannungsverlauf."
@@ -30,24 +30,24 @@ Diese Anleitung nutzt **ausschließlich die Bauteile aus dem InHouse-Plug-in** u
 
 ## Schritt 1: Neues Projekt anlegen
 
-1. **File → New Project from Template…**, wähle die **InHouse Template**
+1. **Datei (File) → Neues Projekt aus einer Vorlage… (New Project from Template…)**, wähle die **InHouse-Vorlage (InHouse Template)**
 2. Name: `rc-simulation`, Speicherort wählen
-3. Öffne den **Schaltplan-Editor (Eeschema)** über den Projektmanager
+3. Öffne den **Schaltplan-Editor (Schematic Editor, Eeschema)** über den **Projektmanager (KiCad Project Manager)**
 
 ![Neues KiCad-Projekt erstellen](images/01-neues-projekt.png)
 
 ## Schritt 2: RC-Schaltung aufbauen
 
-Alle Symbole kommen aus der **InHouse-Symbolbibliothek** – im Dialog **Symbol wählen (Choose Symbol)** (**A**) erscheinen ohnehin nur noch die InHouse-Bauteile.
+Alle Symbole kommen aus der **InHouse-Symbolbibliothek** – in der **Bauteilauswahl (Choose Symbol)** (**A**) erscheinen ohnehin nur noch die InHouse-Bauteile.
 
-1. **Spannungsquelle (VDC):** platzieren, **Value = $10\, \text{V}$**
-2. **Widerstand (R):** in Reihe, **Value = $10\, \text{kΩ}$**
-3. **Kondensator (C):** parallel zu GND, **Value = $100\, \text{µF}$**
+1. **Spannungsquelle (VDC):** platzieren, **Wert (Value) = $10\, \text{V}$**
+2. **Widerstand (R):** in Reihe, **Wert (Value) = $10\, \text{kΩ}$**
+3. **Kondensator (C):** parallel zu GND, **Wert (Value) = $100\, \text{µF}$**
 4. **GND (Masse):** ans untere Ende
 
 ### Verbindung herstellen
 
-Mit dem **Wire-Tool (W)** verbinden:
+Mit dem Werkzeug **Elektrische Verbindung (Wire) (W)** verbinden:
 
 - Quelle (+) → Widerstand → Kondensator
 - Kondensator und Quelle (−) → GND
@@ -58,7 +58,7 @@ Deine Schaltung sollte so aussehen:
 
 ::: callout-tip
 ### Tipp: Netznamen zuweisen
-Setze mit dem **Label-Tool (L)** die Netznamen **$U_C$** (zwischen Widerstand und Kondensator) und **$U_{in}$** (an der Quelle).  
+Setze mit dem Werkzeug **Bezeichner (Label) (L)** die Netznamen **$U_C$** (zwischen Widerstand und Kondensator) und **$U_{in}$** (an der Quelle).
 :::
 
 ## Schritt 3: Simulation einrichten
@@ -67,7 +67,7 @@ Es gibt zwei Methoden – wähle eine:
 
 ### Methode A: SPICE-Direktiven im Schaltplan
 
-**Place → Add SPICE Directive** (**S**), dann einfügen:
+**Einfügen (Place) → SPICE-Direktive hinzufügen (Add SPICE Directive)** (**S**), dann einfügen:
 
 ```spice
 .tran 0.01 5 0
@@ -82,15 +82,15 @@ Es gibt zwei Methoden – wähle eine:
 
 ### Methode B: Simulations-GUI
 
-1. **View → Simulation → Simulation Frame**
-2. **Add Signal:** `V(U_C)`, `V(U_in)`, optional `I(C1)`
-3. **Simulation Settings:** Transient, Stop Time $5\, \text{s}$, Time Step $0{,}01\, \text{s}$
+1. **Ansicht (View) → Simulation (Simulation) → Simulationsfenster (Simulation Frame)**
+2. **Signale hinzufügen (Add Signals):** `V(U_C)`, `V(U_in)`, optional `I(C1)`
+3. **Einstellungen für Simulationen (Simulation Settings):** Analyseart (Analysis Type) **Transient-Analyse (Transient Analysis)**, Endzeit (Final Time) $5\, \text{s}$, Zeitschritt (Time step) $0{,}01\, \text{s}$
 
 ![Simulations-Einstellungen](images/04-simulationseinstellungen.png)
 
 ## Schritt 4: Simulation durchführen
 
-▶ klicken (oder **Simulation → Run Simulation**) – das Ergebnis erscheint im Simulationsfenster.
+▶ klicken (oder **Simulation (Simulation) → Simulation starten (Run Simulation)**) – das Ergebnis erscheint im **Simulationsfenster (Simulation Frame)**.
 
 ## Schritt 5: Ergebnisse analysieren
 
@@ -137,7 +137,7 @@ Der Ladestrom nimmt exponentiell ab: $I_0 = \frac{U_0}{R} = 1\, \text{mA}$, nach
 | $100\, \text{kΩ}$ | $100\, \text{µF}$ | $10\, \text{s}$ |
 | $1\, \text{kΩ}$ | $1\, \text{mF}$ | $1\, \text{s}$ |
 
-Für schnellere Schaltungen: Stop Time $1\, \text{s}$, Time Step $0{,}001\, \text{s}$. Für langsamere: Stop Time $20\, \text{s}$, Time Step $0{,}1\, \text{s}$.
+Für schnellere Schaltungen: Endzeit (Final Time) $1\, \text{s}$, Zeitschritt (Time step) $0{,}001\, \text{s}$. Für langsamere: Endzeit (Final Time) $20\, \text{s}$, Zeitschritt (Time step) $0{,}1\, \text{s}$.
 
 ## Theorieteil: Mathematische Grundlagen
 
@@ -151,7 +151,7 @@ mit $U_0 = 10\, \text{V}$, $\tau = R \cdot C$.
 
 ::: callout-tip
 ### Simulation speichern
-Die Simulationseinstellungen lassen sich im Simulationsfenster als `.spice`-Datei speichern (**File → Save**) und später wieder laden.
+Die Simulationseinstellungen lassen sich im **Simulationsfenster (Simulation Frame)** als `.spice`-Datei speichern (**Datei (File) → Speichern (Save)**) und später wieder laden.
 :::
 
 ::: callout-warning
