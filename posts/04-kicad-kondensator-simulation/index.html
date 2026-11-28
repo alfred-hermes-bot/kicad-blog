@@ -268,9 +268,9 @@ window.Quarto = {
 <section id="schritt-1-neues-projekt-anlegen" class="level2">
 <h2 class="anchored" data-anchor-id="schritt-1-neues-projekt-anlegen">Schritt 1: Neues Projekt anlegen</h2>
 <ol type="1">
-<li><strong>File → New Project from Template…</strong>, wähle die <strong>InHouse Template</strong></li>
+<li><strong>Datei (File) → Neues Projekt aus einer Vorlage… (New Project from Template…)</strong>, wähle die <strong>InHouse-Vorlage (InHouse Template)</strong></li>
 <li>Name: <code>rc-simulation</code>, Speicherort wählen</li>
-<li>Öffne den <strong>Schaltplan-Editor (Eeschema)</strong> über den Projektmanager</li>
+<li>Öffne den <strong>Schaltplan-Editor (Schematic Editor, Eeschema)</strong> über den <strong>Projektmanager (KiCad Project Manager)</strong></li>
 </ol>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -281,16 +281,16 @@ window.Quarto = {
 </section>
 <section id="schritt-2-rc-schaltung-aufbauen" class="level2">
 <h2 class="anchored" data-anchor-id="schritt-2-rc-schaltung-aufbauen">Schritt 2: RC-Schaltung aufbauen</h2>
-<p>Alle Symbole kommen aus der <strong>InHouse-Symbolbibliothek</strong> – im Dialog <strong>Symbol wählen (Choose Symbol)</strong> (<strong>A</strong>) erscheinen ohnehin nur noch die InHouse-Bauteile.</p>
+<p>Alle Symbole kommen aus der <strong>InHouse-Symbolbibliothek</strong> – in der <strong>Bauteilauswahl (Choose Symbol)</strong> (<strong>A</strong>) erscheinen ohnehin nur noch die InHouse-Bauteile.</p>
 <ol type="1">
-<li><strong>Spannungsquelle (VDC):</strong> platzieren, <strong>Value = <span class="math inline">\(10\, \text{V}\)</span></strong></li>
-<li><strong>Widerstand (R):</strong> in Reihe, <strong>Value = <span class="math inline">\(10\, \text{kΩ}\)</span></strong></li>
-<li><strong>Kondensator (C):</strong> parallel zu GND, <strong>Value = <span class="math inline">\(100\, \text{µF}\)</span></strong></li>
+<li><strong>Spannungsquelle (VDC):</strong> platzieren, <strong>Wert (Value) = <span class="math inline">\(10\, \text{V}\)</span></strong></li>
+<li><strong>Widerstand (R):</strong> in Reihe, <strong>Wert (Value) = <span class="math inline">\(10\, \text{kΩ}\)</span></strong></li>
+<li><strong>Kondensator (C):</strong> parallel zu GND, <strong>Wert (Value) = <span class="math inline">\(100\, \text{µF}\)</span></strong></li>
 <li><strong>GND (Masse):</strong> ans untere Ende</li>
 </ol>
 <section id="verbindung-herstellen" class="level3">
 <h3 class="anchored" data-anchor-id="verbindung-herstellen">Verbindung herstellen</h3>
-<p>Mit dem <strong>Wire-Tool (W)</strong> verbinden:</p>
+<p>Mit dem Werkzeug <strong>Elektrische Verbindung (Wire) (W)</strong> verbinden:</p>
 <ul>
 <li>Quelle (+) → Widerstand → Kondensator</li>
 <li>Kondensator und Quelle (−) → GND</li>
@@ -312,7 +312,7 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Setze mit dem <strong>Label-Tool (L)</strong> die Netznamen <strong><span class="math inline">\(U_C\)</span></strong> (zwischen Widerstand und Kondensator) und <strong><span class="math inline">\(U_{in}\)</span></strong> (an der Quelle).</p>
+<p>Setze mit dem Werkzeug <strong>Bezeichner (Label) (L)</strong> die Netznamen <strong><span class="math inline">\(U_C\)</span></strong> (zwischen Widerstand und Kondensator) und <strong><span class="math inline">\(U_{in}\)</span></strong> (an der Quelle).</p>
 </div>
 </div>
 </section>
@@ -322,7 +322,7 @@ window.Quarto = {
 <p>Es gibt zwei Methoden – wähle eine:</p>
 <section id="methode-a-spice-direktiven-im-schaltplan" class="level3">
 <h3 class="anchored" data-anchor-id="methode-a-spice-direktiven-im-schaltplan">Methode A: SPICE-Direktiven im Schaltplan</h3>
-<p><strong>Place → Add SPICE Directive</strong> (<strong>S</strong>), dann einfügen:</p>
+<p><strong>Einfügen (Place) → SPICE-Direktive hinzufügen (Add SPICE Directive)</strong> (<strong>S</strong>), dann einfügen:</p>
 <pre class="spice"><code>.tran 0.01 5 0
 .ic V(U_C)=0
 .plot tran V(U_C) V(U_in)</code></pre>
@@ -340,9 +340,9 @@ window.Quarto = {
 <section id="methode-b-simulations-gui" class="level3">
 <h3 class="anchored" data-anchor-id="methode-b-simulations-gui">Methode B: Simulations-GUI</h3>
 <ol type="1">
-<li><strong>View → Simulation → Simulation Frame</strong></li>
-<li><strong>Add Signal:</strong> <code>V(U_C)</code>, <code>V(U_in)</code>, optional <code>I(C1)</code></li>
-<li><strong>Simulation Settings:</strong> Transient, Stop Time <span class="math inline">\(5\, \text{s}\)</span>, Time Step <span class="math inline">\(0{,}01\, \text{s}\)</span></li>
+<li><strong>Ansicht (View) → Simulation (Simulation) → Simulationsfenster (Simulation Frame)</strong></li>
+<li><strong>Signale hinzufügen (Add Signals):</strong> <code>V(U_C)</code>, <code>V(U_in)</code>, optional <code>I(C1)</code></li>
+<li><strong>Einstellungen für Simulationen (Simulation Settings):</strong> Analyseart (Analysis Type) <strong>Transient-Analyse (Transient Analysis)</strong>, Endzeit (Final Time) <span class="math inline">\(5\, \text{s}\)</span>, Zeitschritt (Time step) <span class="math inline">\(0{,}01\, \text{s}\)</span></li>
 </ol>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -354,7 +354,7 @@ window.Quarto = {
 </section>
 <section id="schritt-4-simulation-durchführen" class="level2">
 <h2 class="anchored" data-anchor-id="schritt-4-simulation-durchführen">Schritt 4: Simulation durchführen</h2>
-<p>▶ klicken (oder <strong>Simulation → Run Simulation</strong>) – das Ergebnis erscheint im Simulationsfenster.</p>
+<p>▶ klicken (oder <strong>Simulation (Simulation) → Simulation starten (Run Simulation)</strong>) – das Ergebnis erscheint im <strong>Simulationsfenster (Simulation Frame)</strong>.</p>
 </section>
 <section id="schritt-5-ergebnisse-analysieren" class="level2">
 <h2 class="anchored" data-anchor-id="schritt-5-ergebnisse-analysieren">Schritt 5: Ergebnisse analysieren</h2>
@@ -479,7 +479,7 @@ Nach <strong>5 τ (5 Sekunden)</strong> gilt er als vollständig geladen (<stron
 </tr>
 </tbody>
 </table>
-<p>Für schnellere Schaltungen: Stop Time <span class="math inline">\(1\, \text{s}\)</span>, Time Step <span class="math inline">\(0{,}001\, \text{s}\)</span>. Für langsamere: Stop Time <span class="math inline">\(20\, \text{s}\)</span>, Time Step <span class="math inline">\(0{,}1\, \text{s}\)</span>.</p>
+<p>Für schnellere Schaltungen: Endzeit (Final Time) <span class="math inline">\(1\, \text{s}\)</span>, Zeitschritt (Time step) <span class="math inline">\(0{,}001\, \text{s}\)</span>. Für langsamere: Endzeit (Final Time) <span class="math inline">\(20\, \text{s}\)</span>, Zeitschritt (Time step) <span class="math inline">\(0{,}1\, \text{s}\)</span>.</p>
 </section>
 <section id="theorieteil-mathematische-grundlagen" class="level2">
 <h2 class="anchored" data-anchor-id="theorieteil-mathematische-grundlagen">Theorieteil: Mathematische Grundlagen</h2>
@@ -499,7 +499,7 @@ Nach <strong>5 τ (5 Sekunden)</strong> gilt er als vollständig geladen (<stron
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Die Simulationseinstellungen lassen sich im Simulationsfenster als <code>.spice</code>-Datei speichern (<strong>File → Save</strong>) und später wieder laden.</p>
+<p>Die Simulationseinstellungen lassen sich im <strong>Simulationsfenster (Simulation Frame)</strong> als <code>.spice</code>-Datei speichern (<strong>Datei (File) → Speichern (Save)</strong>) und später wieder laden.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-warning callout-titled">

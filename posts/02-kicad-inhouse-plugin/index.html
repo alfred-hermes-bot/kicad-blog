@@ -128,11 +128,11 @@ ul.task-list li input[type="checkbox"] {
   <ul>
   <li><a href="#voraussetzungen" id="toc-voraussetzungen" class="nav-link active" data-scroll-target="#voraussetzungen">Voraussetzungen</a></li>
   <li><a href="#paket-installieren" id="toc-paket-installieren" class="nav-link" data-scroll-target="#paket-installieren">Paket installieren</a></li>
-  <li><a href="#inhouse-plug-in-aktualisieren" id="toc-inhouse-plug-in-aktualisieren" class="nav-link" data-scroll-target="#inhouse-plug-in-aktualisieren">InHouse-Plug-in aktualisieren</a></li>
   <li><a href="#inhouse-vorlage-testen" id="toc-inhouse-vorlage-testen" class="nav-link" data-scroll-target="#inhouse-vorlage-testen">InHouse-Vorlage testen</a></li>
   <li><a href="#inhouse-bauteile-testen" id="toc-inhouse-bauteile-testen" class="nav-link" data-scroll-target="#inhouse-bauteile-testen">InHouse-Bauteile testen</a></li>
   <li><a href="#hintergrund-und-tipps" id="toc-hintergrund-und-tipps" class="nav-link" data-scroll-target="#hintergrund-und-tipps">Hintergrund und Tipps</a></li>
   <li><a href="#nächste-schritte" id="toc-nächste-schritte" class="nav-link" data-scroll-target="#nächste-schritte">Nächste Schritte</a></li>
+  <li><a href="#inhouse-plug-in-aktualisieren" id="toc-inhouse-plug-in-aktualisieren" class="nav-link" data-scroll-target="#inhouse-plug-in-aktualisieren">InHouse-Plug-in aktualisieren</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/alfred-hermes-bot/kicad-blog/edit/main/posts/02-kicad-inhouse-plugin/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/alfred-hermes-bot/kicad-blog/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li><li><a href="https://github.com/alfred-hermes-bot/kicad-blog/blob/main/posts/02-kicad-inhouse-plugin/index.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></nav>
     </div>
@@ -194,27 +194,27 @@ ul.task-list li input[type="checkbox"] {
 <section id="paket-installieren" class="level2">
 <h2 class="anchored" data-anchor-id="paket-installieren">Paket installieren</h2>
 <ol type="1">
-<li>Lade die ZIP-Datei über den oben genannten HTLinn-Cloud-Link herunter.</li>
-<li>Starte die KiCad-Projektverwaltung (KiCad Project Manager).</li>
-<li>Öffne über <strong>Werkzeuge (Tools) → Plugin- und Content-Verwaltung (Plugin and Content Manager)</strong> die PCM.</li>
-<li>Wähle oben rechts <strong>Aus Datei installieren (Install from file…)</strong>.</li>
-<li>Wähle im Dateidialog die heruntergeladene ZIP-Datei aus. Entpacke sie nicht.</li>
-<li>Die PCM prüft die Paketmetadaten und die Kompatibilität mit deiner KiCad-Version. Klicke zur Installation auf <strong>Installieren (Install)</strong>, falls ein Bestätigungsdialog angezeigt wird.</li>
-<li>Schließe das Plugin- und Content-Verwaltungsfenster (Plugin and Content Manager) nach der Installation.</li>
-<li>Öffne einmalig den Leiterplatteneditor (PCB Editor), um die Bibliotheken und Vorlagen zu initialisieren. Danach kannst du die Editoren wieder schließen.</li>
-<li>Schließe alle geöffneten KiCad-Fenster und starte KiCad neu, um die Installation abzuschließen.</li>
+<li><p>Lade die ZIP-Datei über den oben genannten HTLinn-Cloud-Link herunter.</p></li>
+<li><p>Starte die KiCad-Projektverwaltung (KiCad Project Manager).</p></li>
+<li><p>Öffne über <strong>Werkzeuge (Tools) → Plugin- und Content-Verwaltung (Plugin and Content Manager)</strong> die PCM.</p></li>
+<li><p>Wähle oben rechts <strong>Aus Datei installieren (Install from file…)</strong>.</p></li>
+<li><p>Wähle im Dateidialog die heruntergeladene ZIP-Datei aus. Entpacke sie nicht.</p></li>
+<li><p>Die PCM prüft die Paketmetadaten und die Kompatibilität mit deiner KiCad-Version. Klicke zur Installation auf <strong>Installieren (Install)</strong>, falls ein Bestätigungsdialog angezeigt wird.</p></li>
+<li><p>Schließe das Plugin- und Content-Verwaltungsfenster (Plugin and Content Manager) nach der Installation.</p></li>
+<li><p>Öffne den Leiterplatteneditor (PCB Editor) einmalig, damit die Bibliotheken und Vorlagen vollständig initialisiert werden.</p>
+<p><strong>Wenn du noch kein Projekt hast:</strong> Lege zunächst in der KiCad-Projektverwaltung (KiCad Project Manager) ein neues Projekt an, ganz egal welche Vorlage du verwendest. Es wird nur benötigt, um einmalig den Leiterplatteneditor zu öffnen.</p>
+<p>Öffne anschließend den Leiterplatteneditor (PCB Editor) über das Projektfenster bzw. den entsprechenden Eintrag in der Werkzeugleiste.</p>
+<p><strong>Wenn du bereits ein Projekt hast:</strong> Öffne es in der Projektverwaltung und starte den Leiterplatteneditor über das Projektfenster bzw. den entsprechenden Eintrag in der Werkzeugleiste.</p>
+<p>Schließe den Leiterplatteneditor danach wieder.</p></li>
+<li><p>Schließe alle geöffneten KiCad-Fenster und starte KiCad neu, um die Installation abzuschließen.</p></li>
 </ol>
-</section>
-<section id="inhouse-plug-in-aktualisieren" class="level2">
-<h2 class="anchored" data-anchor-id="inhouse-plug-in-aktualisieren">InHouse-Plug-in aktualisieren</h2>
-<p>Lade die aktuelle ZIP-Datei über den HTLinn-Cloud-Link herunter und installiere sie über <strong>Werkzeuge (Tools) → Plugin- und Content-Verwaltung (Plugin and Content Manager) → Aus Datei installieren (Install from file…)</strong>. Wähle die ZIP-Datei unausgepackt aus und bestätige die Aktualisierung. Schließe danach die PCM und starte KiCad neu.</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Dringend empfohlen: Standard-Bibliotheken deaktivieren
+<span class="screen-reader-only">Important</span>Empfohlen für Einsteiger: Standard-Bibliotheken deaktivieren
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -287,6 +287,10 @@ ul.task-list li input[type="checkbox"] {
 <li>Die grundlegende Bedienung der PCM wird im Beitrag <a href="../06-kicad-pcm/">KiCad: Plugin- und Content-Verwaltung</a> erklärt.</li>
 <li>Die dazu passenden Symbol- und Footprint-Bibliotheken installierst du wie im Beitrag <a href="../03-kicad-bibliotheken-als-plugin/">KiCad: Eigene Bibliotheken als Plug-in installieren</a> beschrieben.</li>
 </ul>
+</section>
+<section id="inhouse-plug-in-aktualisieren" class="level2">
+<h2 class="anchored" data-anchor-id="inhouse-plug-in-aktualisieren">InHouse-Plug-in aktualisieren</h2>
+<p>Lade die aktuelle ZIP-Datei über den HTLinn-Cloud-Link herunter und installiere sie über <strong>Werkzeuge (Tools) → Plugin- und Content-Verwaltung (Plugin and Content Manager) → Aus Datei installieren (Install from file…)</strong>. Wähle die ZIP-Datei unausgepackt aus und bestätige die Aktualisierung. Schließe danach die PCM und starte KiCad neu.</p>
 
 
 </section>

@@ -130,6 +130,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#paket-installieren" id="toc-paket-installieren" class="nav-link" data-scroll-target="#paket-installieren">Paket installieren</a></li>
   <li><a href="#symbolbibliothek-testen" id="toc-symbolbibliothek-testen" class="nav-link" data-scroll-target="#symbolbibliothek-testen">Symbolbibliothek testen</a></li>
   <li><a href="#hintergrund-und-tipps" id="toc-hintergrund-und-tipps" class="nav-link" data-scroll-target="#hintergrund-und-tipps">Hintergrund und Tipps</a></li>
+  <li><a href="#pakete-aktualisieren" id="toc-pakete-aktualisieren" class="nav-link" data-scroll-target="#pakete-aktualisieren">Pakete aktualisieren</a></li>
   <li><a href="#nächste-schritte" id="toc-nächste-schritte" class="nav-link" data-scroll-target="#nächste-schritte">Nächste Schritte</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/alfred-hermes-bot/kicad-blog/edit/main/posts/03-kicad-bibliotheken-als-plugin/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/alfred-hermes-bot/kicad-blog/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li><li><a href="https://github.com/alfred-hermes-bot/kicad-blog/blob/main/posts/03-kicad-bibliotheken-als-plugin/index.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></nav>
@@ -211,12 +212,12 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>KiCad bringt tausende Symbol- und Footprint-Einträge mit, die sofort mitinstalliert und aktiviert sind. Als Einsteiger siehst du im Dialog <strong>Symbol wählen (Choose Symbol)</strong> dadurch hunderte ähnliche Bauteile – und verlierst leicht den Überblick. <strong>Deaktiviere die KiCad-Standard-Bibliotheken und arbeitete ausschließlich mit der installierten Bibliothek.</strong> Diese Einstellung ist besonders für Einsteiger dringend empfohlen.</p>
+<p>KiCad bringt tausende Symbol- und Footprint-Einträge mit, die sofort mitinstalliert und aktiviert sind. Als Einsteiger siehst du in der <strong>Bauteilauswahl</strong> dadurch Hunderte ähnliche Bauteile – und verlierst leicht den Überblick. <strong>Deaktiviere die KiCad-Standard-Bibliotheken und arbeite ausschließlich mit der installierten Bibliothek.</strong> Diese Einstellung ist besonders für Einsteiger dringend empfohlen.</p>
 <section id="symbol-bibliotheken-deaktivieren" class="level3">
 <h3 class="anchored" data-anchor-id="symbol-bibliotheken-deaktivieren">Symbol-Bibliotheken deaktivieren</h3>
 <ol type="1">
 <li>Öffne den Schaltplaneditor (Schematic Editor).</li>
-<li>Wähle <strong>Einstellungen (Preferences) → Symbolbibliotheken verwalten (Manage Symbol Libraries)</strong>.</li>
+<li>Wähle <strong>Einstellungen → Verwalten Bauteilbibliotheken</strong>.</li>
 <li>Entferne in der Spalte <strong>Aktiv (Active)</strong> das Häkchen bei <strong>allen Bibliotheken außer den selbst installierten Bibliotheken</strong> aus dem Bibliotheks-Paket.</li>
 <li>Bestätige mit <strong>OK</strong>.</li>
 </ol>
@@ -225,12 +226,12 @@ ul.task-list li input[type="checkbox"] {
 <h3 class="anchored" data-anchor-id="footprint-bibliotheken-deaktivieren">Footprint-Bibliotheken deaktivieren</h3>
 <ol type="1">
 <li>Öffne den Leiterplatteneditor (PCB Editor).</li>
-<li>Wähle <strong>Einstellungen (Preferences) → Footprint-Bibliotheken verwalten (Manage Footprint Libraries)</strong>.</li>
+<li>Wähle <strong>Einstellungen → Verwalten Footprintbibliotheken</strong>.</li>
 <li>Entferne in der Spalte <strong>Aktiv (Active)</strong> das Häkchen bei <strong>allen Bibliotheken außer den selbst installierten Bibliotheken</strong> aus dem Bibliotheks-Paket.</li>
 <li>Bestätige mit <strong>OK</strong>.</li>
 </ol>
-<p>Im Dialog <strong>Symbol wählen (Choose Symbol)</strong> bzw. <strong>Footprint wählen (Choose Footprint)</strong> erscheinen danach nur noch die Bauteile deiner installierten Bibliotheken – übersichtlich und einheitlich.</p>
-<p><strong>Keine Sorge:</strong> Die Standard-Bibliotheken werden dadurch nicht gelöscht, sie werden nur nicht mehr geladen. Setze das Häkchen in der Spalte <strong>Aktiv (Active)</strong> erneut, bringt du sie jederzeit zurück. Dieselben Dialoge nutzt du auch, um Bibliotheken zu priorisieren.</p>
+<p>In der <strong>Bauteilauswahl</strong> bzw. <strong>Auswahl Footprint</strong> erscheinen danach nur noch die Bauteile deiner installierten Bibliotheken – übersichtlich und einheitlich.</p>
+<p><strong>Keine Sorge:</strong> Die Standard-Bibliotheken werden dadurch nicht gelöscht, sie werden nur nicht mehr geladen. Setze das Häkchen in der Spalte <strong>Aktiv (Active)</strong> erneut, bringst du sie jederzeit zurück. Dieselben Dialoge nutzt du auch, um Bibliotheken zu priorisieren.</p>
 </section>
 </div>
 </div>
@@ -241,7 +242,7 @@ ul.task-list li input[type="checkbox"] {
 <li>Öffne ein neues oder bestehendes Projekt.</li>
 <li>Starte den Schaltplaneditor (Schematic Editor).</li>
 <li>Wähle die Aktion zum Platzieren eines Symbols (Place Symbol).</li>
-<li>Öffne den Dialog <strong>Symbol wählen (Choose Symbol)</strong>.</li>
+<li>Öffne die <strong>Bauteilauswahl</strong>.</li>
 <li>Prüfe, ob die neue Symbolbibliothek in der Bibliotheksliste verfügbar ist.</li>
 </ol>
 </section>
@@ -279,6 +280,10 @@ ul.task-list li input[type="checkbox"] {
 <p>Die App ist auch für das InHouse-Plug-in aus dem Beitrag <a href="../02-kicad-inhouse-plugin/">KiCad: InHouse-Plug-in installieren</a> nützlich.</p>
 </div>
 </div>
+</section>
+<section id="pakete-aktualisieren" class="level2">
+<h2 class="anchored" data-anchor-id="pakete-aktualisieren">Pakete aktualisieren</h2>
+<p>Lade die aktuelle ZIP-Datei über den HTLinn-Cloud-Link herunter und installiere sie über <strong>Werkzeuge (Tools) → Plugin- und Content-Verwaltung (Plugin and Content Manager) → Aus Datei installieren (Install from file…)</strong>. Wähle die ZIP-Datei unausgepackt aus und bestätige die Aktualisierung. Schließe danach die PCM und starte KiCad neu.</p>
 </section>
 <section id="nächste-schritte" class="level2">
 <h2 class="anchored" data-anchor-id="nächste-schritte">Nächste Schritte</h2>
